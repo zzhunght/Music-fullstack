@@ -5,6 +5,7 @@ import { createStyles } from './style'
 import { useThemeColor } from '@/hooks/useThemeColor'
 import { Image } from 'expo-image';
 import Playlist from '@/app/src/components/Playlist/Playlist'
+import SongHorizonalList from '@/app/src/components/SongHorizonalList/SongHorizonalList'
 const FAKE_DATA = [
     {
         image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
@@ -89,6 +90,7 @@ function Home({ navigation }: any) {
                         ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
                     />
                 </View>
+                <SongHorizonalList />
                 <View style={{gap: 20}}>
                     {['a', 'b', 'c', 'd', 'e', 'f'].map(i => (
                         <Playlist data={FAKE_DATA} title='Trending Playlists' key={i} />
