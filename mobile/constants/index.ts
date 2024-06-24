@@ -112,3 +112,36 @@ export const FAKE_SONG = [
         duration: "2:55"
     },
 ]
+
+export const FAKE_DATA = [
+    {
+        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
+        name: "Nơi này có anh",
+        artist_name: "Sơn Tùng MTP",
+        id: 1
+    },
+    {
+        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
+        name: "Nơi này có anh",
+        artist_name: "Sơn Tùng MTP",
+        id: 2
+    },
+    {
+        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
+        name: "Nơi này có anh",
+        artist_name: "Sơn Tùng MTP",
+        id: 3
+    },
+    {
+        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
+        name: "Nơi này có anh",
+        artist_name: "Sơn Tùng MTP",
+        id: 4
+    },
+    {
+        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
+        name: "Nơi này có anh",
+        artist_name: "Sơn Tùng MTP",
+        id: 5
+    },
+]

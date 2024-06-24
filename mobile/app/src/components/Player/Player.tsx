@@ -8,7 +8,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { useNavigation } from 'expo-router'
 import { STACK_ROUTE } from '@/constants/route'
-import PlayDetail from '../../screens/UnAuthorize/PlayDetail/PlayDetail'
+import PlayDetail from '../../screens/(un-authorize)/PlayDetail/PlayDetail'
 
 const song = {
     name: 'Đừng làm trái tim anh đau',

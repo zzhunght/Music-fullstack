@@ -2,7 +2,8 @@
 
 export const STACK_ROUTE = {
     PlayDetail: 'PlayDetail',
-    Tab: 'Tab'
+    Tab: 'Tab',
+    Artist: 'Artist',
 }
 
 export const ROUTE_NAME = {

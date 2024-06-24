@@ -1,10 +1,9 @@
 import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/UnAuthorize/Home/Home';
+import Home from '../screens/(un-authorize)/Home/Home';
 import { AntDesign } from '@expo/vector-icons';
 import { ROUTE_NAME } from '@/constants/route';
-import Search from '../screens/UnAuthorize/Search/Search';
+import Search from '../screens/(un-authorize)/Search/Search';
 import Player from '@/app/src/components/Player/Player';
-import PlayDetail from '../screens/UnAuthorize/PlayDetail/PlayDetail';
 const Tab = createBottomTabNavigator();
 
 export default function Tabs() {
@@ -40,6 +39,7 @@ export default function Tabs() {
         >
             <Tab.Screen name={ROUTE_NAME.Home} component={Home} />
             <Tab.Screen name={ROUTE_NAME.Search} component={Search} />
+            
         </Tab.Navigator>
     );
 }

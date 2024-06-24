@@ -8,6 +8,7 @@ const tintColorDark = '#fff';
 
 export interface ThemeColors {
   text: string;
+  text_gray: string;
   background: string;
   tint: string;
   icon: string;
@@ -25,6 +26,7 @@ export interface ColorsInterface {
 export const Colors: ColorsInterface = {
   light: {
     text: '#11181C',
+    text_gray: '#bfbfbf',
     background: '#fff',
     tint: tintColorLight,
     tabIconDefault: '#687076',
@@ -35,6 +37,7 @@ export const Colors: ColorsInterface = {
   },
   dark: {
     text: '#fff',
+    text_gray: '#bfbfbf',
     // background: '#17181a',
     background:'#080808',
     tint: tintColorDark,

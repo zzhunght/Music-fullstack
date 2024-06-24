@@ -6,38 +6,9 @@ import { useThemeColor } from '@/hooks/useThemeColor'
 import { Image } from 'expo-image';
 import Playlist from '@/app/src/components/Playlist/Playlist'
 import SongHorizonalList from '@/app/src/components/SongHorizonalList/SongHorizonalList'
-const FAKE_DATA = [
-    {
-        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
-        name: "Nơi này có anh",
-        artist_name: "Sơn Tùng MTP",
-        id: 1
-    },
-    {
-        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
-        name: "Nơi này có anh",
-        artist_name: "Sơn Tùng MTP",
-        id: 2
-    },
-    {
-        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
-        name: "Nơi này có anh",
-        artist_name: "Sơn Tùng MTP",
-        id: 3
-    },
-    {
-        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
-        name: "Nơi này có anh",
-        artist_name: "Sơn Tùng MTP",
-        id: 4
-    },
-    {
-        image: "https://photo-resize-zmp3.zadn.vn/w600_r1x1_jpeg/cover/e/7/7/e/e77e66089e244c0c61188189be25f8ba.jpg",
-        name: "Nơi này có anh",
-        artist_name: "Sơn Tùng MTP",
-        id: 5
-    },
-]
+import { ROUTE_NAME, STACK_ROUTE } from '@/constants/route'
+import { FAKE_DATA } from '@/constants'
+
 
 const FAKE_DATA_ARTIST = [
     {
@@ -76,7 +47,9 @@ function Home({ navigation }: any) {
                         horizontal={true}
                         style={{ paddingLeft: 15 }}
                         renderItem={({ item }) => (
-                            <TouchableOpacity style={{ gap: 6, alignItems: 'center' }}>
+                            <TouchableOpacity style={{ gap: 6, alignItems: 'center' }}
+                                onPress={()=> navigation.navigate(STACK_ROUTE.Artist)}
+                            >
                                 <Image
                                     source={item.image}
                                     transition={500}
