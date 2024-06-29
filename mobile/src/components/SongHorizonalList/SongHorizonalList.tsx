@@ -9,7 +9,7 @@ import { getColors } from 'react-native-image-colors'
 import { useThemeColor } from '../../hooks/useThemeColor';
 import { useGetNewSongQuery } from '../../api/song';
 import { Song } from '../../interface/song';
-import { loadSongBg, selectSong } from '../../store/song/song.reducer';
+import { loadSongBg, newQueue, selectSong } from '../../store/song/song.reducer';
 import FastImage from 'react-native-fast-image';
 import { durationToTime } from '../../utils';
 import useTrackPlayer from '../../hooks/useTrackPlayer';
@@ -38,6 +38,21 @@ export default function SongHorizonalList() {
             artwork: song.thumbnail
         })
         await TrackPlayer.play()
+        dispatch(selectSong(song))
+        const queue = [song]
+        data?.forEach(async(item) => {
+            if (item.id !== song.id) {
+                queue.push(item)
+                TrackPlayer.add({
+                    id: item.id,
+                    url: item.path,
+                    title: item.name,
+                    artist: item.artist_name,
+                    artwork: item.thumbnail
+                })
+            }
+        })
+        dispatch(newQueue(queue))
     }
 
     const handleGetColors = async (url: string) => {
@@ -57,7 +72,9 @@ export default function SongHorizonalList() {
     const handleSelectSong = (song: Song) => {
         dispatch(selectSong(song))
         handleGetColors(song.thumbnail)
+
         play(song)
+
     }
 
     const groupedData = groupItems(data, 3);

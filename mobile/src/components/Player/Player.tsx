@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableOpacity, Modal, TouchableHighlight } from 'react-native'
+import { View, Text, TouchableOpacity, Modal, TouchableHighlight } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { createStyles } from './style'
 import Slider from '@react-native-community/slider';
@@ -9,20 +9,26 @@ import { RootState } from '../../store/store';
 import { useThemeColor } from '../../hooks/useThemeColor';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { useProgress } from 'react-native-track-player';
+import { ProgressBar } from '@react-native-community/progress-bar-android';
 
 
 const Player = () => {
+    const progress = useProgress()
     const song = useSelector((state: RootState) => state.songSlice.selectedSong)
+    const isPlaying = useSelector((state: RootState) => state.songSlice.isPlay)
     const [openDetail, setOpenDetail] = useState(false)
     const theme = useThemeColor()
     const styles = createStyles(theme)
     // const [sound, setSound] = useState<Audio.Sound>();
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [duration, setDuration] = useState(100)
-    const [current, setCurrentTime] = useState(0)
     const songBg = useSelector((state: RootState) => state.songSlice.songBackground)
-
+    const GetQueue = async()=>{
+        const queue = await TrackPlayer.getQueue()
+        console.log("queue: " , queue)
+    }
+    // useEffect(() => {
+    //     GetQueue()
+    // },[song])
     return (
         <>
             {song && (
@@ -53,20 +59,24 @@ const Player = () => {
                                     <View style={styles.left_block}>
                                         <FastImage
                                             style={styles.image}
-                                            source={{uri: song.thumbnail}}
+                                            source={{ uri: song.thumbnail }}
                                         />
                                         <View style={{ justifyContent: 'center' }}>
-                                            <Text style={styles.title}>{song.name}</Text>
+                                            <Text style={styles.title} numberOfLines={1}>{song.name}</Text>
                                             <Text style={styles.text}>{song.artist_name}</Text>
                                         </View>
                                     </View>
                                     <View>
                                         <TouchableOpacity
                                             onPress={() => {
-                                                
+                                                if (isPlaying) {
+                                                    TrackPlayer.pause();
+                                                } else {
+                                                    TrackPlayer.play();
+                                                }
                                             }}
                                         >
-                                            {isPlaying ? <Entypo name="controller-paus" size={24} color="white" /> :
+                                            {isPlaying ? <Entypo name="controller-paus" size={24} color="white" style={{ marginRight: 10 }} /> :
                                                 <Entypo name="controller-play" size={28} color="white" style={{ marginRight: 10 }} />
                                             }
 
@@ -75,23 +85,18 @@ const Player = () => {
 
                                 </View>
                                 <View style={{
-                                    transform: [{ scaleY: 0.4 }],
-                                    alignItems: 'center',
+                                    alignItems: "center",
+                                    paddingHorizontal: 10
                                 }}>
-                                    <Slider
+                                    <ProgressBar
+                                        styleAttr="Horizontal"
+                                        indeterminate={false}
+                                        progress={(progress.position / progress.duration) || 0}
                                         style={{
-                                            width: '96%',
-                                            position: 'absolute',
-                                            top: -23,
-                                            height: 1
+                                            width: '100%',
+                                            height: 2
                                         }}
-                                        minimumValue={0}
-                                        maximumValue={duration}
-                                        value={current}
-                                        minimumTrackTintColor="#FFFFFF"
-                                        maximumTrackTintColor="#525252"
-                                        thumbTintColor='transparent'
-
+                                        color={'#ffffff'}
                                     />
                                 </View>
                             </View>

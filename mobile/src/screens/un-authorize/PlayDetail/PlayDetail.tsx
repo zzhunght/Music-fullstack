@@ -16,12 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import Comment from '../../../components/Comment/Comment';
 import Queue from '../../../components/Queue/Queue';
+import { durationToTime } from '../../../utils';
 
 interface Props {
     onClose: () => void;
 }
 const width = Dimensions.get('screen').width
 export default function PlayDetail({ onClose }: Props) {
+    const isPlaying = useSelector((state: RootState) => state.songSlice.isPlay)
 
     const progress = useProgress()
     const song = useSelector((state: RootState) => state.songSlice.selectedSong)
@@ -42,9 +44,6 @@ export default function PlayDetail({ onClose }: Props) {
         }
     }, [])
 
-    useEffect(() => {
-        console.log("progress :", progress)
-    }, [progress])
     return (
         <Container>
 
@@ -99,25 +98,25 @@ export default function PlayDetail({ onClose }: Props) {
                                 { translateX: 40 }
                             ]
                         }}
+                        onValueChange={async(value) => {
+                            await TrackPlayer.seekTo(value);
+                        }}
                         minimumValue={0}
-                        maximumValue={100}
-                        value={0}
+                        maximumValue={progress.duration}
+                        value={progress.position}
                         thumbTintColor={songBg?.dominant ? songBg.dominant : theme.background}
                         minimumTrackTintColor="#FFFFFF"
                         maximumTrackTintColor="#525252"
                     />
-                    {/* <ProgressBarAndroidBase
-                        progress={progress.position}
-                        buffered={progress.buffered}
-                    /> */}
+
                 </View>
 
                 <View style={styles.time}>
                     <Text style={styles.time_label}>
-                        0:00
+                        {durationToTime(progress.position)}
                     </Text>
                     <Text style={styles.time_label}>
-                        2:00
+                        {durationToTime(progress.duration)}
                     </Text>
                 </View>
                 <View style={styles.control}>
@@ -136,8 +135,19 @@ export default function PlayDetail({ onClose }: Props) {
                             height: 55,
                             borderRadius: 27.5,
                         }}
+                        onPress={() => {
+                            if (isPlaying) {
+                                TrackPlayer.pause();
+                            } else {
+                                TrackPlayer.play();
+                            }
+                        }}
                     >
-                        <Entypo name="controller-play" size={36} color={'black'} style={{ left: 2 }} />
+                        {isPlaying ?
+                            <Entypo name="controller-paus" size={36} color={'black'} /> :
+                            <Entypo name="controller-play" size={36} color={'black'} style={{ left: 2 }} />
+                        }
+
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <FontAwesome6 name="forward-step" size={24} color={theme.icon} />
@@ -188,7 +198,9 @@ export default function PlayDetail({ onClose }: Props) {
                 backgroundStyle={{ backgroundColor: theme.background }}
                 handleComponent={() => (
                     <View style={{ alignItems: 'center', height: 40, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
-                        <Entypo name="chevron-thin-down" size={20} color={theme.icon} />
+                        <TouchableOpacity onPress={() => bottomSheetPlaylistRef.current?.close()}>
+                            <Entypo name="chevron-thin-down" size={20} color={theme.icon} />
+                        </TouchableOpacity>
                         <Text style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Danh sách phát</Text>
                         <Text></Text>
                     </View>

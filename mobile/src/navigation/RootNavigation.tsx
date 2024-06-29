@@ -8,8 +8,13 @@ import Home from '../screens/un-authorize/Home/Home';
 import BottomTabs from '../components/BottomTabs/BottomTabs';
 import Search from '../screens/un-authorize/Search/Search';
 import { STACK_ROUTE } from '../constants/route';
+import useTrackPlayerEvent from '../hooks/useTrackPlayerEvent';
+import useTrackPlayer from '../hooks/useTrackPlayer';
 const RootStack = createStackNavigator();
 function RootNavigation() {
+  useTrackPlayer()
+  useTrackPlayerEvent()
+
     return (
         <NavigationContainer independent={true}
         >

@@ -11,6 +11,7 @@ export const createStyles = (theme: ThemeColors) => {
             color: theme.text,
             fontSize: 13,
             fontWeight: '500',
+            maxWidth: '80%'
         },
         wrap:{
             overflow: 'hidden',
