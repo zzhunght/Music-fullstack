@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableOpacity, TouchableWithoutFeedback, Modal, Touchable, TouchableHighlight } from 'react-native'
+import { View, Text, ImageBackground, TouchableOpacity, Modal, TouchableHighlight } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useThemeColor } from '@/hooks/useThemeColor'
 import { createStyles } from './style'
@@ -6,17 +6,19 @@ import { Image } from 'expo-image'
 import Slider from '@react-native-community/slider';
 import { Entypo } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
-import { useNavigation } from 'expo-router'
-import { STACK_ROUTE } from '@/constants/route'
-import PlayDetail from '../../screens/(un-authorize)/PlayDetail/PlayDetail'
+import PlayDetail from '../../screens/un-authorize/PlayDetail/PlayDetail'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
+import { LinearGradient } from 'expo-linear-gradient'
 
-const song = {
-    name: 'Đừng làm trái tim anh đau',
-    artist_name: 'Sơn Tùng MTP',
-    thumbnail: 'https://upload.wikimedia.org/wikipedia/vi/thumb/e/e5/S%C6%A1n_T%C3%B9ng_M-TP_-_%C4%90%E1%BB%ABng_l%C3%A0m_tr%C3%A1i_tim_anh_%C4%91au.png/220px-S%C6%A1n_T%C3%B9ng_M-TP_-_%C4%90%E1%BB%ABng_l%C3%A0m_tr%C3%A1i_tim_anh_%C4%91au.png'
-}
+// const song = {
+//     name: 'Đừng làm trái tim anh đau',
+//     artist_name: 'Sơn Tùng MTP',
+//     thumbnail: 'https://i.scdn.co/image/ab67616d0000b273ff2d5a6f74d5141af7a371ea'
+// }
 
 const Player = () => {
+    const song = useSelector((state: RootState) => state.songSlice.selectedSong)
     const [openDetail, setOpenDetail] = useState(false)
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -24,6 +26,7 @@ const Player = () => {
     const [isPlaying, setIsPlaying] = useState(false)
     const [duration, setDuration] = useState(100)
     const [current, setCurrentTime] = useState(0)
+    const songBg = useSelector((state: RootState) => state.songSlice.songBackground)
 
     async function playSound(uri: string) {
         console.log('Loading Sound');
@@ -79,70 +82,87 @@ const Player = () => {
     }, [sound]);
 
     return (
-        <TouchableHighlight onPress={() => {
-            setOpenDetail(true)
-        }}>
-            <>
-                <View style={styles.wrap} >
-                    <ImageBackground
-                    
-                        source={{
-                            uri: song.thumbnail
-                        }}
-                        blurRadius={230}
-                    >
-                        <View style={styles.player}>
-                            <View style={styles.left_block}>
-                                <Image
-                                    style={styles.image}
-                                    source={song.thumbnail}
-                                />
-                                <View style={{ justifyContent: 'center' }}>
-                                    <Text style={styles.title}>{song.name}</Text>
-                                    <Text style={styles.text}>{song.artist_name}</Text>
+        <>
+            {song && (
+                <TouchableHighlight onPress={() => {
+                    setOpenDetail(true)
+                }}>
+                    <>
+                        {/* <View style={styles.wrap} > */}
+                        {/* <ImageBackground
+    
+                            source={{
+                                uri: song.thumbnail
+                            }}
+                            blurRadius={150}
+                        > */}
+                        <LinearGradient
+                            colors={
+                                songBg ? [songBg?.dominant, songBg?.darkVibrant] :
+                                    [theme.background, 'transparent']
+
+                            }
+                            style={styles.wrap}
+                            end={{ x: 0, y: 0, }}
+                            start={{ x: 1, y: 0 }}
+                        >
+                            <View>
+                                <View style={styles.player}>
+                                    <View style={styles.left_block}>
+                                        <Image
+                                            style={styles.image}
+                                            source={song.thumbnail}
+                                        />
+                                        <View style={{ justifyContent: 'center' }}>
+                                            <Text style={styles.title}>{song.name}</Text>
+                                            <Text style={styles.text}>{song.artist_name}</Text>
+                                        </View>
+                                    </View>
+                                    <View>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                isPlaying ? pauseSound() : resumeSound();
+                                            }}
+                                        >
+                                            {isPlaying ? <Entypo name="controller-paus" size={24} color="white" /> :
+                                                <Entypo name="controller-play" size={28} color="white" style={{ marginRight: 10 }} />
+                                            }
+
+                                        </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                                <View style={{
+                                    transform: [{ scaleY: 0.4 }],
+                                    alignItems: 'center',
+                                }}>
+                                    <Slider
+                                        style={{
+                                            width: '96%',
+                                            position: 'absolute',
+                                            top: -23,
+                                            height: 1
+                                        }}
+                                        minimumValue={0}
+                                        maximumValue={duration}
+                                        value={current}
+                                        minimumTrackTintColor="#FFFFFF"
+                                        maximumTrackTintColor="#525252"
+                                        thumbTintColor='transparent'
+
+                                    />
                                 </View>
                             </View>
-                            <View>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        isPlaying ? pauseSound() : resumeSound();
-                                    }}
-                                >
-                                    {isPlaying ? <Entypo name="controller-paus" size={24} color="white" /> :
-                                        <Entypo name="controller-play" size={28} color="white" style={{ marginRight: 10 }} />
-                                    }
-
-                                </TouchableOpacity>
-                            </View>
-
-                        </View>
-                        <View style={{
-                            transform: [{ scaleY: 0.4 }],
-                            alignItems: 'center',
-                        }}>
-                            <Slider
-                                style={{
-                                    width: '96%',
-                                    position: 'absolute',
-                                    top: -23,
-                                    height: 1
-                                }}
-                                minimumValue={0}
-                                maximumValue={duration}
-                                value={current}
-                                minimumTrackTintColor="#FFFFFF"
-                                maximumTrackTintColor="#525252"
-                                thumbTintColor='transparent'
-
-                            />
-                        </View>
-                    </ImageBackground>
-                </View>
-                <Modal visible={openDetail} animationType='slide'>
-                    <PlayDetail onClose={()=>setOpenDetail(false)}/>
-                </Modal>
-            </>
-        </TouchableHighlight>
+                        </LinearGradient>
+                        {/* </ImageBackground> */}
+                        {/* </View> */}
+                        <Modal visible={openDetail} animationType='slide'>
+                            <PlayDetail onClose={() => setOpenDetail(false)} />
+                        </Modal>
+                    </>
+                </TouchableHighlight>
+            )}
+        </>
     )
 }
 

@@ -8,7 +8,7 @@ import { FAKE_DATA, FAKE_SONG } from '@/constants'
 import SongItem from '@/app/src/components/Song/SongItem'
 import Playlist from '@/app/src/components/Playlist/Playlist'
 import { createStyles } from './style'
-const IMG = 'https://steamuserimages-a.akamaihd.net/ugc/796494975254168118/458E6A9144F0BDB5A5D577A3ECA960D426B4D855/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false'
+const IMG = 'https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg'
 const HEADER_FADE_START = 150
 const HEADER_FADE_END = 280
 const IMG_HEIGHT = 300

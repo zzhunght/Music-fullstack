@@ -1,6 +1,6 @@
 
 import { ThemeColors } from "@/constants/Colors";
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 const width = Dimensions.get('screen').width
 export const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
@@ -13,7 +13,8 @@ export const createStyles = (theme: ThemeColors) => {
             justifyContent: 'space-between',
             flexDirection: 'row',
             alignItems: 'center',
-            marginBottom: 30
+            marginBottom: Platform.OS == 'android' ? '15%' : '7%',
+            marginTop: Platform.OS == 'android' ? 10 : 0
         },
         text: {
             color: theme.text,

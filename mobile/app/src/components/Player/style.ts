@@ -14,6 +14,11 @@ export const createStyles = (theme: ThemeColors) => {
         },
         wrap:{
             overflow: 'hidden',
+            position: 'absolute',
+            bottom: 49,
+            width: '96%',
+            left: '2%',
+            borderRadius: 8
         },
         player: {
             borderRadius:6,

@@ -1,9 +1,11 @@
 import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/(un-authorize)/Home/Home';
+import Home from '../screens/un-authorize/Home/Home';
 import { AntDesign } from '@expo/vector-icons';
 import { ROUTE_NAME } from '@/constants/route';
-import Search from '../screens/(un-authorize)/Search/Search';
+import Search from '../screens/un-authorize/Search/Search';
 import Player from '@/app/src/components/Player/Player';
+import Artist from '../screens/un-authorize/Artist/Artist';
+import Album from '../screens/un-authorize/Album/Album';
 const Tab = createBottomTabNavigator();
 
 export default function Tabs() {
@@ -12,7 +14,7 @@ export default function Tabs() {
             tabBar={(props) => {
                 return (
                     <>
-                        <Player />
+                        {/* <Player /> */}
                         <BottomTabBar {...props} />
                     </>
                 )
@@ -39,7 +41,14 @@ export default function Tabs() {
         >
             <Tab.Screen name={ROUTE_NAME.Home} component={Home} />
             <Tab.Screen name={ROUTE_NAME.Search} component={Search} />
-            
+            {/* <Tab.Screen
+                name={ROUTE_NAME.Artist}
+                component={Artist}
+            />
+            <Tab.Screen
+                name={ROUTE_NAME.Album}
+                component={Album}
+            /> */}
         </Tab.Navigator>
     );
 }

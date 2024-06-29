@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { View, Text, TouchableOpacity, ImageBackground, Platform, Dimensions } from 'react-native'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Container from '@/app/src/components/Container'
 import { useThemeColor } from '@/hooks/useThemeColor'
 import { createStyles } from './styles'
@@ -12,46 +12,24 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import Comment from '@/app/src/components/Comment/Comment'
 import Queue from '@/app/src/components/Queue/Queue'
-const imageurl = 'https://bloganchoi.com/wp-content/uploads/2024/06/loi-bai-hat-dung-lam-trai-tim-anh-dau-lyrics-son-tung-mtp-5-1-696x870.jpg'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store/store'
+import { LinearGradient } from 'expo-linear-gradient'
+import TrackPlayer, { useProgress } from 'react-native-track-player';
+
 interface Props {
     onClose: () => void;
 }
-import { BottomSheetBackgroundProps } from "@gorhom/bottom-sheet";
-import Animated, {
-    useAnimatedStyle,
-    interpolateColor,
-} from "react-native-reanimated";
-
-const CustomBackground: React.FC<BottomSheetBackgroundProps> = ({
-    style,
-    animatedIndex,
-}) => {
-    //#region styles
-    const containerAnimatedStyle = useAnimatedStyle(() => ({
-        // @ts-ignore
-        backgroundColor: interpolateColor(
-            animatedIndex.value,
-            [0, 1],
-            ["#ffffff", "#a8b5eb"]
-        ),
-    }));
-    const containerStyle = useMemo(
-        () => [style, containerAnimatedStyle],
-        [style, containerAnimatedStyle]
-    );
-    //#endregion
-
-    // render
-    return <Animated.View pointerEvents="none" style={containerStyle} />;
-};
-
+const width = Dimensions.get('screen').width
 export default function PlayDetail({ onClose }: Props) {
+    const progress = useProgress()
+    const song = useSelector((state: RootState) => state.songSlice.selectedSong)
+    const songBg = useSelector((state: RootState) => state.songSlice.songBackground)
     const theme = useThemeColor()
     const styles = createStyles(theme)
     const bottomSheetRef = useRef<BottomSheet>(null);
     const bottomSheetPlaylistRef = useRef<BottomSheet>(null);
 
-    // callbacks
     const handleSheetChanges = (index: number) => {
         if (index == 0) {
             bottomSheetRef?.current?.close()
@@ -64,13 +42,28 @@ export default function PlayDetail({ onClose }: Props) {
     }, [])
     return (
         <Container>
-            <ImageBackground
+            {/* <ImageBackground
                 source={{
-                    uri: imageurl,
+                    uri: song?.thumbnail,
                 }}
                 blurRadius={230}
                 style={styles.wrap}
+            > */}
+            <LinearGradient
+                colors={
+                    songBg ? [songBg?.lightVibrant, songBg?.vibrant, songBg?.dominant] :
+                        [theme.background, 'transparent']
+
+                }
+                style={styles.wrap}
+            // end={{ x: 1, y: 0, }}
+            // start={{ x: 1, y: 1 }}
             >
+                {/* <View
+                    style={[styles.wrap, {
+                        backgroundColor: songBg?.darkVibrant ? songBg?.darkVibrant : theme.background
+                    }]}
+                > */}
                 <View style={styles.head}>
                     <TouchableOpacity onPress={onClose}>
                         <Entypo name="chevron-thin-down" size={24} color={theme.icon} />
@@ -84,19 +77,21 @@ export default function PlayDetail({ onClose }: Props) {
                     <Image
                         style={styles.image}
                         priority='high'
-                        source={{ uri: imageurl }}
+                        source={{ uri: song?.thumbnail }}
                         contentFit='contain'
                     />
                 </View>
-                <View style={{ marginTop: 10 }}>
+                <View style={{
+                    marginTop: Platform.OS == 'android' ? '12%' : '5%'
+                }}>
                     <Text style={styles.title} numberOfLines={1}>
-                        Đừng Làm Trái Tim Anh Đau
+                        {song?.name}
                     </Text>
                     <Text style={styles.text_meidum}>
-                        Sơn Tùng MTP
+                        {song?.artist_name}
                     </Text>
                 </View>
-                <View style={styles.progress}>
+                {/* <View style={styles.progress}>
                     <Slider
                         style={{
                             width: '96%',
@@ -110,7 +105,30 @@ export default function PlayDetail({ onClose }: Props) {
                         minimumTrackTintColor="#FFFFFF"
                         maximumTrackTintColor="#525252"
                     />
+                </View> */}
+                <View style={{ 
+                    width: '102%',
+                    marginVertical: 20
+                 }}>
+                    <Slider
+                        style={{
+                            width: '56%',
+                            position: 'absolute',
+                            transform: [
+                                { scaleY: 2 }, 
+                                { scaleX: 2 },
+                                { translateX: 40}
+                            ]
+                        }}
+                        minimumValue={0}
+                        maximumValue={100}
+                        value={0}
+                        thumbTintColor={songBg?.dominant ? songBg.dominant : theme.background}
+                        minimumTrackTintColor="#FFFFFF"
+                        maximumTrackTintColor="#525252"
+                    />
                 </View>
+
                 <View style={styles.time}>
                     <Text style={styles.time_label}>
                         0:00
@@ -154,7 +172,9 @@ export default function PlayDetail({ onClose }: Props) {
                     </TouchableOpacity>
 
                 </View>
-            </ImageBackground>
+                {/* </View> */}
+            </LinearGradient>
+            {/* </ImageBackground> */}
             <BottomSheet
                 ref={bottomSheetRef}
                 onChange={handleSheetChanges}

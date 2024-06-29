@@ -34,6 +34,7 @@ export const createStyles = (theme: ThemeColors) => {
             color: theme.text,
             fontSize: 14,
             fontWeight: "bold",
+            maxWidth: width - 80
         },
         image: {
             width: 60,
