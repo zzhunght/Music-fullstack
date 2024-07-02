@@ -6,6 +6,7 @@ export const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
         wrap: {
             backgroundColor: theme.background,
+            flex:1
         },
         image: {
             width: '100%',
@@ -72,14 +73,14 @@ export const createStyles = (theme: ThemeColors) => {
             position: 'absolute',
             backgroundColor: theme.background,
             zIndex: 2,
-            height: 70,
+            height: 60,
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            paddingTop: 15,
             paddingHorizontal: 10,
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             borderBottomWidth: 0.5,
+            borderBottomColor: theme.border,
             opacity: 0
         },
         name_2: {
@@ -88,6 +89,13 @@ export const createStyles = (theme: ThemeColors) => {
             fontWeight: '600',
             right: 12
         },
-
+        backbtn: {
+            position: 'absolute',
+            height: 60,
+            paddingHorizontal: 15,
+            justifyContent: 'center',
+            top: 0,
+            zIndex: 99
+        },
     })
 }

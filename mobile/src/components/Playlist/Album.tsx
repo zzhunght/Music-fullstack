@@ -3,18 +3,18 @@ import React from 'react'
 import { createStyles } from './style'
 import FastImage from 'react-native-fast-image'
 import { useThemeColor } from '../../hooks/useThemeColor'
-import { Playlist } from '../../interface'
+import { Album } from '../../interface'
 import { useNavigation } from '@react-navigation/native'
-import { ROUTE_NAME } from '../../constants/route'
+import { STACK_ROUTE } from '../../constants/route'
 
 interface Props {
     style?: StyleProp<ViewStyle>
-    data?: Playlist[],
+    data: Album[],
     title: string
 }
 
 
-const PlaylistHorizontal = ({
+const AlbumList = ({
     data,
     title,
     style
@@ -31,15 +31,15 @@ const PlaylistHorizontal = ({
                 style={{ paddingLeft: 15 }}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={{ gap: 4 }}
-                        onPress={()=> {
-                            navigation.navigate(ROUTE_NAME.PlayDetail, {
-                                playlistId: item.id
+                        onPress={()=>{
+                            navigation.navigate(STACK_ROUTE.Album, {
+                                albumId: item.id
                             })
                         }}
                     >
                         <FastImage
                             source={{
-                                uri: item.thumbnail
+                                uri: item.thumbnail 
                             }}
                             style={styles.image}
                         />
@@ -56,4 +56,4 @@ const PlaylistHorizontal = ({
     )
 }
 
-export default PlaylistHorizontal
+export default AlbumList

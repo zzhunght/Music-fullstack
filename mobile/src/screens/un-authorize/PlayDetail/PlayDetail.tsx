@@ -2,13 +2,14 @@ import { View, Text, TouchableOpacity, ImageBackground, Platform, Dimensions, Pr
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createStyles } from './styles'
 import Entypo from 'react-native-vector-icons/Entypo';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider'
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { useSelector } from 'react-redux'
-import TrackPlayer, { useProgress } from 'react-native-track-player';
+import { useDispatch, useSelector } from 'react-redux'
+import TrackPlayer, { RepeatMode, useProgress } from 'react-native-track-player';
 import { RootState } from '../../../store/store';
 import { useThemeColor } from '../../../hooks/useThemeColor';
 import Container from '../../../components/Container';
@@ -17,13 +18,18 @@ import FastImage from 'react-native-fast-image';
 import Comment from '../../../components/Comment/Comment';
 import Queue from '../../../components/Queue/Queue';
 import { durationToTime } from '../../../utils';
+import { setIsRepeat, setIsShuffe } from '../../../store/song/song.reducer';
 
 interface Props {
     onClose: () => void;
 }
-const width = Dimensions.get('screen').width
 export default function PlayDetail({ onClose }: Props) {
+
+    const dispatch = useDispatch()
+
     const isPlaying = useSelector((state: RootState) => state.songSlice.isPlay)
+    const isShuffe = useSelector((state: RootState) => state.songSlice.isShuffe)
+    const isRepeat= useSelector((state: RootState) => state.songSlice.isRepeat)
 
     const progress = useProgress()
     const song = useSelector((state: RootState) => state.songSlice.selectedSong)
@@ -44,6 +50,23 @@ export default function PlayDetail({ onClose }: Props) {
         }
     }, [])
 
+    const handleShuffe = () => {
+        if(!isShuffe){
+            dispatch(setIsShuffe(true));
+        }else{
+            dispatch(setIsShuffe(false));
+        }
+    }
+
+    const handleRepeat = () => {
+        if(!isRepeat){
+            TrackPlayer.setRepeatMode(RepeatMode.Track);
+            dispatch(setIsRepeat(true));
+        }else{
+            TrackPlayer.setRepeatMode(RepeatMode.Off);
+            dispatch(setIsRepeat(false));
+        }
+    }
     return (
         <Container>
 
@@ -85,18 +108,19 @@ export default function PlayDetail({ onClose }: Props) {
                 </View>
 
                 <View style={{
-                    width: '102%',
+                    width: '106%',
                     marginVertical: 20
                 }}>
                     <Slider
                         style={{
-                            width: '56%',
+                            width: '100%',
                             position: 'absolute',
-                            transform: [
-                                { scaleY: 2 },
-                                { scaleX: 2 },
-                                { translateX: 40 }
-                            ]
+                            left: '-3%'
+                            // transform: [
+                            //     { scaleY: 2 },
+                            //     { scaleX: 2 },
+                            //     { translateX: 40 }
+                            // ]
                         }}
                         onValueChange={async(value) => {
                             await TrackPlayer.seekTo(value);
@@ -104,7 +128,8 @@ export default function PlayDetail({ onClose }: Props) {
                         minimumValue={0}
                         maximumValue={progress.duration}
                         value={progress.position}
-                        thumbTintColor={songBg?.dominant ? songBg.dominant : theme.background}
+                        thumbTintColor="#FFFFFF"
+                        // thumbTintColor={songBg?.dominant ? songBg.dominant : theme.background}
                         minimumTrackTintColor="#FFFFFF"
                         maximumTrackTintColor="#525252"
                     />
@@ -120,20 +145,21 @@ export default function PlayDetail({ onClose }: Props) {
                     </Text>
                 </View>
                 <View style={styles.control}>
+                        <TouchableOpacity onPress={()=>handleShuffe()}>
+                        {/* <Entypo name="shuffle" size={28} color={theme.icon} /> */}
+                        <SimpleLineIcons name="shuffle" size={26} color={isShuffe? theme.iconActive : theme.icon} />
+                        </TouchableOpacity>
                     <TouchableOpacity>
-                        <Entypo name="shuffle" size={24} color={theme.icon} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FontAwesome6 name="backward-step" size={24} color={theme.icon} />
+                        <FontAwesome6 name="backward-step" size={30} color={theme.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
                             backgroundColor: theme.controlBackground,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            width: 55,
-                            height: 55,
-                            borderRadius: 27.5,
+                            width: 70,
+                            height: 70,
+                            borderRadius: 35,
                         }}
                         onPress={() => {
                             if (isPlaying) {
@@ -150,15 +176,17 @@ export default function PlayDetail({ onClose }: Props) {
 
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <FontAwesome6 name="forward-step" size={24} color={theme.icon} />
+                        <FontAwesome6 name="forward-step" size={30} color={theme.icon} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                        <FontAwesome6 name="repeat" size={24} color={theme.icon} />
+                    <TouchableOpacity
+                        onPress={()=>handleRepeat()}
+                    >
+                        <SimpleLineIcons name="loop" size={26} color={isRepeat? theme.iconActive : theme.icon}  />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.control}>
                     <TouchableOpacity onPress={() => bottomSheetRef?.current?.expand()}>
-                        <Ionicons name="chatbox" size={24} color={theme.icon} />
+                        <Ionicons name="chatbox" size={28} color={theme.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => bottomSheetPlaylistRef?.current?.expand()}>
                         <MaterialCommunityIcons name="playlist-music-outline" size={28} color={theme.icon} />

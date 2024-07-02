@@ -13,7 +13,7 @@ export const createStyles = (theme: ThemeColors) => {
             justifyContent: 'space-between',
             flexDirection: 'row',
             alignItems: 'center',
-            marginBottom: Platform.OS == 'android' ? '15%' : '7%',
+            marginBottom: Platform.OS == 'android' ? '25%' : '10%',
             marginTop: Platform.OS == 'android' ? 10 : 0
         },
         text: {
@@ -48,7 +48,7 @@ export const createStyles = (theme: ThemeColors) => {
         },
         time_label: {
             color: theme.text,
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: '500'
         },
         image: {

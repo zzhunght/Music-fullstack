@@ -31,9 +31,16 @@ export const createStyles = (theme: ThemeColors) => {
         name: {
             color: theme.text,
             fontSize: 12,
-            fontWeight: '600'
+            fontWeight: '600',
+            maxWidth: width * 0.7
         },
-
+        row: {
+            flexDirection: 'row',
+            justifyContent:'space-between',
+            alignItems: 'center',
+            paddingVertical: 10,
+            flex: 1
+        }
 
     })
 }

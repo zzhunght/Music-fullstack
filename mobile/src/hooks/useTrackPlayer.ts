@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react"
 import TrackPlayer from "react-native-track-player"
-import { Song } from "../interface/song"
+import { Song } from "../interface"
 
 
 const useTrackPlayer = () => {

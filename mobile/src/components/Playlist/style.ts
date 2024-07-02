@@ -15,9 +15,8 @@ export const createStyles = (theme: ThemeColors) => {
             marginLeft: 15
         },
         subTitle: {
-            color: theme.text,
-            fontSize: 14,
-            fontWeight: "bold",
+            color: theme.text_gray,
+            fontSize: 12,
         },
         image: {
             width: 130,

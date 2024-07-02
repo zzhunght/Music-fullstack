@@ -3,17 +3,31 @@ import React from 'react'
 import SongItem from '../Song/SongItem'
 import { useThemeColor } from '../../hooks/useThemeColor'
 import { FAKE_SONG } from '../../constants'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
+import { Song } from '../../interface'
+import TrackPlayer from 'react-native-track-player'
+import { selectSong } from '../../store/song/song.reducer'
 
 const Queue = () => {
+    const dispatch = useDispatch()
     const theme = useThemeColor()
     const currentSong = useSelector((state: RootState) => state.songSlice.selectedSong)
     const queue = useSelector((state: RootState) => state.songSlice.queue)
 
 
-    const handlePlay = (state: RootState) =>{
-        
+    const handlePlay = async (song: Song) => {
+        await TrackPlayer.reset()
+
+        await TrackPlayer.load({
+            id: song.id,
+            url: song.path,
+            title: song.name,
+            artist: song.artist_name,
+            artwork: song.thumbnail
+        })
+        await TrackPlayer.play()
+        dispatch(selectSong(song))
     }
     return (
         <View >
@@ -36,10 +50,11 @@ const Queue = () => {
                     Hàng đợi
                 </Text>
                 {queue.map((song) => (
-                    <TouchableOpacity>
+                    <TouchableOpacity key={song.id.toString()}
+                        onPress={() => handlePlay(song)}
+                    >
                         <SongItem
                             song={song}
-                            key={song.id.toString()}
                             isplay={song.id == currentSong?.id}
                         />
                     </TouchableOpacity>

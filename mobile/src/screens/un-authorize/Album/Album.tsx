@@ -13,11 +13,11 @@ const Album = () => {
     const styles = StyleSheet.create({
         wrap: {
             backgroundColor: theme.background,
-            flex: 1
+            flex: 1,
         },
         banner: {
             width: '100%',
-            height: height * 0.6,
+            height: height * 0.4,
             position: 'relative',
             alignItems: 'center',
             justifyContent: 'flex-start',
@@ -65,23 +65,26 @@ const Album = () => {
         songs: {
             padding: 15,
             gap: 20,
-            top: -80
         }
 
     })
     return (
         <View style={styles.wrap}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    paddingBottom: 100
+                }}
+            >
                 <ImageBackground style={styles.banner}
                     source={{ uri: IMG }}
                     blurRadius={120}
                 >
-                    <LinearGradient
+                    {/* <LinearGradient
                         colors={[theme.background, 'transparent']}
                         style={styles.banner_overlay}
                         end={{ x: 1, y: 0, }}
                         start={{ x: 1, y: 1 }}
-                    />
+                    /> */}
                     <FastImage
                         style={styles.img_banner}
                         source={{

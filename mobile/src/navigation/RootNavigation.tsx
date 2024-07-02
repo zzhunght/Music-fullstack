@@ -10,10 +10,15 @@ import Search from '../screens/un-authorize/Search/Search';
 import { STACK_ROUTE } from '../constants/route';
 import useTrackPlayerEvent from '../hooks/useTrackPlayerEvent';
 import useTrackPlayer from '../hooks/useTrackPlayer';
+import TrackPlayer, { Event, useTrackPlayerEvents } from 'react-native-track-player';
+import { useDispatch, useSelector } from 'react-redux';
+import PlaylistDetail from '../screens/un-authorize/PlaylistDetail/PlaylistDetail';
+
 const RootStack = createStackNavigator();
 function RootNavigation() {
-  useTrackPlayer()
-  useTrackPlayerEvent()
+    useTrackPlayer()
+    // useTrackPlayerEvent()
+    
 
     return (
         <NavigationContainer independent={true}
@@ -29,6 +34,10 @@ function RootNavigation() {
                 <RootStack.Screen
                     name={STACK_ROUTE.Album}
                     component={Album}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.PlayDetail}
+                    component={PlaylistDetail}
                 />
                 <RootStack.Screen
                     name={STACK_ROUTE.Search}

@@ -1,19 +1,26 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Song } from '../../interface/song'
+import { Song } from '../../interface'
 
 export interface SongState {
     selectedSong: Song | undefined
     queue: Song[]
+    hasPlayed: Song[]
     songBackground: any
     isPlay: boolean
+    isRepeat: boolean
+    isShuffe: boolean,
 }
 
 
 const initialState: SongState = {
     selectedSong: undefined,
+    hasPlayed: [],
     songBackground: null,
     isPlay: false,
-    queue: []
+    queue: [],
+    isRepeat: false,
+    isShuffe: false,
+ 
 }
 
 export const songSlice = createSlice({
@@ -29,6 +36,18 @@ export const songSlice = createSlice({
         setIsPlay: (state,action: PayloadAction<boolean>)=>{
             state.isPlay = action.payload
         },
+        setIsShuffe: (state,action: PayloadAction<boolean>)=>{
+            state.isShuffe = action.payload
+        },
+        setIsRepeat: (state,action: PayloadAction<boolean>)=>{
+            state.isRepeat = action.payload
+        },
+        addPlayedTrack: (state,action: PayloadAction<Song>)=>{
+            state.hasPlayed.push(action.payload)
+        },
+        resetPlayedTrack: (state)=>{
+            state.hasPlayed = []
+        },
         newQueue: (state,action: PayloadAction<Song[]>)=>{
             state.queue = action.payload
         },
@@ -41,10 +60,22 @@ export const songSlice = createSlice({
         addToQueue: (state,action: PayloadAction<Song>)=>{
             state.queue.push(action.payload)
         }
+
     },
 
 })
 
-export const { selectSong, loadSongBg, setIsPlay, newQueue, addToQueue, queueTrackChange } = songSlice.actions
+export const { 
+    resetPlayedTrack,
+    addPlayedTrack,
+    selectSong, 
+    loadSongBg, 
+    setIsPlay, 
+    newQueue, 
+    addToQueue, 
+    queueTrackChange,
+    setIsRepeat,
+    setIsShuffe 
+} = songSlice.actions
 
 export default songSlice.reducer

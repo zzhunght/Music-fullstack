@@ -16,6 +16,7 @@ export interface ThemeColors {
   tabIconSelected: string;
   controlBackground: string;
   border: string;
+  iconActive: string;
 }
 
 // Định nghĩa interface cho đối tượng chứa cả hai theme (light và dark)
@@ -33,7 +34,8 @@ export const Colors: ColorsInterface = {
     tabIconSelected: tintColorLight,
     icon: 'black',
     controlBackground: '#fff',
-    border: '#999797'
+    border: '#999797',
+    iconActive: '#1DB954',
   },
   dark: {
     text: '#fff',
@@ -45,6 +47,7 @@ export const Colors: ColorsInterface = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
     controlBackground: '#fff',
-    border: '#999797'
+    border: '#999797',
+    iconActive: '#00d158',
   },
 };

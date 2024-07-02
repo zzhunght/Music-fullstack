@@ -5,14 +5,12 @@ const width = Dimensions.get('window').width
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import TrackPlayer from 'react-native-track-player';
 import { useDispatch } from 'react-redux'
-import { getColors } from 'react-native-image-colors'
 import { useThemeColor } from '../../hooks/useThemeColor';
 import { useGetNewSongQuery } from '../../api/song';
-import { Song } from '../../interface/song';
-import { loadSongBg, newQueue, selectSong } from '../../store/song/song.reducer';
+import { Song } from '../../interface';
+import { newQueue, resetPlayedTrack, selectSong } from '../../store/song/song.reducer';
 import FastImage from 'react-native-fast-image';
 import { durationToTime } from '../../utils';
-import useTrackPlayer from '../../hooks/useTrackPlayer';
 // TrackPlayer.registerPlaybackService(() => PlaybackService);
 export default function SongHorizonalList() {
     const dispatch = useDispatch()
@@ -29,6 +27,7 @@ export default function SongHorizonalList() {
         return groups;
     };
     const play = async (song: Song) => {
+        dispatch(resetPlayedTrack())
         await TrackPlayer.reset()
         await TrackPlayer.add({
             id: song.id,
@@ -43,36 +42,14 @@ export default function SongHorizonalList() {
         data?.forEach(async(item) => {
             if (item.id !== song.id) {
                 queue.push(item)
-                TrackPlayer.add({
-                    id: item.id,
-                    url: item.path,
-                    title: item.name,
-                    artist: item.artist_name,
-                    artwork: item.thumbnail
-                })
             }
         })
         dispatch(newQueue(queue))
     }
-
-    const handleGetColors = async (url: string) => {
-        getColors(url, {
-            fallback: '#228B22',
-            cache: true,
-            key: url,
-        }).then((colors) => {
-            dispatch(loadSongBg(colors))
-        })
-            .catch((error) => {
-                console.log("error", error)
-            })
-    }
-
+    
 
     const handleSelectSong = (song: Song) => {
         dispatch(selectSong(song))
-        handleGetColors(song.thumbnail)
-
         play(song)
 
     }
