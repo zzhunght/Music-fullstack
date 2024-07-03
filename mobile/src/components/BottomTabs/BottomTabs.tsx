@@ -37,6 +37,11 @@ const BottomTabs = () => {
             path: STACK_ROUTE.Search,
             name: 'Search'
         },
+        {
+            component: <Ionicons name="library-outline" size={24} color={theme.icon} />,
+            path: STACK_ROUTE.Library,
+            name: 'Thư viện'
+        }
     ]
     return (
         <View style={style.wrap}>

@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { store } from "./src/store/store";
 import Player from "./src/components/Player/Player";
 import { setCustomText } from 'react-native-global-props';
+import SongBottomSheetContextProvider from "./src/context/SongBottomSheet";
 
 // Cấu hình font mặc định
 const customTextProps = {
@@ -18,9 +19,11 @@ export default function App() {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <RootNavigation />
-        <Player />
-        {/* <BottomTabs/> */}
+        <SongBottomSheetContextProvider>
+          <RootNavigation />
+          <Player />
+          {/* <BottomTabs/> */}
+        </SongBottomSheetContextProvider>
       </GestureHandlerRootView>
     </Provider>
   );

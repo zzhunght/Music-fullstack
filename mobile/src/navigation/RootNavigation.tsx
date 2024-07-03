@@ -1,25 +1,20 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import Tabs from './TabNavigation';
 import { createStackNavigator } from '@react-navigation/stack';
-import Artist from '../screens/un-authorize/Artist/Artist';
-import Album from '../screens/un-authorize/Album/Album';
-import Home from '../screens/un-authorize/Home/Home';
+import Artist from '../screens/(public)/Artist/Artist';
+import Album from '../screens/(public)/Album/Album';
+import Home from '../screens/(public)/Home/Home';
 import BottomTabs from '../components/BottomTabs/BottomTabs';
-import Search from '../screens/un-authorize/Search/Search';
+import Search from '../screens/(public)/Search/Search';
 import { STACK_ROUTE } from '../constants/route';
-import useTrackPlayerEvent from '../hooks/useTrackPlayerEvent';
 import useTrackPlayer from '../hooks/useTrackPlayer';
-import TrackPlayer, { Event, useTrackPlayerEvents } from 'react-native-track-player';
-import { useDispatch, useSelector } from 'react-redux';
-import PlaylistDetail from '../screens/un-authorize/PlaylistDetail/PlaylistDetail';
+import PlaylistDetail from '../screens/(public)/PlaylistDetail/PlaylistDetail';
+import Library from '../screens/(public)/Library/Library';
+import SearchDetail from '../screens/(public)/Search/SearchDetail';
 
 const RootStack = createStackNavigator();
 function RootNavigation() {
     useTrackPlayer()
-    // useTrackPlayerEvent()
-    
-
     return (
         <NavigationContainer independent={true}
         >
@@ -43,7 +38,14 @@ function RootNavigation() {
                     name={STACK_ROUTE.Search}
                     component={Search}
                 />
-
+                <RootStack.Screen
+                    name={STACK_ROUTE.Library}
+                    component={Library}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.SearchDetail}
+                    component={SearchDetail}
+                />
             </RootStack.Navigator>
             <BottomTabs />
         </NavigationContainer>

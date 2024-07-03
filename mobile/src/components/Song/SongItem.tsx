@@ -1,10 +1,11 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { createStyles } from './style'
 import { useThemeColor } from '../../hooks/useThemeColor'
 import FastImage from 'react-native-fast-image'
 import { Song } from '../../interface'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { SongBottomSheetContext } from '../../context/SongBottomSheet'
 
 
 
@@ -17,6 +18,8 @@ interface Props {
 const SongItem = ({ song, isplay }: Props) => {
     const theme = useThemeColor()
     const style = createStyles(theme)
+
+    const {handleOpenSheet} = useContext(SongBottomSheetContext)
     return (
         <View style={style.wrap}>
             <View>
@@ -36,10 +39,13 @@ const SongItem = ({ song, isplay }: Props) => {
                     <Text style={style.name} numberOfLines={1}>{song?.name} </Text>
                     <Text style={style.text}>{song?.artist_name} </Text>
                 </View>
-                <TouchableOpacity>
-                    <MaterialCommunityIcons name='dots-horizontal' color={theme.icon} size={24}/>
+                <TouchableOpacity
+                    onPress={()=> handleOpenSheet(song)}
+                >
+                    <MaterialCommunityIcons name='dots-horizontal' color={theme.icon} size={24} />
                 </TouchableOpacity>
             </View>
+           
         </View>
     )
 }

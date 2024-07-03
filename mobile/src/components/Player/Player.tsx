@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { createStyles } from './style'
 import Slider from '@react-native-community/slider';
 import Entypo from 'react-native-vector-icons/Entypo';
-import PlayDetail from '../../screens/un-authorize/PlayDetail/PlayDetail'
+import PlayDetail from '../../screens/(public)/PlayDetail/PlayDetail'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../store/store';
 import { useThemeColor } from '../../hooks/useThemeColor';

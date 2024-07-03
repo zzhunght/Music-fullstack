@@ -7,6 +7,8 @@ export const STACK_ROUTE = {
     Album: 'Album',
     Home: 'Home',
     Search: 'Search',
+    Library: 'Library',
+    SearchDetail: 'SearchDetail',
 }
 
 export const ROUTE_NAME = {

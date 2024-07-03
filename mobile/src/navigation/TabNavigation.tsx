@@ -1,7 +1,7 @@
 import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '../screens/un-authorize/Home/Home';
+import Home from '../screens/(public)/Home/Home';
 import  AntDesign from 'react-native-vector-icons/AntDesign';
-import Search from '../screens/un-authorize/Search/Search';
+import Search from '../screens/(public)/Search/Search';
 import { ROUTE_NAME } from '../constants/route';
 const Tab = createBottomTabNavigator();
 

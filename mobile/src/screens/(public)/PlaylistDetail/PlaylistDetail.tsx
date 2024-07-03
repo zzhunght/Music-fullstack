@@ -11,116 +11,45 @@ import { getColors } from 'react-native-image-colors';
 import { AndroidImageColors, ImageColorsResult } from 'react-native-image-colors/build/types';
 import { DEFAULT_SONG_BANNER } from '../../../constants';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
-const height = Dimensions.get('window').height
-const width = Dimensions.get('window').width
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
+import { createStyles } from './style';
+import { useDispatch } from 'react-redux';
+import { newQueue, resetPlayedTrack, selectSong } from '../../../store/song/song.reducer';
+import TrackPlayer from 'react-native-track-player';
 const PlaylistDetail = ({ route }: any) => {
     const navigation: any = useNavigation()
     const { playlistId } = route.params
     const { data } = useGetPlaylistSongsQuery(playlistId)
     const { data: playlist } = useGetPlaylistQuery(playlistId)
-
+    const dispatch = useDispatch()
 
     const scrollRef = useAnimatedRef<Animated.ScrollView>()
     const scrollOffset = useScrollViewOffset(scrollRef)
     const [color, setColors] = useState<ImageColorsResult>()
     const theme = useThemeColor()
-    const styles = StyleSheet.create({
-        wrap: {
-            backgroundColor: theme.background,
-            flex: 1,
-        },
-        banner: {
-            width: '100%',
-            position: 'relative',
-            justifyContent: 'flex-start',
-            paddingTop: '9%',
-            paddingBottom: 10
-        },
-        img_banner: {
-            width: 220,
-            height: 200
-        },
-        banner_overlay: {
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            height: 500,
-            bottom: 0
-        },
-        playlist_name: {
-            fontSize: 22,
-            fontWeight: '600',
-            color: theme.text,
-            marginTop: 10,
-            marginLeft: 15
-        },
-        artist_name: {
-            fontSize: 16,
-            fontWeight: '600',
-            color: theme.text_gray,
-            marginTop: 5
-        },
-        song_item: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-        },
-        song_item_name: {
-            fontSize: 15,
-            color: theme.text,
-            fontWeight: '500'
-        },
-        song_item_artist: {
-            fontSize: 13,
-            color: theme.text_gray,
-            fontWeight: '500',
-            marginTop: 3
-        },
-        songs: {
-            paddingHorizontal: 15,
-        },
-        head: {
-            position: 'absolute',
-            zIndex: 2,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            width: width,
-            height: 60,
-            top: 0,
-            alignItems: 'center',
-            paddingHorizontal: 15
-        },
-        backbtn: {
-            position: 'absolute',
-            height: 60,
-            paddingHorizontal: 15,
-            justifyContent: 'center',
-            top: 0,
-            zIndex: 99
-        },
-        headName: {
-
-        },
-        playBtn: {
-            backgroundColor: theme.text,
-            width: 50,
-            height: 50,
-            borderRadius: 25,
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        text: {
-            fontSize: 13,
-            color: theme.text_gray,
-            marginLeft: 15
-        }
-    })
-
+    const styles = createStyles(theme)
     const play = async (song: Song) => {
-
+        dispatch(resetPlayedTrack())
+        await TrackPlayer.reset()
+        await TrackPlayer.add({
+            id: song.id,
+            url: song.path,
+            title: song.name,
+            artist: song.artist_name,
+            artwork: song.thumbnail
+        })
+        await TrackPlayer.play()
+        dispatch(selectSong(song))
+        const queue = [song]
+        data?.forEach(async(item) => {
+            if (item.id !== song.id) {
+                queue.push(item)
+            }
+        })
+        dispatch(newQueue(queue))
     }
 
 

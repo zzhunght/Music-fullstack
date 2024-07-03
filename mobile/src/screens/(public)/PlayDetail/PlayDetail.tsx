@@ -198,7 +198,6 @@ export default function PlayDetail({ onClose }: Props) {
                 ref={bottomSheetRef}
                 onChange={handleSheetChanges}
                 snapPoints={[1, '95%']}
-                index={-1}
                 backgroundStyle={{ backgroundColor: theme.background }}
                 handleComponent={() => (
                     <View style={{ alignItems: 'center', height: 40, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
