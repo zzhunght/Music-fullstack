@@ -5,6 +5,7 @@ import { store } from "./src/store/store";
 import Player from "./src/components/Player/Player";
 import { setCustomText } from 'react-native-global-props';
 import SongBottomSheetContextProvider from "./src/context/SongBottomSheet";
+import CreatePlaylistSheetContextProvider from "./src/context/CreatePlaylistSheet";
 
 // Cấu hình font mặc định
 const customTextProps = {
@@ -20,8 +21,10 @@ export default function App() {
     <Provider store={store}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <SongBottomSheetContextProvider>
-          <RootNavigation />
-          <Player />
+          <CreatePlaylistSheetContextProvider>
+            <RootNavigation />
+            <Player />
+          </CreatePlaylistSheetContextProvider>
           {/* <BottomTabs/> */}
         </SongBottomSheetContextProvider>
       </GestureHandlerRootView>

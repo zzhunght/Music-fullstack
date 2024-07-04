@@ -9,6 +9,9 @@ export const STACK_ROUTE = {
     Search: 'Search',
     Library: 'Library',
     SearchDetail: 'SearchDetail',
+    Login: 'Login',
+    Register: 'Register',
+    OTP: 'OTP',
 }
 
 export const ROUTE_NAME = {

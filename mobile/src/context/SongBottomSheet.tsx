@@ -4,14 +4,19 @@ import BottomSheet, { BottomSheetScrollView, BottomSheetView } from '@gorhom/bot
 import { Song } from '../interface';
 import { useThemeColor } from '../hooks/useThemeColor';
 import SongBottomSheetView from '../components/Sheet/SongBottomSheetView';
+interface SongBottomSheetContextValue {
+    handleOpenSheet: (song: Song) => void;
+}
 
-export const SongBottomSheetContext = createContext<any>(null)
+const defaultValue: SongBottomSheetContextValue = {
+    handleOpenSheet: (song) => {},
+};
+export const SongBottomSheetContext = createContext<SongBottomSheetContextValue>(defaultValue)
 
 function SongBottomSheetContextProvider({ children }: { children: ReactNode }) {
     const songBottomSheetRef = useRef<BottomSheet>(null);
     const theme = useThemeColor()
     const [selectedSong, setSelectedSong] = useState<Song>()
-    // callbacks
     const handleSheetChanges = useCallback((index: number) => {
         if (index == 0) {
             songBottomSheetRef?.current?.close()

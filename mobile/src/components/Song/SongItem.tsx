@@ -40,7 +40,9 @@ const SongItem = ({ song, isplay }: Props) => {
                     <Text style={style.text}>{song?.artist_name} </Text>
                 </View>
                 <TouchableOpacity
-                    onPress={()=> handleOpenSheet(song)}
+                    onPress={()=> 
+                        song && handleOpenSheet(song)
+                    }
                 >
                     <MaterialCommunityIcons name='dots-horizontal' color={theme.icon} size={24} />
                 </TouchableOpacity>
