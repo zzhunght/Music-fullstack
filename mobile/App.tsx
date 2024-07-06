@@ -23,7 +23,6 @@ export default function App() {
         <SongBottomSheetContextProvider>
           <CreatePlaylistSheetContextProvider>
             <RootNavigation />
-            <Player />
           </CreatePlaylistSheetContextProvider>
           {/* <BottomTabs/> */}
         </SongBottomSheetContextProvider>

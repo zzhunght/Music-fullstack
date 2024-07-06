@@ -9,6 +9,7 @@ import { createStyles } from './styles'
 import FastImage from 'react-native-fast-image'
 import { DEFAULT_SONG_BANNER } from '../../../constants'
 import { CreatePlaylistSheetContext } from '../../../context/CreatePlaylistSheet'
+import { STACK_ROUTE } from '../../../constants/route'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
     const theme = useThemeColor()
@@ -30,7 +31,9 @@ const Library = ({ navigation }: any) => {
                     <Text>
                         Bạn chưa đăng nhập
                     </Text>
-                    <TouchableOpacity style={styles.loginBtn}>
+                    <TouchableOpacity style={styles.loginBtn}
+                        onPress={()=> navigation.navigate(STACK_ROUTE.Login)}
+                    >
                         <Text style={{ color: theme.dark }}>Đăng nhập</Text>
                     </TouchableOpacity>
                 </LinearGradient>

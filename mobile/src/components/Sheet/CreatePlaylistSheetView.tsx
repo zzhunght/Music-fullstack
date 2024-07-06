@@ -13,7 +13,7 @@ const CreatePlaylistSheetView = () => {
             <View style={styles.inputWr}>
                 <TextInput
                     style={{ color: theme.text }}
-                    autoFocus={true}
+                    // autoFocus={true}
                     value={name}
                     onChangeText={v => setName(v)}
                 />

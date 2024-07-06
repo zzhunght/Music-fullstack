@@ -5,6 +5,7 @@ import songApi from '../api/song'
 import artistApi from '../api/artist'
 import albumApi from '../api/album'
 import playListApi from '../api/playlist'
+import userApi from '../api/user'
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     [artistApi.reducerPath]: artistApi.reducer,
     [albumApi.reducerPath]: albumApi.reducer,
     [playListApi.reducerPath]: playListApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
     songSlice: songReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -19,7 +21,8 @@ export const store = configureStore({
       songApi.middleware, 
       artistApi.middleware,
       albumApi.middleware,
-      playListApi.middleware
+      playListApi.middleware,
+      userApi.middleware
     ),
 })
 

@@ -11,6 +11,10 @@ import useTrackPlayer from '../hooks/useTrackPlayer';
 import PlaylistDetail from '../screens/(public)/PlaylistDetail/PlaylistDetail';
 import Library from '../screens/(public)/Library/Library';
 import SearchDetail from '../screens/(public)/Search/SearchDetail';
+import Login from '../screens/(public)/Auth/Login';
+import Register from '../screens/(public)/Auth/Register';
+import OTP from '../screens/(public)/OTP/OTP';
+import Player from '../components/Player/Player';
 
 const RootStack = createStackNavigator();
 function RootNavigation() {
@@ -19,9 +23,22 @@ function RootNavigation() {
         <NavigationContainer independent={true}
         >
             <RootStack.Navigator screenOptions={{ headerShown: false }}
+                initialRouteName={STACK_ROUTE.Home}
             >
                 {/* <RootStack.Screen name={STACK_ROUTE.Tab} component={Tabs} /> */}
                 <RootStack.Screen name={STACK_ROUTE.Home} component={Home} />
+                <RootStack.Screen
+                    name={STACK_ROUTE.Login}
+                    component={Login}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.Register}
+                    component={Register}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.OTP}
+                    component={OTP}
+                />
                 <RootStack.Screen
                     name={STACK_ROUTE.Artist}
                     component={Artist}
@@ -47,6 +64,7 @@ function RootNavigation() {
                     component={SearchDetail}
                 />
             </RootStack.Navigator>
+            <Player />
             <BottomTabs />
         </NavigationContainer>
     )

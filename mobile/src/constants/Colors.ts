@@ -20,6 +20,7 @@ export interface ThemeColors {
   sheetBgColor: string;
   light: string;
   dark: string;
+  error: string;
 }
 
 // Định nghĩa interface cho đối tượng chứa cả hai theme (light và dark)
@@ -30,6 +31,7 @@ export interface ColorsInterface {
 export const Colors: ColorsInterface = {
   light: {
     light: '#fff',
+    error: '#f23d4c',
     dark: '#000',
     text: '#11181C',
     text_gray: '#bfbfbf',
@@ -46,6 +48,7 @@ export const Colors: ColorsInterface = {
   },
   dark: {
     light: '#fff',
+    error: '#f23d4c',
     dark: '#000',
     sheetBgColor: 'rgba(15, 15, 15, 1)',
     // sheetBgColor: '#2c2e2c',

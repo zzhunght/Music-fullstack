@@ -24,13 +24,14 @@ export const axiosBaseQuery = (): BaseQueryFn<
             })
             return { data: result.data.data }
         } catch (axiosError) {
-            console.log("error:", axiosError)
             const err = axiosError as AxiosError
+            const error =  {
+                status: err.response?.status,
+                data: err.response?.data || err.message,
+            }
+            console.log("error:", error)
             return {
-                error: {
-                    status: err.response?.status,
-                    data: err.response?.data || err.message,
-                },
+                error:error
             }
         }
     }
