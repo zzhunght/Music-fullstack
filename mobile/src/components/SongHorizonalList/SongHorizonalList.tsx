@@ -1,5 +1,5 @@
 import { View, Text, FlatList, Dimensions, TouchableHighlight, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { createStyles } from './style'
 const width = Dimensions.get('window').width
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,9 +11,11 @@ import { Song } from '../../interface';
 import { newQueue, resetPlayedTrack, selectSong } from '../../store/song/song.reducer';
 import FastImage from 'react-native-fast-image';
 import { durationToTime } from '../../utils';
+import { SongBottomSheetContext } from '../../context/SongBottomSheet';
 // TrackPlayer.registerPlaybackService(() => PlaybackService);
 export default function SongHorizonalList() {
     const dispatch = useDispatch()
+    const {handleOpenSheet} = useContext(SongBottomSheetContext)
 
     const { data } = useGetNewSongQuery()
     const theme = useThemeColor()
@@ -77,9 +79,9 @@ export default function SongHorizonalList() {
                                 </View>
                             </View>
                             <View>
-                                <TouchableHighlight>
+                                <TouchableOpacity onPress={()=> handleOpenSheet(item)}>
                                     <MaterialCommunityIcons name="dots-horizontal" size={24} color={theme.text} />
-                                </TouchableHighlight>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </TouchableOpacity>

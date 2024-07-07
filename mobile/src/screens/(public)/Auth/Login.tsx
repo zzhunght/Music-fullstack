@@ -4,9 +4,9 @@ import { useThemeColor } from '../../../hooks/useThemeColor'
 import { createStyles } from './styles'
 import { STACK_ROUTE } from '../../../constants/route'
 import { useLoginMutation } from '../../../api/user'
-const isErrorWithData = (error: unknown): error is { data: { error: string } } => {
-    return typeof error === 'object' && error !== null && 'data' in error;
-};
+import { isErrorWithData } from '../../../utils'
+import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon'
+
 const Login = ({ navigation }: any) => {
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -66,9 +66,11 @@ const Login = ({ navigation }: any) => {
                     }</Text>
                 )}
                 <TouchableOpacity style={styles.btn} onPress={handleLogin}>
-                    <Text style={styles.btnText}>
+                    {result.isLoading ? <LoadingIcon /> : <Text style={styles.btnText}>
                         Đăng nhập
                     </Text>
+                    }
+
                 </TouchableOpacity>
                 <View style={styles.options}>
                     <Text style={styles.note}>

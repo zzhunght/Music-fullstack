@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useThemeColor } from '../../../hooks/useThemeColor';
 import { createStyles } from './styles';
 import { STACK_ROUTE } from '../../../constants/route';
+import { useSignUpMutation } from '../../../api/user';
+import { isErrorWithData } from '../../../utils';
+import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon';
 
 const Register = ({ navigation }: any) => {
     const theme = useThemeColor();
     const styles = createStyles(theme);
 
+    const [signUp, result] = useSignUpMutation()
+
     // State variables for form inputs
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -36,13 +42,27 @@ const Register = ({ navigation }: any) => {
             return;
         }
 
-        // Proceed with registration logic
-        // Example: call an API to register the user
-
-        Alert.alert('Success', 'Account created successfully!');
-        navigation.navigate(STACK_ROUTE.OTP)
+        const body = {
+            name,
+            email,
+            password
+        }
+        signUp(body)
+        // Alert.alert('Success', 'Account created successfully!');
+        // navigation.navigate(STACK_ROUTE.OTP)
     };
 
+    const handleRegisterSuccess = () => {
+        navigation.navigate(STACK_ROUTE.OTP, {email: email})
+    }
+
+
+    useEffect(() => {
+        console.log("result register ", result)
+        if (result.data) {
+            handleRegisterSuccess()
+        }
+    }, [result.data])
     return (
         <View style={styles.wrap}>
             <Text style={styles.title}>Tạo tài khoản mới 👋</Text>
@@ -55,8 +75,19 @@ const Register = ({ navigation }: any) => {
                     <TextInput
                         style={styles.input}
                         value={email}
-                        onChangeText={setEmail}
+                        onChangeText={value => setEmail(value)}
                         keyboardType="email-address"
+                        autoCapitalize="none"
+                    />
+                </View>
+                <View style={styles.inputGroup}>
+                    <Text style={styles.label}>
+                        Tên
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        value={name}
+                        onChangeText={value => setName(value)}
                         autoCapitalize="none"
                     />
                 </View>
@@ -67,7 +98,7 @@ const Register = ({ navigation }: any) => {
                     <TextInput
                         style={styles.input}
                         value={password}
-                        onChangeText={setPassword}
+                        onChangeText={value => setPassword(value)}
                         secureTextEntry
                     />
                 </View>
@@ -78,15 +109,22 @@ const Register = ({ navigation }: any) => {
                     <TextInput
                         style={styles.input}
                         value={confirmPassword}
-                        onChangeText={setConfirmPassword}
+                        onChangeText={value => setConfirmPassword(value)}
                         secureTextEntry
                     />
                 </View>
+                {result.isError && result.isError && (
+                    <Text style={styles.error}>{
+                        isErrorWithData(result.error) ? result.error.data.error : 'Có lỗi xảy ra vui lòng thử lại sau'
+                    }</Text>
+                )}
                 <TouchableOpacity style={styles.btn} onPress={handleRegister}
-                >
-                    <Text style={styles.btnText}>
-                        Đăng ký
-                    </Text>
+                >{
+                        result.isLoading ? <LoadingIcon /> :
+                            <Text style={styles.btnText}>
+                                Đăng ký
+                            </Text>
+                    }
                 </TouchableOpacity>
                 <View style={styles.options}>
                     <Text style={styles.note}>

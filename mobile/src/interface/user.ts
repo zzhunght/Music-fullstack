@@ -8,6 +8,19 @@ export interface LoginBody {
     email: string
     password: string
 }
+export interface RegisterBody {
+    email: string
+    password: string
+    name: string
+}
+
+export interface ConfirmOTP {
+    email: string
+    otp: string
+}
+export interface SendOTP {
+    email: string
+}
 
 export interface User {
     id: number

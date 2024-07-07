@@ -6,3 +6,6 @@ export const durationToTime = (duration: number) : string => {
     const second = Math.floor(duration % 60)
     return `${minute}:${second <10 ? '0': ''}${second}`
 }
+export const isErrorWithData = (error: unknown): error is { data: { error: string } } => {
+    return typeof error === 'object' && error !== null && 'data' in error;
+};

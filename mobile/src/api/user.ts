@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './base';
-import { LoginBody, LoginResponse } from '../interface/user';
+import { ConfirmOTP, LoginBody, LoginResponse, RegisterBody, SendOTP, User } from '../interface/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEY } from '../constants/asyncStorageKey';
 
@@ -19,12 +19,44 @@ const userApi = createApi({
                 AsyncStorage.setItem(STORAGE_KEY.RefreshToken, response.refresh_token)
                 return response
             },
+        }),
+        signUp: builder.mutation<boolean, RegisterBody>({
+            query: (body) => ({
+                url: '/user/register',
+                method: 'POST',
+                data: body
+            })
+        }),
+        confirmOTP: builder.mutation<boolean, ConfirmOTP>({
+            query: (body) => ({
+                url: '/user/verify-otp',
+                method: 'POST',
+                data: body
+            })
+        }),
+        resendOTP: builder.mutation<boolean, SendOTP>({
+            query: (body) => ({
+                url: '/user/send-otp',
+                method: 'POST',
+                data: body
+            })
+        }),
+        getUserInfo: builder.query<User, void>({
+            query: (body) => ({
+                url: '/user/info',
+                method: 'GET',
+                data: body
+            })
         })
     }),
 });
 
 export const {
-    useLoginMutation
+    useLoginMutation,
+    useSignUpMutation,
+    useConfirmOTPMutation,
+    useResendOTPMutation,
+    useGetUserInfoQuery
 } = userApi
 
 export default userApi

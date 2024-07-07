@@ -55,6 +55,10 @@ export const createStyles = (theme: ThemeColors) => {
             fontSize: 13,
             fontWeight: '600',
             color: theme.text,
+        },
+        error: {
+            color: theme.error,
+            fontSize: 13,
         }
 
     })

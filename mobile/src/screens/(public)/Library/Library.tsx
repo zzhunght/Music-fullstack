@@ -10,8 +10,10 @@ import FastImage from 'react-native-fast-image'
 import { DEFAULT_SONG_BANNER } from '../../../constants'
 import { CreatePlaylistSheetContext } from '../../../context/CreatePlaylistSheet'
 import { STACK_ROUTE } from '../../../constants/route'
+import { useGetUserInfoQuery } from '../../../api/user'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
+    const { data: user } = useGetUserInfoQuery()
     const theme = useThemeColor()
 
     const styles = createStyles(theme)
@@ -28,14 +30,27 @@ const Library = ({ navigation }: any) => {
                     <View style={styles.user}>
                         <Ioicons name='person' color={theme.text_gray} size={36} />
                     </View>
-                    <Text>
-                        Bạn chưa đăng nhập
-                    </Text>
-                    <TouchableOpacity style={styles.loginBtn}
-                        onPress={()=> navigation.navigate(STACK_ROUTE.Login)}
-                    >
-                        <Text style={{ color: theme.dark }}>Đăng nhập</Text>
-                    </TouchableOpacity>
+                    {user ? (
+                        <View >
+                            <Text style={{ color: theme.text, fontSize: 18 }}>
+                                {user.name}
+                            </Text>
+                            <Text style={{ color: theme.text_gray, fontSize: 13 }}>
+                                {user.email}
+                            </Text>
+                        </View>
+                    ) : (
+                        <>
+                            <Text>
+                                Bạn chưa đăng nhập
+                            </Text>
+                            <TouchableOpacity style={styles.loginBtn}
+                                onPress={() => navigation.navigate(STACK_ROUTE.Login)}
+                            >
+                                <Text style={{ color: theme.dark }}>Đăng nhập</Text>
+                            </TouchableOpacity>
+                        </>
+                    )}
                 </LinearGradient>
                 <TouchableOpacity style={styles.favorite}>
                     <Heart width={50} />
@@ -53,7 +68,7 @@ const Library = ({ navigation }: any) => {
                         <Text style={styles.textTitle}>
                             Playlists
                         </Text>
-                        <TouchableOpacity onPress={()=>handleOpenSheet()}>
+                        <TouchableOpacity onPress={() => handleOpenSheet()}>
                             <Ioicons name='add-circle-outline' size={24} color={theme.text} />
                         </TouchableOpacity>
                     </View>
@@ -76,8 +91,8 @@ const Library = ({ navigation }: any) => {
                         </TouchableOpacity>
                     ))}
                 </View>
-            </ScrollView>
-        </Container>
+            </ScrollView >
+        </Container >
     )
 }
 
