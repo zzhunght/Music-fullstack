@@ -11,11 +11,12 @@ import { DEFAULT_SONG_BANNER } from '../../../constants'
 import { CreatePlaylistSheetContext } from '../../../context/CreatePlaylistSheet'
 import { STACK_ROUTE } from '../../../constants/route'
 import { useGetUserInfoQuery } from '../../../api/user'
+import { useGetFavoriteSongsQuery } from '../../../api/favorite'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
     const { data: user } = useGetUserInfoQuery()
+    const {data: songs} = useGetFavoriteSongsQuery()
     const theme = useThemeColor()
-
     const styles = createStyles(theme)
 
     return (
@@ -52,14 +53,16 @@ const Library = ({ navigation }: any) => {
                         </>
                     )}
                 </LinearGradient>
-                <TouchableOpacity style={styles.favorite}>
+                <TouchableOpacity style={styles.favorite}
+                    onPress={()=> navigation.navigate(STACK_ROUTE.Favorite)}
+                >
                     <Heart width={50} />
                     <View>
                         <Text style={{ color: theme.text, fontSize: 15 }}>
                             Bài hát ưa thích
                         </Text>
                         <Text style={{ color: theme.text_gray, fontSize: 13 }}>
-                            2 songs
+                            {songs?.length} songs
                         </Text>
                     </View>
                 </TouchableOpacity>

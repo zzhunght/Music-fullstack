@@ -12,6 +12,7 @@ export const STACK_ROUTE = {
     Login: 'Login',
     Register: 'Register',
     OTP: 'OTP',
+    Favorite: 'Favorite',
 }
 
 export const ROUTE_NAME = {

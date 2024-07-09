@@ -47,7 +47,7 @@ function SongBottomSheetContextProvider({ children }: { children: ReactNode }) {
                 <BottomSheetView
                     style={{flex: 1}}
                 >
-                    <SongBottomSheetView song={selectedSong}/>
+                    {selectedSong && (<SongBottomSheetView song={selectedSong}/>)}
                 </BottomSheetView >
             </BottomSheet>
         </SongBottomSheetContext.Provider>

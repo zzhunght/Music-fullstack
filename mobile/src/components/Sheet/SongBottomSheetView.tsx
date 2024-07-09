@@ -1,12 +1,17 @@
-import { View, Text, StyleSheet, Dimensions, TouchableNativeFeedback, TouchableHighlightComponent, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import React, { useEffect } from 'react'
 import { useThemeColor } from '../../hooks/useThemeColor'
 import { Song } from '../../interface'
 import FastImage from 'react-native-fast-image'
 const width = Dimensions.get('window').width
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { useCheckFavoriteSongQuery, useFavoriteSongMutation, useGetFavoriteSongsQuery, useUnFavoriteSongMutation } from '../../api/favorite'
 
-const SongBottomSheetView = ({ song }: { song?: Song }) => {
+const SongBottomSheetView = ({ song }: { song: Song }) => {
+    const {data: check, refetch} = useCheckFavoriteSongQuery(song?.id)
+    const {refetch: refetchSong} = useGetFavoriteSongsQuery()
+    const [favorite, favoriteResult] = useFavoriteSongMutation()
+    const [unFavorite, unFavoriteResult] = useUnFavoriteSongMutation()
     const theme = useThemeColor()
     const styles = StyleSheet.create({
         wrap: {
@@ -56,8 +61,15 @@ const SongBottomSheetView = ({ song }: { song?: Song }) => {
     const options = [
         {
             label: 'Thêm vào ưa thích',
-            iconName: 'heart-outline',
-            onPress: () => { }
+            iconName: check ? 'heart' : 'heart-outline',
+            onPress: () => { 
+                if(favoriteResult.isLoading || unFavoriteResult.isLoading) return
+                if (!check) {
+                    favorite(song.id)
+                }else {
+                    unFavorite(song.id)
+                }
+            }
         },
         {
             label: 'Thêm vào playlist',
@@ -75,6 +87,18 @@ const SongBottomSheetView = ({ song }: { song?: Song }) => {
             onPress: () => { }
         }
     ]
+    useEffect(()=>{
+        if(favoriteResult.data){
+            refetch()
+            refetchSong()
+        }
+    },[favoriteResult])
+    useEffect(()=>{
+        if(unFavoriteResult.data){
+            refetch()
+            refetchSong()
+        }
+    },[unFavoriteResult])
     return (
         <View style={styles.wrap}>
             <View style={styles.head}>
