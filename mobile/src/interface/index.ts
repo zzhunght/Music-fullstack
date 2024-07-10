@@ -57,6 +57,11 @@ export interface Playlist {
     created_at: string
 }
 
+
+export interface CreatePlaylist {
+    name: string
+}
+
 export interface UserPlaylist {
     id: number
     name: string

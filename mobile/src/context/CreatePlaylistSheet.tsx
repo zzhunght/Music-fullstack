@@ -9,10 +9,12 @@ import CreatePlaylistSheetView from '../components/Sheet/CreatePlaylistSheetView
 
 interface PlaylistBottomSheetContextValue {
     handleOpenSheet: () => void;
+    handleCloseSheet: () => void;
 }
 
 const defaultValue: PlaylistBottomSheetContextValue = {
     handleOpenSheet: () => { },
+    handleCloseSheet: () => { },
 };
 export const CreatePlaylistSheetContext = createContext<PlaylistBottomSheetContextValue>(defaultValue)
 
@@ -29,10 +31,13 @@ function CreatePlaylistSheetContextProvider({ children }: { children: ReactNode 
     const handleOpenSheet = () => {
         CreatePlaylistSheetRef?.current?.expand()
     }
+    const handleCloseSheet = () => {
+        CreatePlaylistSheetRef?.current?.close()
+    }
 
     const value = {
         handleOpenSheet,
-
+        handleCloseSheet
     }
     return (
         <CreatePlaylistSheetContext.Provider value={value}>

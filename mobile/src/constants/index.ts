@@ -113,7 +113,7 @@ export const FAKE_SONG = [
     },
 ]
 
-export const DEFAULT_SONG_BANNER = "https://static.vecteezy.com/system/resources/thumbnails/007/286/713/small_2x/afro-girl-enjoying-music-wearing-sunglasses-and-headphone-banner-vector.jpg"
+export const DEFAULT_SONG_BANNER = "https://as2.ftcdn.net/v2/jpg/02/67/57/55/1000_F_267575534_JPXugHteIfuhOlt0tboxWre6hzM3FsfO.jpg"
 
 export const FAKE_DATA = [
     {

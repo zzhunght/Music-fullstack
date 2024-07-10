@@ -9,13 +9,15 @@ import { createStyles } from './styles'
 import FastImage from 'react-native-fast-image'
 import { DEFAULT_SONG_BANNER } from '../../../constants'
 import { CreatePlaylistSheetContext } from '../../../context/CreatePlaylistSheet'
-import { STACK_ROUTE } from '../../../constants/route'
+import { ROUTE_NAME, STACK_ROUTE } from '../../../constants/route'
 import { useGetUserInfoQuery } from '../../../api/user'
 import { useGetFavoriteSongsQuery } from '../../../api/favorite'
+import { useGetUserPlaylistQuery } from '../../../api/playlist'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
     const { data: user } = useGetUserInfoQuery()
     const {data: songs} = useGetFavoriteSongsQuery()
+    const {data: playlist} = useGetUserPlaylistQuery()
     const theme = useThemeColor()
     const styles = createStyles(theme)
 
@@ -75,12 +77,17 @@ const Library = ({ navigation }: any) => {
                             <Ioicons name='add-circle-outline' size={24} color={theme.text} />
                         </TouchableOpacity>
                     </View>
-                    {['1', '2', '3', '4'].map(i => (
-                        <TouchableOpacity style={styles.playlistItem} key={i}>
+                    {playlist?.map(i => (
+                        <TouchableOpacity style={styles.playlistItem} key={i.id}
+                            onPress={()=> navigation.navigate(STACK_ROUTE.PlayDetail, {
+                                playlistId: i.id
+                            })}
+                        >
                             <FastImage
                                 source={{
                                     uri: DEFAULT_SONG_BANNER
                                 }}
+                                resizeMode='cover'
                                 style={{
                                     width: 50,
                                     height: 50,
@@ -88,8 +95,8 @@ const Library = ({ navigation }: any) => {
                                 }}
                             />
                             <View >
-                                <Text style={styles.playlistName}>Playlist 1</Text>
-                                <Text style={styles.playlistName2}>2 songs</Text>
+                                <Text style={styles.playlistName}>{i.name}</Text>
+                                {/* <Text style={styles.playlistName2}>2 songs</Text> */}
                             </View>
                         </TouchableOpacity>
                     ))}

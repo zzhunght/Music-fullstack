@@ -1,15 +1,21 @@
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useThemeColor } from '../../hooks/useThemeColor'
 import { Song } from '../../interface'
 import FastImage from 'react-native-fast-image'
 const width = Dimensions.get('window').width
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useCheckFavoriteSongQuery, useFavoriteSongMutation, useGetFavoriteSongsQuery, useUnFavoriteSongMutation } from '../../api/favorite'
+import { SongBottomSheetContext } from '../../context/SongBottomSheet'
+import { AddSongPlaylistSheetContext } from '../../context/AddSongToPlaylistSheet'
 
 const SongBottomSheetView = ({ song }: { song: Song }) => {
-    const {data: check, refetch} = useCheckFavoriteSongQuery(song?.id)
-    const {refetch: refetchSong} = useGetFavoriteSongsQuery()
+
+    const {handleCloseSheet} = useContext(SongBottomSheetContext)
+    const {handleOpenSheet} = useContext(AddSongPlaylistSheetContext)
+
+    const { data: check, refetch } = useCheckFavoriteSongQuery(song.id)
+    const { refetch: refetchSong } = useGetFavoriteSongsQuery()
     const [favorite, favoriteResult] = useFavoriteSongMutation()
     const [unFavorite, unFavoriteResult] = useUnFavoriteSongMutation()
     const theme = useThemeColor()
@@ -62,11 +68,11 @@ const SongBottomSheetView = ({ song }: { song: Song }) => {
         {
             label: 'Thêm vào ưa thích',
             iconName: check ? 'heart' : 'heart-outline',
-            onPress: () => { 
-                if(favoriteResult.isLoading || unFavoriteResult.isLoading) return
+            onPress: () => {
+                if (favoriteResult.isLoading || unFavoriteResult.isLoading) return
                 if (!check) {
                     favorite(song.id)
-                }else {
+                } else {
                     unFavorite(song.id)
                 }
             }
@@ -74,7 +80,10 @@ const SongBottomSheetView = ({ song }: { song: Song }) => {
         {
             label: 'Thêm vào playlist',
             iconName: 'add-circle',
-            onPress: () => { }
+            onPress: () => { 
+                handleCloseSheet()
+                handleOpenSheet(song)
+            }
         },
         {
             label: 'Nghệ sĩ',
@@ -87,18 +96,18 @@ const SongBottomSheetView = ({ song }: { song: Song }) => {
             onPress: () => { }
         }
     ]
-    useEffect(()=>{
-        if(favoriteResult.data){
+    useEffect(() => {
+        if (favoriteResult.data) {
             refetch()
             refetchSong()
         }
-    },[favoriteResult])
-    useEffect(()=>{
-        if(unFavoriteResult.data){
+    }, [favoriteResult])
+    useEffect(() => {
+        if (unFavoriteResult.data) {
             refetch()
             refetchSong()
         }
-    },[unFavoriteResult])
+    }, [unFavoriteResult])
     return (
         <View style={styles.wrap}>
             <View style={styles.head}>
@@ -119,7 +128,7 @@ const SongBottomSheetView = ({ song }: { song: Song }) => {
                 justifyContent: 'space-between'
             }}>
                 {options.map(o => (
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         key={o.label}
                         onPress={() => o.onPress()}
                     >
