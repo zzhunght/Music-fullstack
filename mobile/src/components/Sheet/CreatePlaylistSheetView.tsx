@@ -5,6 +5,7 @@ import { ThemeColors } from '../../constants/Colors'
 import { useCreatePlaylistMutation } from '../../api/playlist'
 import LoadingIcon from '../LoadingIcon/LoadingIcon'
 import { CreatePlaylistSheetContext } from '../../context/CreatePlaylistSheet'
+import { TextCustom } from '../Text/TextCustome'
 
 const CreatePlaylistSheetView = () => {
     const {handleCloseSheet} = useContext(CreatePlaylistSheetContext)
@@ -33,7 +34,7 @@ const CreatePlaylistSheetView = () => {
 
     return (
         <View style={styles.wrap}>
-            <Text style={styles.title}>Tạo playlist mới</Text>
+            <TextCustom style={styles.title}>Tạo playlist mới</TextCustom>
             <View style={styles.inputWr}>
                 <TextInput
                     style={{ color: theme.text }}
@@ -42,15 +43,15 @@ const CreatePlaylistSheetView = () => {
                     onChangeText={v => setName(v)}
                 />
             </View>
-            <Text style={{ color: theme.text_gray }}>{name.length}/100</Text>
+            <TextCustom style={{ color: theme.text_gray }}>{name.length}/100</TextCustom>
 
             <TouchableOpacity style={styles.createBtn} onPress={handleCreatePlaylist}>
                 {
                     result.isLoading ? <LoadingIcon /> :
                         <View style={{height: 40, justifyContent: 'center'}}>
-                            <Text style={{ color: theme.dark, fontWeight: '600' }}>
+                            <TextCustom style={{ color: theme.dark, fontWeight: '600' }}>
                                 Tạo
-                            </Text>
+                            </TextCustom>
                         </View>
                 }
             </TouchableOpacity>

@@ -7,6 +7,7 @@ import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon'
 import { useConfirmOTPMutation, useResendOTPMutation } from '../../../api/user'
 import { isErrorWithData } from '../../../utils'
 import { STACK_ROUTE } from '../../../constants/route'
+import { TextCustom } from '../../../components/Text/TextCustome'
 const OTP = ({ navigation, route }: any) => {
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -51,8 +52,8 @@ const OTP = ({ navigation, route }: any) => {
 
     return (
         <View style={styles.wrap}>
-            <Text style={styles.title}>Xác thực OTP</Text>
-            <Text style={styles.note}>Một OTP đã được gửi tới email của bạn. Vui lòng kiểm tra email</Text>
+            <TextCustom style={styles.title}>Xác thực OTP</TextCustom>
+            <TextCustom style={styles.note}>Một OTP đã được gửi tới email của bạn. Vui lòng kiểm tra email</TextCustom>
             <OTPTextInput
                 ref={e => (otpInput.current = e)}
                 textInputStyle={styles.value as TextStyle}
@@ -60,23 +61,23 @@ const OTP = ({ navigation, route }: any) => {
                 containerStyle={{ marginVertical: 20 }}
             />
             {result.isError && result.isError && (
-                <Text style={styles.error}>{
+                <TextCustom style={styles.error}>{
                     isErrorWithData(result.error) ? result.error.data.error : 'Có lỗi xảy ra vui lòng thử lại sau'
-                }</Text>
+                }</TextCustom>
             )}
             <TouchableOpacity style={styles.btn}
                 onPress={handleConfirmOTP}
             >
-                {result.isLoading ? <LoadingIcon /> : <Text style={styles.btnText}>Xác thực</Text>}
+                {result.isLoading ? <LoadingIcon /> : <TextCustom style={styles.btnText}>Xác thực</TextCustom>}
 
             </TouchableOpacity>
 
             <View style={styles.options}>
-                <Text style={styles.note}>
+                <TextCustom style={styles.note}>
                     Không nhận được OTP?
-                </Text>
+                </TextCustom>
                 <TouchableOpacity style={styles.resendBtn} onPress={handleResendOTP}>
-                    <Text style={styles.resendLink}>Gửi lại</Text>
+                    <TextCustom style={styles.resendLink}>Gửi lại</TextCustom>
                 </TouchableOpacity>
             </View>
         </View>

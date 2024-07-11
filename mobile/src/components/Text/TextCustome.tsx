@@ -22,7 +22,7 @@ const disableStyles: StyleProp<TextStyle> = {
 
 type TextProps = Text['props'];
 
-export function OpenSansText(props: TextProps) {
+export function TextCustom(props: TextProps) {
     const { fontWeight = '400', fontStyle } = StyleSheet.flatten(props.style || {}) as TextStyle;
 
     const fontFamily = `Raleway-${OpenSansFont[fontWeight] || 'normal'}${fontStyle === 'italic' ? 'Italic' : ''}`;

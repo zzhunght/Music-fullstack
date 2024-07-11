@@ -6,6 +6,7 @@ import { useThemeColor } from '../../../hooks/useThemeColor';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import { FAKE_SONG } from '../../../constants';
+import { TextCustom } from '../../../components/Text/TextCustome';
 const height = Dimensions.get('window').height
 const IMG = "https://i.scdn.co/image/ab67616d0000b273ff2d5a6f74d5141af7a371ea"
 const Album = () => {
@@ -91,16 +92,16 @@ const Album = () => {
                             uri: IMG
                         }}
                     />
-                    <Text style={styles.album_name}>Dù cho mai về sau</Text>
-                    <Text style={styles.artist_name}>buitruonglinh</Text>
-                    <Text style={[styles.artist_name, { fontWeight: 'normal', fontSize: 13 }]}>Album 2022</Text>
+                    <TextCustom style={styles.album_name}>Dù cho mai về sau</TextCustom>
+                    <TextCustom style={styles.artist_name}>buitruonglinh</TextCustom>
+                    <TextCustom style={[styles.artist_name, { fontWeight: 'normal', fontSize: 13 }]}>Album 2022</TextCustom>
                 </ImageBackground>
                 <View style={styles.songs}>
                     {FAKE_SONG.slice(0, 8).map(i => (
                         <TouchableOpacity key={i.id.toString()} style={styles.song_item}>
                             <View>
-                                <Text style={styles.song_item_name}>{i.name}</Text>
-                                <Text style={styles.song_item_artist}>{i.artist_name}</Text>
+                                <TextCustom style={styles.song_item_name}>{i.name}</TextCustom>
+                                <TextCustom style={styles.song_item_artist}>{i.artist_name}</TextCustom>
                             </View>
                             <TouchableOpacity>
                                 <MaterialCommunityIcons name="dots-horizontal" size={24} color={theme.icon} />

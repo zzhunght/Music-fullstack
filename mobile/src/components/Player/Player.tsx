@@ -14,6 +14,7 @@ import { ProgressBar } from '@react-native-community/progress-bar-android';
 import { Song } from '../../interface';
 import { addPlayedTrack, loadSongBg, selectSong, setIsPlay } from '../../store/song/song.reducer';
 import { getColors } from 'react-native-image-colors';
+import { TextCustom } from '../Text/TextCustome';
 
 const events = [
     Event.PlaybackState,
@@ -152,8 +153,8 @@ const Player = () => {
                                             source={{ uri: song.thumbnail }}
                                         />
                                         <View style={{ justifyContent: 'center' }}>
-                                            <Text style={styles.title} numberOfLines={1}>{song.name}</Text>
-                                            <Text style={styles.text}>{song.artist_name}</Text>
+                                            <TextCustom style={styles.title} numberOfLines={1}>{song.name}</TextCustom>
+                                            <TextCustom style={styles.text}>{song.artist_name}</TextCustom>
                                         </View>
                                     </View>
                                     <View>

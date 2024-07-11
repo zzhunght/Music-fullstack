@@ -6,6 +6,7 @@ import { useThemeColor } from '../../hooks/useThemeColor'
 import { Album } from '../../interface'
 import { useNavigation } from '@react-navigation/native'
 import { STACK_ROUTE } from '../../constants/route'
+import { TextCustom } from '../Text/TextCustome'
 
 interface Props {
     style?: StyleProp<ViewStyle>
@@ -24,7 +25,7 @@ const AlbumList = ({
     const styles = createStyles(theme)
     return (
         <View style={style}>
-            <Text style={styles.title}>{title}</Text>
+            <TextCustom style={styles.title}>{title}</TextCustom>
             <FlatList
                 data={data}
                 horizontal={true}
@@ -43,8 +44,8 @@ const AlbumList = ({
                             }}
                             style={styles.image}
                         />
-                        <Text style={styles.subTitle}>{item.name}</Text>
-                        {/* <Text style={styles.text}>{item.artist_name}</Text> */}
+                        <TextCustom style={styles.subTitle}>{item.name}</TextCustom>
+                        {/* <TextCustom style={styles.text}>{item.artist_name}</TextCustom> */}
 
                     </TouchableOpacity>
                 )}

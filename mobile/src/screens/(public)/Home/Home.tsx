@@ -13,6 +13,7 @@ import { useGetNewAlbumQuery } from '../../../api/album'
 import AlbumList from '../../../components/Playlist/Album'
 import { useGetNewPlaylistQuery } from '../../../api/playlist'
 import PlaylistHorizontal from '../../../components/Playlist/Playlist'
+import { TextCustom } from '../../../components/Text/TextCustome'
 
 
 function Home({ navigation }: any) {
@@ -29,7 +30,7 @@ function Home({ navigation }: any) {
             }} showsVerticalScrollIndicator={false}
             >
                 <View >
-                    <Text style={styles.title}>Trending Artist</Text>
+                    <TextCustom style={styles.title}>Trending Artist</TextCustom>
                     <FlatList
                         data={artist}
                         horizontal={true}
@@ -46,7 +47,7 @@ function Home({ navigation }: any) {
                                     }}
                                     style={[styles.image, { borderRadius: 100 }]}
                                 />
-                                <Text style={styles.text}>{item.name}</Text>
+                                <TextCustom style={styles.text}>{item.name}</TextCustom>
                             </TouchableOpacity>
                         )}
                         keyExtractor={(item) => item.name}

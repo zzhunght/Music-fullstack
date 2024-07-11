@@ -6,6 +6,7 @@ import FastImage from 'react-native-fast-image'
 import { Song } from '../../interface'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SongBottomSheetContext } from '../../context/SongBottomSheet'
+import { TextCustom } from '../Text/TextCustome'
 
 
 
@@ -36,8 +37,8 @@ const SongItem = ({ song, isplay }: Props) => {
             </View>
             <View style={style.row}>
                 <View style={style.desc}>
-                    <Text style={style.name} numberOfLines={1}>{song?.name} </Text>
-                    <Text style={style.text}>{song?.artist_name} </Text>
+                    <TextCustom style={style.name} numberOfLines={1}>{song?.name} </TextCustom>
+                    <TextCustom style={style.text}>{song?.artist_name} </TextCustom>
                 </View>
                 <TouchableOpacity
                     onPress={()=> 

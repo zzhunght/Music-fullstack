@@ -9,6 +9,9 @@ const songApi = createApi({
         getNewSong: builder.query<Song[], void>({
             query: () => ({ url: '/song/new-song', method: 'get' }),
         }),
+        searchSong: builder.query<Song[], string>({
+            query: (search) => ({ url: '/song/search/' + search, method: 'get' }),
+        }),
         getSongByArtist: builder.query<ArtistSong, number>({
             query: (artist_id) => ({ url: '/artist/song/' + artist_id, method: 'get' }),
         }),
@@ -17,7 +20,8 @@ const songApi = createApi({
 
 export const {
     useGetNewSongQuery,
-    useGetSongByArtistQuery
+    useGetSongByArtistQuery,
+    useSearchSongQuery
 } = songApi
 
 export default songApi

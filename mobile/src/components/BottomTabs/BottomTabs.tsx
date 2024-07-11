@@ -5,6 +5,7 @@ import { useThemeColor } from '../../hooks/useThemeColor';
 import { STACK_ROUTE } from '../../constants/route';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { TextCustom } from '../Text/TextCustome';
 
 const BottomTabs = () => {
     const navigation = useNavigation()
@@ -55,7 +56,7 @@ const BottomTabs = () => {
                         >
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                 {item.component}
-                                <Text style={{ fontSize: 10, color: theme.text }}>{item.name}</Text>
+                                <TextCustom style={{ fontSize: 10, color: theme.text }}>{item.name}</TextCustom>
                             </View>
                         </TouchableOpacity>
                     ))

@@ -15,6 +15,7 @@ import { Song } from '../../../interface';
 import { newQueue, resetPlayedTrack, selectSong } from '../../../store/song/song.reducer';
 import TrackPlayer from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
+import { TextCustom } from '../../../components/Text/TextCustome';
 const IMG = 'https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg'
 const HEADER_FADE_START = 150
 const HEADER_FADE_END = 280
@@ -131,14 +132,14 @@ const Artist = ({ navigation, route }: any) => {
                 <View style={{ backgroundColor: theme.background }}>
                     <View style={styles.body}>
                         <View style={{ padding: 15 }}>
-                            <Text style={styles.name}>
+                            <TextCustom style={styles.name}>
                                 {data?.artist.name}
-                            </Text>
-                            <Text style={[styles.text, { marginTop: 5 }]}>3951 Follower</Text>
+                            </TextCustom>
+                            <TextCustom style={[styles.text, { marginTop: 5 }]}>3951 Follower</TextCustom>
 
                             <View style={styles.control}>
                                 <TouchableOpacity style={styles.follow_btn}>
-                                    <Text style={styles.text_light}>Follow</Text>
+                                    <TextCustom style={styles.text_light}>Follow</TextCustom>
                                 </TouchableOpacity>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                                     <TouchableOpacity>
@@ -151,13 +152,13 @@ const Artist = ({ navigation, route }: any) => {
                             </View>
                         </View>
                         <View style={{ gap: 15, padding: 15 }}>
-                            <Text style={{
+                            <TextCustom style={{
                                 color: theme.text,
                                 fontSize: 20,
                                 fontWeight: '600'
                             }}>
                                 Bài hát
-                            </Text>
+                            </TextCustom>
                             <View style={{ gap: 10, flex: 1 }}>
                                 {data?.songs.map(song => (
                                     <TouchableOpacity
@@ -171,16 +172,16 @@ const Artist = ({ navigation, route }: any) => {
                         </View>
                         {/* <Playlist data={FAKE_DATA} title='Trending Playlists' /> */}
                         <View style={{ marginTop: 10, padding: 15 }}>
-                            <Text style={styles.text_light_meidum}>
+                            <TextCustom style={styles.text_light_meidum}>
                                 Thông tin
-                            </Text>
-                            <Text style={[styles.text, { fontSize: 16, marginTop: 10 }]}>
+                            </TextCustom>
+                            <TextCustom style={[styles.text, { fontSize: 16, marginTop: 10 }]}>
                                 Nguyễn Thanh Tùng, thường được biết đến với nghệ danh Sơn Tùng M-TP,
                                 là một nam ca sĩ kiêm sáng tác nhạc, rapper,
                                 nhà sản xuất thu âm và diễn viên người Việt Nam.
                                 Sinh ra ở thành phố Thái Bình,
                                 Sơn Tùng thường đi hát ở Cung văn hoá thiếu nhi tỉnh Thái Bình và học chơi đàn organ từ nhỏ
-                            </Text>
+                            </TextCustom>
                         </View>
                     </View>
                 </View>

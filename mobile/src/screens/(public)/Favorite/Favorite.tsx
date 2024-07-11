@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 import { newQueue, resetPlayedTrack, selectSong } from '../../../store/song/song.reducer';
 import TrackPlayer from 'react-native-track-player';
 import { useGetFavoriteSongsQuery } from '../../../api/favorite';
+import { TextCustom } from '../../../components/Text/TextCustome';
 const FavoriteSongs = () => {
     const navigation: any = useNavigation()
     const { data } = useGetFavoriteSongsQuery()
@@ -121,7 +122,7 @@ const FavoriteSongs = () => {
                             }}
                         />
                     </View>
-                    <Text style={styles.playlist_name}>{'Bài hát ưa thích'}</Text>
+                    <TextCustom style={styles.playlist_name}>{'Bài hát ưa thích'}</TextCustom>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -138,7 +139,7 @@ const FavoriteSongs = () => {
                             <Entypo name="controller-play" size={36} color={'black'} style={{ left: 2 }} />
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.text}>{data?.length || 0} bài hát</Text>
+                    <TextCustom style={styles.text}>{data?.length || 0} bài hát</TextCustom>
 
                 </View>
 

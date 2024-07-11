@@ -19,6 +19,7 @@ import { createStyles } from './style';
 import { useDispatch } from 'react-redux';
 import { newQueue, resetPlayedTrack, selectSong } from '../../../store/song/song.reducer';
 import TrackPlayer from 'react-native-track-player';
+import { TextCustom } from '../../../components/Text/TextCustome';
 const PlaylistDetail = ({ route }: any) => {
     const navigation: any = useNavigation()
     const { playlistId } = route.params
@@ -134,7 +135,7 @@ const PlaylistDetail = ({ route }: any) => {
                             }}
                         />
                     </View>
-                    <Text style={styles.playlist_name}>{playlist?.name}</Text>
+                    <TextCustom style={styles.playlist_name}>{playlist?.name}</TextCustom>
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -151,7 +152,7 @@ const PlaylistDetail = ({ route }: any) => {
                             <Entypo name="controller-play" size={36} color={'black'} style={{ left: 2 }} />
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.text}>{data?.length || 0} bài hát</Text>
+                    <TextCustom style={styles.text}>{data?.length || 0} bài hát</TextCustom>
 
                     {/* </LinearGradient> */}
                 </View>

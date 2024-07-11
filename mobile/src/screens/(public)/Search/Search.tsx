@@ -7,6 +7,7 @@ import { FAKE_DATA_CATEGORY } from '../../../constants'
 import FastImage from 'react-native-fast-image'
 import { createStyles } from './styles'
 import { STACK_ROUTE } from '../../../constants/route'
+import { TextCustom } from '../../../components/Text/TextCustome'
 
 const Search = ({navigation}: any) => {
 
@@ -18,29 +19,29 @@ const Search = ({navigation}: any) => {
                 stickyHeaderIndices={[1]}
                 showsVerticalScrollIndicator={false}
             >
-                <Text style={styles.title}>Khám phá</Text>
+                <TextCustom style={styles.title}>Khám phá</TextCustom>
                 <View style={{paddingBottom: 10, backgroundColor:theme.background}}>
                     <TouchableOpacity
                         onPress={()=> navigation.navigate(STACK_ROUTE.SearchDetail)}
                     >
                         <View style={styles.searchBox}>
                             <Ionicons name='search' size={24} color={theme.dark} />
-                            <Text style={styles.searchPlaceholder}>
+                            <TextCustom style={styles.searchPlaceholder}>
                                 Bạn muốn nghe gì?
-                            </Text>
+                            </TextCustom>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.title}>Danh mục cho bạn</Text>
+                <TextCustom style={styles.title}>Danh mục cho bạn</TextCustom>
                 <View style={styles.categories}>
                     {FAKE_DATA_CATEGORY.map((data) => (
                         <TouchableOpacity key={data.id}>
                             <View style={[styles.categoryBox, {
                                 backgroundColor: data.color
                             }]}>
-                                <Text style={styles.categoryText}>
+                                <TextCustom style={styles.categoryText}>
                                     {data.name}
-                                </Text>
+                                </TextCustom>
                                 <FastImage
                                     source={{
                                         uri: data.thumbnail

@@ -9,12 +9,15 @@ const artistApi = createApi({
         getRecommentArtist: builder.query<Artist[], void>({
             query: () => ({ url: '/artist/recommendations', method: 'get' }),
         }),
-        
+        searchArtist: builder.query<Artist[], string>({
+            query: (search) => ({ url: '/artist/search/' + search, method: 'get' }),
+        }),
     }),
 });
 
 export const {
-    useGetRecommentArtistQuery
+    useGetRecommentArtistQuery,
+    useSearchArtistQuery
 } = artistApi
 
 export default artistApi

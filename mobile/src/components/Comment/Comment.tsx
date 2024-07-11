@@ -4,6 +4,7 @@ import { createStyles } from './style'
 import { ScrollView } from 'react-native-gesture-handler'
 import FastImage from 'react-native-fast-image'
 import { useThemeColor } from '../../hooks/useThemeColor'
+import { TextCustom } from '../Text/TextCustome'
 
 
 
@@ -41,9 +42,9 @@ const Comment = () => {
                             source={{ uri: 'https://cellphones.com.vn/sforum/wp-content/uploads/2024/01/avartar-anime-21.jpg' }}
                         />
                         <View style={styles.comment_detail}>
-                            <Text style={styles.name}>Luffy</Text>
-                            <Text style={styles.text}>nice song!</Text>
-                            <Text style={styles.text}>4 ngày trước</Text>
+                            <TextCustom style={styles.name}>Luffy</TextCustom>
+                            <TextCustom style={styles.text}>nice song!</TextCustom>
+                            <TextCustom style={styles.text}>4 ngày trước</TextCustom>
                         </View>
                     </View>
                 ))}

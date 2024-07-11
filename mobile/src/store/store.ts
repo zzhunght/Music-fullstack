@@ -7,6 +7,7 @@ import albumApi from '../api/album'
 import playListApi from '../api/playlist'
 import userApi from '../api/user'
 import favoriteApi from '../api/favorite'
+import searchReducer from './search/search.reducer'
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [favoriteApi.reducerPath]: favoriteApi.reducer,
     songSlice: songReducer,
+    searchSlice: searchReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

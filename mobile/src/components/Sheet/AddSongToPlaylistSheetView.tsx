@@ -8,6 +8,7 @@ import FastImage from 'react-native-fast-image'
 import { DEFAULT_SONG_BANNER } from '../../constants'
 import { Song } from '../../interface'
 import Toast from 'react-native-toast-message';
+import { TextCustom } from '../Text/TextCustome'
 const AddSongToPlaylistSheetView = ({ song, close }: { song: Song, close: Function }) => {
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -39,7 +40,7 @@ const AddSongToPlaylistSheetView = ({ song, close }: { song: Song, close: Functi
 
     return (
         <View style={styles.wrap}>
-            <Text style={styles.title}>Thêm bài hát vào playlist</Text>
+            <TextCustom style={styles.title}>Thêm bài hát vào playlist</TextCustom>
             <FlatList
                 style={{ marginTop: 20 }}
                 data={data}
@@ -58,8 +59,8 @@ const AddSongToPlaylistSheetView = ({ song, close }: { song: Song, close: Functi
                             }}
                         />
                         <View >
-                            <Text style={styles.playlistName}>{item.name}</Text>
-                            <Text style={styles.playlistName2}>songs</Text>
+                            <TextCustom style={styles.playlistName}>{item.name}</TextCustom>
+                            <TextCustom style={styles.playlistName2}>songs</TextCustom>
                         </View>
                     </TouchableOpacity>
                 )}

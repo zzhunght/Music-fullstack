@@ -6,6 +6,7 @@ import { STACK_ROUTE } from '../../../constants/route'
 import { useLoginMutation } from '../../../api/user'
 import { isErrorWithData } from '../../../utils'
 import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon'
+import { TextCustom } from '../../../components/Text/TextCustome'
 
 const Login = ({ navigation }: any) => {
     const theme = useThemeColor()
@@ -33,12 +34,12 @@ const Login = ({ navigation }: any) => {
     }, [result.isLoading])
     return (
         <View style={styles.wrap}>
-            <Text style={styles.title}>Xin chào 👋</Text>
+            <TextCustom style={styles.title}>Xin chào 👋</TextCustom>
             <View style={styles.form}>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>
+                    <TextCustom style={styles.label}>
                         Email
-                    </Text>
+                    </TextCustom>
                     <TextInput
                         value={email}
                         onChangeText={setEmail}
@@ -46,9 +47,9 @@ const Login = ({ navigation }: any) => {
                     />
                 </View>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>
+                    <TextCustom style={styles.label}>
                         Mật khẩu
-                    </Text>
+                    </TextCustom>
                     <TextInput
                         style={styles.input}
                         value={password}
@@ -57,27 +58,27 @@ const Login = ({ navigation }: any) => {
                     />
                 </View>
                 <TouchableOpacity style={{ marginTop: -10 }}>
-                    <Text style={styles.forgetPassword}>Quên mật khẩu ?</Text>
+                    <TextCustom style={styles.forgetPassword}>Quên mật khẩu ?</TextCustom>
                 </TouchableOpacity>
 
                 {result.isError && result.isError && (
-                    <Text style={styles.error}>{
+                    <TextCustom style={styles.error}>{
                         isErrorWithData(result.error) ? result.error.data.error : 'Có lỗi xảy ra vui lòng thử lại sau'
-                    }</Text>
+                    }</TextCustom>
                 )}
                 <TouchableOpacity style={styles.btn} onPress={handleLogin}>
-                    {result.isLoading ? <LoadingIcon /> : <Text style={styles.btnText}>
+                    {result.isLoading ? <LoadingIcon /> : <TextCustom style={styles.btnText}>
                         Đăng nhập
-                    </Text>
+                    </TextCustom>
                     }
 
                 </TouchableOpacity>
                 <View style={styles.options}>
-                    <Text style={styles.note}>
+                    <TextCustom style={styles.note}>
                         Chưa có tài khoản ?
-                    </Text>
+                    </TextCustom>
                     <TouchableOpacity style={styles.signUpBtn} onPress={() => navigation.navigate(STACK_ROUTE.Register)}>
-                        <Text style={styles.signUpLink}> Đăng ký</Text>
+                        <TextCustom style={styles.signUpLink}> Đăng ký</TextCustom>
                     </TouchableOpacity>
                 </View>
             </View>

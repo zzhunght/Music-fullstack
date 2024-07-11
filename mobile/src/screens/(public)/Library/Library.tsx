@@ -13,6 +13,7 @@ import { ROUTE_NAME, STACK_ROUTE } from '../../../constants/route'
 import { useGetUserInfoQuery } from '../../../api/user'
 import { useGetFavoriteSongsQuery } from '../../../api/favorite'
 import { useGetUserPlaylistQuery } from '../../../api/playlist'
+import { TextCustom } from '../../../components/Text/TextCustome'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
     const { data: user } = useGetUserInfoQuery()
@@ -35,22 +36,22 @@ const Library = ({ navigation }: any) => {
                     </View>
                     {user ? (
                         <View >
-                            <Text style={{ color: theme.text, fontSize: 18 }}>
+                            <TextCustom style={{ color: theme.text, fontSize: 18 }}>
                                 {user.name}
-                            </Text>
-                            <Text style={{ color: theme.text_gray, fontSize: 13 }}>
+                            </TextCustom>
+                            <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
                                 {user.email}
-                            </Text>
+                            </TextCustom>
                         </View>
                     ) : (
                         <>
-                            <Text>
+                            <TextCustom>
                                 Bạn chưa đăng nhập
-                            </Text>
+                            </TextCustom>
                             <TouchableOpacity style={styles.loginBtn}
                                 onPress={() => navigation.navigate(STACK_ROUTE.Login)}
                             >
-                                <Text style={{ color: theme.dark }}>Đăng nhập</Text>
+                                <TextCustom style={{ color: theme.dark }}>Đăng nhập</TextCustom>
                             </TouchableOpacity>
                         </>
                     )}
@@ -60,19 +61,19 @@ const Library = ({ navigation }: any) => {
                 >
                     <Heart width={50} />
                     <View>
-                        <Text style={{ color: theme.text, fontSize: 15 }}>
+                        <TextCustom style={{ color: theme.text, fontSize: 15 }}>
                             Bài hát ưa thích
-                        </Text>
-                        <Text style={{ color: theme.text_gray, fontSize: 13 }}>
+                        </TextCustom>
+                        <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
                             {songs?.length} songs
-                        </Text>
+                        </TextCustom>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.playlist}>
                     <View style={styles.row}>
-                        <Text style={styles.textTitle}>
+                        <TextCustom style={styles.textTitle}>
                             Playlists
-                        </Text>
+                        </TextCustom>
                         <TouchableOpacity onPress={() => handleOpenSheet()}>
                             <Ioicons name='add-circle-outline' size={24} color={theme.text} />
                         </TouchableOpacity>
@@ -95,8 +96,8 @@ const Library = ({ navigation }: any) => {
                                 }}
                             />
                             <View >
-                                <Text style={styles.playlistName}>{i.name}</Text>
-                                {/* <Text style={styles.playlistName2}>2 songs</Text> */}
+                                <TextCustom style={styles.playlistName}>{i.name}</TextCustom>
+                                {/* <TextCustom style={styles.playlistName2}>2 songs</TextCustom> */}
                             </View>
                         </TouchableOpacity>
                     ))}

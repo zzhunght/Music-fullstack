@@ -6,6 +6,7 @@ import { STACK_ROUTE } from '../../../constants/route';
 import { useSignUpMutation } from '../../../api/user';
 import { isErrorWithData } from '../../../utils';
 import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon';
+import { TextCustom } from '../../../components/Text/TextCustome';
 
 const Register = ({ navigation }: any) => {
     const theme = useThemeColor();
@@ -65,13 +66,13 @@ const Register = ({ navigation }: any) => {
     }, [result.data])
     return (
         <View style={styles.wrap}>
-            <Text style={styles.title}>Tạo tài khoản mới 👋</Text>
+            <TextCustom style={styles.title}>Tạo tài khoản mới 👋</TextCustom>
 
             <View style={styles.form}>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>
+                    <TextCustom style={styles.label}>
                         Tên đăng nhập (Email)
-                    </Text>
+                    </TextCustom>
                     <TextInput
                         style={styles.input}
                         value={email}
@@ -81,9 +82,9 @@ const Register = ({ navigation }: any) => {
                     />
                 </View>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>
+                    <TextCustom style={styles.label}>
                         Tên
-                    </Text>
+                    </TextCustom>
                     <TextInput
                         style={styles.input}
                         value={name}
@@ -92,9 +93,9 @@ const Register = ({ navigation }: any) => {
                     />
                 </View>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>
+                    <TextCustom style={styles.label}>
                         Mật khẩu
-                    </Text>
+                    </TextCustom>
                     <TextInput
                         style={styles.input}
                         value={password}
@@ -103,9 +104,9 @@ const Register = ({ navigation }: any) => {
                     />
                 </View>
                 <View style={styles.inputGroup}>
-                    <Text style={styles.label}>
+                    <TextCustom style={styles.label}>
                         Nhập lại mật khẩu
-                    </Text>
+                    </TextCustom>
                     <TextInput
                         style={styles.input}
                         value={confirmPassword}
@@ -114,24 +115,24 @@ const Register = ({ navigation }: any) => {
                     />
                 </View>
                 {result.isError && result.isError && (
-                    <Text style={styles.error}>{
+                    <TextCustom style={styles.error}>{
                         isErrorWithData(result.error) ? result.error.data.error : 'Có lỗi xảy ra vui lòng thử lại sau'
-                    }</Text>
+                    }</TextCustom>
                 )}
                 <TouchableOpacity style={styles.btn} onPress={handleRegister}
                 >{
                         result.isLoading ? <LoadingIcon /> :
-                            <Text style={styles.btnText}>
+                            <TextCustom style={styles.btnText}>
                                 Đăng ký
-                            </Text>
+                            </TextCustom>
                     }
                 </TouchableOpacity>
                 <View style={styles.options}>
-                    <Text style={styles.note}>
+                    <TextCustom style={styles.note}>
                         Đã có tài khoản ?
-                    </Text>
+                    </TextCustom>
                     <TouchableOpacity style={styles.signUpBtn} onPress={() => navigation.navigate(STACK_ROUTE.Login)}>
-                        <Text style={styles.signUpLink}> Đăng nhập</Text>
+                        <TextCustom style={styles.signUpLink}> Đăng nhập</TextCustom>
                     </TouchableOpacity>
                 </View>
             </View>

@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useCheckFavoriteSongQuery, useFavoriteSongMutation, useGetFavoriteSongsQuery, useUnFavoriteSongMutation } from '../../api/favorite'
 import { SongBottomSheetContext } from '../../context/SongBottomSheet'
 import { AddSongPlaylistSheetContext } from '../../context/AddSongToPlaylistSheet'
+import { TextCustom } from '../Text/TextCustome'
 
 const SongBottomSheetView = ({ song }: { song: Song }) => {
 
@@ -118,8 +119,8 @@ const SongBottomSheetView = ({ song }: { song: Song }) => {
                     style={styles.img}
                 />
                 <View>
-                    <Text style={styles.song_name}>{song?.name}</Text>
-                    <Text style={styles.artist_name} numberOfLines={1}>{song?.artist_name}</Text>
+                    <TextCustom style={styles.song_name}>{song?.name}</TextCustom>
+                    <TextCustom style={styles.artist_name} numberOfLines={1}>{song?.artist_name}</TextCustom>
                 </View>
             </View>
             <View style={styles.divide} />
@@ -134,7 +135,7 @@ const SongBottomSheetView = ({ song }: { song: Song }) => {
                     >
                         <View style={styles.options}>
                             <Ionicons color={theme.text} name={o.iconName} size={24} />
-                            <Text style={styles.options_label}>{o.label}</Text>
+                            <TextCustom style={styles.options_label}>{o.label}</TextCustom>
                         </View>
                     </TouchableOpacity>
                 ))}

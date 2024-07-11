@@ -19,6 +19,7 @@ import Comment from '../../../components/Comment/Comment';
 import Queue from '../../../components/Queue/Queue';
 import { durationToTime } from '../../../utils';
 import { setIsRepeat, setIsShuffe } from '../../../store/song/song.reducer';
+import { TextCustom } from '../../../components/Text/TextCustome';
 
 interface Props {
     onClose: () => void;
@@ -85,9 +86,9 @@ export default function PlayDetail({ onClose }: Props) {
                     <TouchableOpacity onPress={onClose}>
                         <Entypo name="chevron-thin-down" size={24} color={theme.icon} />
                     </TouchableOpacity>
-                    <Text style={styles.subTitle}>
+                    <TextCustom style={styles.subTitle}>
                         Now Playing
-                    </Text>
+                    </TextCustom>
                     <Entypo name="dots-three-horizontal" size={24} color={theme.icon} />
                 </View>
                 <View>
@@ -99,12 +100,12 @@ export default function PlayDetail({ onClose }: Props) {
                 <View style={{
                     marginTop: Platform.OS == 'android' ? '12%' : '5%'
                 }}>
-                    <Text style={styles.title} numberOfLines={1}>
+                    <TextCustom style={styles.title} numberOfLines={1}>
                         {song?.name}
-                    </Text>
-                    <Text style={styles.text_meidum}>
+                    </TextCustom>
+                    <TextCustom style={styles.text_meidum}>
                         {song?.artist_name}
-                    </Text>
+                    </TextCustom>
                 </View>
 
                 <View style={{
@@ -137,12 +138,12 @@ export default function PlayDetail({ onClose }: Props) {
                 </View>
 
                 <View style={styles.time}>
-                    <Text style={styles.time_label}>
+                    <TextCustom style={styles.time_label}>
                         {durationToTime(progress.position)}
-                    </Text>
-                    <Text style={styles.time_label}>
+                    </TextCustom>
+                    <TextCustom style={styles.time_label}>
                         {durationToTime(progress.duration)}
-                    </Text>
+                    </TextCustom>
                 </View>
                 <View style={styles.control}>
                         <TouchableOpacity onPress={()=>handleShuffe()}>
@@ -204,8 +205,8 @@ export default function PlayDetail({ onClose }: Props) {
                         <TouchableOpacity onPress={() => bottomSheetRef.current?.close()}>
                             <Entypo name="chevron-thin-down" size={20} color={theme.icon} />
                         </TouchableOpacity>
-                        <Text style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Bình luận</Text>
-                        <Text></Text>
+                        <TextCustom style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Bình luận</TextCustom>
+                        <TextCustom></TextCustom>
                     </View>
                 )}
             >
@@ -228,8 +229,8 @@ export default function PlayDetail({ onClose }: Props) {
                         <TouchableOpacity onPress={() => bottomSheetPlaylistRef.current?.close()}>
                             <Entypo name="chevron-thin-down" size={20} color={theme.icon} />
                         </TouchableOpacity>
-                        <Text style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Danh sách phát</Text>
-                        <Text></Text>
+                        <TextCustom style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Danh sách phát</TextCustom>
+                        <TextCustom></TextCustom>
                     </View>
                 )}
             >

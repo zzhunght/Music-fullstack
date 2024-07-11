@@ -12,6 +12,7 @@ import { newQueue, resetPlayedTrack, selectSong } from '../../store/song/song.re
 import FastImage from 'react-native-fast-image';
 import { durationToTime } from '../../utils';
 import { SongBottomSheetContext } from '../../context/SongBottomSheet';
+import { TextCustom } from '../Text/TextCustome';
 // TrackPlayer.registerPlaybackService(() => PlaybackService);
 export default function SongHorizonalList() {
     const dispatch = useDispatch()
@@ -71,11 +72,11 @@ export default function SongHorizonalList() {
                                     }}
                                 />
                                 <View style={styles.desc}>
-                                    <Text style={styles.subTitle} numberOfLines={1}>
+                                    <TextCustom style={styles.subTitle} numberOfLines={1}>
                                         {item.name.slice(0, 28)}{item.name?.length >= 28 && '...'}
-                                    </Text>
-                                    <Text style={styles.text}>{item.artist_name}</Text>
-                                    <Text style={styles.text}>{durationToTime(item.duration)}</Text>
+                                    </TextCustom>
+                                    <TextCustom style={styles.text}>{item.artist_name}</TextCustom>
+                                    <TextCustom style={styles.text}>{durationToTime(item.duration)}</TextCustom>
                                 </View>
                             </View>
                             <View>
@@ -91,7 +92,7 @@ export default function SongHorizonalList() {
     }
     return (
         <View>
-            <Text style={styles.title}>Bài hát mới</Text>
+            <TextCustom style={styles.title}>Bài hát mới</TextCustom>
             <FlatList
                 showsHorizontalScrollIndicator={false}
                 data={groupedData}
