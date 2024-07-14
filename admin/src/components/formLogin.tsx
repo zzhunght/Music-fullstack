@@ -1,0 +1,111 @@
+"use client";
+
+import React from "react";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "./ui/form";
+import { Button } from "./ui/button";
+import useAuth from "@/hooks/useAuth";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+
+const formSchema = z.object({
+    email: z.string().min(3, {
+        message: "Please enter email.",
+    }),
+    password: z.string().min(3, {
+        message: "Please enter password",
+    }),
+});
+
+export default function FormLogin() {
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+    });
+
+    const { toast } = useToast();
+    const router = useRouter();
+    const { handleLogin } = useAuth();
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values);
+        const res = await handleLogin(values);
+        console.log(res);
+        if (res?.message === "Login successful") {
+            console.log("check");
+            toast({
+                title: "Login",
+                description: res.message,
+            });
+            router.push("/");
+        } else {
+            toast({
+                title: "Login",
+                description: "Login Fail",
+            });
+        }
+    }
+
+    return (
+        <Form {...form}>
+            <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="grid w-full items-center gap-4">
+                    <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>email</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="email" {...field} />
+                                </FormControl>
+                                {/* <FormDescription>
+                                        This is your public display name.
+                                    </FormDescription> */}
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Password</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        type="password"
+                                        placeholder="Password"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                {/* <FormDescription>
+                                        This is your public display name.
+                                    </FormDescription> */}
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <div className="flex justify-end">
+                    <Button type="submit">Login</Button>
+                </div>
+            </form>
+        </Form>
+    );
+}
