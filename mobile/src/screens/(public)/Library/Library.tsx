@@ -4,7 +4,7 @@ import Container from '../../../components/Container'
 import { useThemeColor } from '../../../hooks/useThemeColor'
 import Ioicons from 'react-native-vector-icons/Ionicons'
 import LinearGradient from 'react-native-linear-gradient'
-import { Heart } from '../../../assets/svg'
+import { ArtistFollow, Heart } from '../../../assets/svg'
 import { createStyles } from './styles'
 import FastImage from 'react-native-fast-image'
 import { DEFAULT_SONG_BANNER } from '../../../constants'
@@ -14,11 +14,13 @@ import { useGetUserInfoQuery } from '../../../api/user'
 import { useGetFavoriteSongsQuery } from '../../../api/favorite'
 import { useGetUserPlaylistQuery } from '../../../api/playlist'
 import { TextCustom } from '../../../components/Text/TextCustome'
+import { useGetFollowingArtistQuery } from '../../../api/artist'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
     const { data: user } = useGetUserInfoQuery()
-    const {data: songs} = useGetFavoriteSongsQuery()
-    const {data: playlist} = useGetUserPlaylistQuery()
+    const { data: songs } = useGetFavoriteSongsQuery()
+    const { data: playlist } = useGetUserPlaylistQuery()
+    const { data: following } = useGetFollowingArtistQuery()
     const theme = useThemeColor()
     const styles = createStyles(theme)
 
@@ -57,7 +59,7 @@ const Library = ({ navigation }: any) => {
                     )}
                 </LinearGradient>
                 <TouchableOpacity style={styles.favorite}
-                    onPress={()=> navigation.navigate(STACK_ROUTE.Favorite)}
+                    onPress={() => navigation.navigate(STACK_ROUTE.Favorite)}
                 >
                     <Heart width={50} />
                     <View>
@@ -65,7 +67,20 @@ const Library = ({ navigation }: any) => {
                             Bài hát ưa thích
                         </TextCustom>
                         <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
-                            {songs?.length} songs
+                            {songs?.length || 0} songs
+                        </TextCustom>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.favorite}
+                    onPress={() => navigation.navigate(STACK_ROUTE.FollowingArtist)}
+                >
+                    <ArtistFollow width={50} />
+                    <View>
+                        <TextCustom style={{ color: theme.text, fontSize: 15 }}>
+                            Nghệ sĩ đang theo dõi
+                        </TextCustom>
+                        <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
+                            {following?.length}
                         </TextCustom>
                     </View>
                 </TouchableOpacity>
@@ -80,7 +95,7 @@ const Library = ({ navigation }: any) => {
                     </View>
                     {playlist?.map(i => (
                         <TouchableOpacity style={styles.playlistItem} key={i.id}
-                            onPress={()=> navigation.navigate(STACK_ROUTE.PlayDetail, {
+                            onPress={() => navigation.navigate(STACK_ROUTE.PlayDetail, {
                                 playlistId: i.id
                             })}
                         >

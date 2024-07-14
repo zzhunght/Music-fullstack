@@ -16,6 +16,7 @@ import Register from '../screens/(public)/Auth/Register';
 import OTP from '../screens/(public)/OTP/OTP';
 import Player from '../components/Player/Player';
 import FavoriteSongs from '../screens/(public)/Favorite/Favorite';
+import FollowingArtist from '../screens/(public)/FollowingArtist/FavoriteArtist';
 
 const RootStack = createStackNavigator();
 function RootNavigation() {
@@ -67,6 +68,10 @@ function RootNavigation() {
                 <RootStack.Screen
                     name={STACK_ROUTE.SearchDetail}
                     component={SearchDetail}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.FollowingArtist}
+                    component={FollowingArtist}
                 />
             </RootStack.Navigator>
             <Player />

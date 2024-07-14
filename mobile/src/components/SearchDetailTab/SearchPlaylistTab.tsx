@@ -1,10 +1,11 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { TextCustom } from '../Text/TextCustome'
 
 const SearchPlaylistTab = () => {
   return (
     <View>
-      <Text>SearchPlaylistTab</Text>
+      <TextCustom>SearchPlaylistTab</TextCustom>
     </View>
   )
 }

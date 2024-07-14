@@ -4,11 +4,10 @@ import { useThemeColor } from '../../hooks/useThemeColor'
 import createStyles from './styles'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/store'
-import SongItem from '../Song/SongItem'
 import LoadingIcon from '../LoadingIcon/LoadingIcon'
 import { useSearchArtistQuery } from '../../api/artist'
-import FastImage from 'react-native-fast-image'
-import { TextCustom } from '../Text/TextCustome'
+import ArtistItem from '../ArtistItem/ArtistItem'
+import ListFooterComponent from '../ListFooterComponent/ListFooterComponent'
 const SearchArtistTab = () => {
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -37,41 +36,13 @@ const SearchArtistTab = () => {
                         onPress={() => { }}
                         key={item.id.toString()}
                     >
-                        <View style={styles.artistItem}>
-                            <View style={styles.artistInfo}>
-                                <FastImage
-                                    source={{ uri: item.avatar_url }}
-                                    resizeMode='cover'
-                                    style={{
-                                        width: 60,
-                                        height: 60,
-                                        borderRadius: 30,
-                                        marginHorizontal: 10,
-                                    }}
-                                />
-                                <View style={{ justifyContent: 'center' }}>
-                                    <TextCustom style={styles.artistName}>
-                                        {item.name}
-                                    </TextCustom>
-                                    <TextCustom style={styles.artistFollowCount}>
-                                        12 followers
-                                    </TextCustom>
-                                </View>
-                            </View>
-                            <TouchableOpacity>
-                                <View style={styles.followBtn}>
-                                    <TextCustom style={styles.follow}>
-                                        Theo dõi
-                                    </TextCustom>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
+                        <ArtistItem item={item}/>
                     </TouchableOpacity>
                 )}
                 keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
                 ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
-                ListFooterComponent={() => <View style={{ height: 100 }} />}
+                ListFooterComponent={ListFooterComponent}
 
             />
         </View>

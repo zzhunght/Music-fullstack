@@ -42,7 +42,7 @@ const Comment = () => {
                             source={{ uri: 'https://cellphones.com.vn/sforum/wp-content/uploads/2024/01/avartar-anime-21.jpg' }}
                         />
                         <View style={styles.comment_detail}>
-                            <TextCustom style={styles.name}>Luffy</TextCustom>
+                            <TextCustom style={styles.name}>Hihi Haha</TextCustom>
                             <TextCustom style={styles.text}>nice song!</TextCustom>
                             <TextCustom style={styles.text}>4 ngày trước</TextCustom>
                         </View>

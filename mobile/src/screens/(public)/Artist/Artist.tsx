@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -16,6 +16,8 @@ import { newQueue, resetPlayedTrack, selectSong } from '../../../store/song/song
 import TrackPlayer from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 import { TextCustom } from '../../../components/Text/TextCustome';
+import { useCheckFollowArtistQuery, useFollowArtistMutation, useUnFollowArtistMutation } from '../../../api/artist';
+import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon';
 const IMG = 'https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg'
 const HEADER_FADE_START = 150
 const HEADER_FADE_END = 280
@@ -33,7 +35,9 @@ const Artist = ({ navigation, route }: any) => {
     const { artistId } = route.params;
 
     const { data } = useGetSongByArtistQuery(artistId)
-
+    const { data: check, refetch: refetchCheck, isLoading } = useCheckFollowArtistQuery(artistId)
+    const [follow, followResult] = useFollowArtistMutation()
+    const [unFollow, unFollowResult] = useUnFollowArtistMutation()
 
     const imageAnimatedStyle = useAnimatedStyle(() => {
         return {
@@ -107,6 +111,27 @@ const Artist = ({ navigation, route }: any) => {
         dispatch(newQueue(queue))
     }
 
+    const handleFollowOrUnFollow = () => {
+        if (check) {
+            unFollow(artistId)
+        } else {
+            follow(artistId)
+        }
+    }
+
+    useEffect(() => {
+        if (followResult.data) {
+            refetchCheck()
+        }
+    }, [followResult])
+
+    useEffect(() => {
+        if (unFollowResult.data) {
+            refetchCheck()
+        }
+
+    }, [unFollowResult])
+
     return (
         <View style={styles.wrap}>
             <Animated.View style={[styles.head, headerAnimatedStyle]}>
@@ -119,7 +144,7 @@ const Artist = ({ navigation, route }: any) => {
                 <Ionicons name="chevron-back" size={24} color={theme.icon} />
             </TouchableOpacity>
             <Animated.ScrollView
-                 ref={scrollRef}
+                ref={scrollRef}
                 scrollEventThrottle={16}
                 showsVerticalScrollIndicator={false}
             >
@@ -135,11 +160,17 @@ const Artist = ({ navigation, route }: any) => {
                             <TextCustom style={styles.name}>
                                 {data?.artist.name}
                             </TextCustom>
-                            <TextCustom style={[styles.text, { marginTop: 5 }]}>3951 Follower</TextCustom>
+                            <TextCustom style={[styles.text, { marginTop: 5 }]}>{data?.artist.follow_count || 0} Follower</TextCustom>
 
                             <View style={styles.control}>
-                                <TouchableOpacity style={styles.follow_btn}>
-                                    <TextCustom style={styles.text_light}>Follow</TextCustom>
+                                <TouchableOpacity style={styles.follow_btn}
+                                    onPress={handleFollowOrUnFollow}
+                                >
+                                    {isLoading || followResult.isLoading || unFollowResult.isLoading ?
+                                        <LoadingIcon />
+                                        : <TextCustom style={styles.text_light}>
+                                            {check ? 'Đang theo dõi' : 'Theo dõi'}
+                                        </TextCustom>}
                                 </TouchableOpacity>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                                     <TouchableOpacity>

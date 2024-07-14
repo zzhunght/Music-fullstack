@@ -18,6 +18,7 @@ export interface Artist {
     name: string
     avatar_url: string
     created_at: string
+    follow_count? : number
 }
 export interface SongofArtist {
     id: number

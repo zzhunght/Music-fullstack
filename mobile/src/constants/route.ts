@@ -13,6 +13,7 @@ export const STACK_ROUTE = {
     Register: 'Register',
     OTP: 'OTP',
     Favorite: 'Favorite',
+    FollowingArtist: 'FollowingArtist',
 }
 
 export const ROUTE_NAME = {
