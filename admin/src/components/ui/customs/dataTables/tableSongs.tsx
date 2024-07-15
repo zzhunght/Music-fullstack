@@ -16,14 +16,10 @@ import {
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -35,28 +31,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
-import logo from "../../../../app/assets/logo.png";
 import { DialogAdd } from "@/components/dialogAdd";
 import { AlertDialogSubmit } from "@/components/alertDialog";
 import { SheetEdit } from "@/components/sheetEdit";
-import { getAllSong, useGetSongQuery } from "@/api/songApi";
-import { RootState } from "@/store/store";
-
-export type Song = {
-    id: number;
-    name: string;
-    thumbnail: string;
-    artists: Artist[];
-    duration: number;
-    releaseDate: string;
-};
-
-type Artist = {
-    id: number;
-    name: string;
-    avatar_url: string;
-};
+import { useGetSongQuery } from "@/api/songApi";
+import { Song } from "@/interface/song";
 
 export const columns: ColumnDef<Song>[] = [
     {
@@ -99,10 +78,7 @@ export const columns: ColumnDef<Song>[] = [
         cell: ({ row }) => {
             return (
                 <>
-                    {row.original.artists?.length > 0 &&
-                        row.original.artists?.map((art, index) => (
-                            <span key={index}>{art.name}</span>
-                        ))}
+                    {row.original.artist_name}
                 </>
             );
         },
@@ -120,7 +96,6 @@ export const columns: ColumnDef<Song>[] = [
         enableHiding: false,
         cell: ({ row }) => {
             const song = row.original;
-            console.log(song);
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -145,16 +120,11 @@ export function TableSongs() {
     const { data: songs } = useGetSongQuery()
 
     const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
 
-    const getData = () => {
-        return songs;
-    };
 
     const table = useReactTable({
         data: songs || [],

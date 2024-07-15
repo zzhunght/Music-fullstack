@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,23 +15,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 import { CalendarIcon, Upload } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "../ui/calendar";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import Image from "next/image";
-import { ComboboxArtist } from "./comboboxArtist";
+import { ComboboxArtist } from "../comboboxArtist";
 import { fileToBase64, setReleaseDate } from "@/utils/helpers";
 import { uploadImage } from "@/utils/uploadImageCloudinary";
 import { ChangeEvent, useEffect, useState } from "react";
 import { downloadUrl, uploadFileAudio } from "@/utils/uploadFileToFireBase";
-import { useToast } from "./ui/use-toast";
 // import useSong from "@/hooks/useSong";
-import { ComboboxCategory } from "./comboboxCategory";
+import { ComboboxCategory } from "../comboboxCategory";
+import { useUpdateSongMutation } from "@/api/songApi";
+import { toast } from "../ui/use-toast";
+import { Song } from "@/interface/song";
 dayjs.extend(utc);
 
 const formSchema = z.object({
@@ -48,16 +49,16 @@ const formSchema = z.object({
     // lyrics: z.string().min(0, {
     //     message: "Please enter song lyric.",
     // }),
-    duration: z.string().min(0, {
+    duration: z.number().min(1, {
         message: "Please enter song duration.",
     }),
-    artistId: z.number().min(0, {
+    artist_id: z.number().min(0, {
         message: "Please enter song duration.",
     }),
-    releaseDate: z.date({
+    release_date: z.date({
         required_error: "A date of release is required.",
     }),
-    categoryId: z.number().min(1, {
+    category_id: z.number().min(1, {
         message: "Please select category.",
     }),
 });
@@ -66,16 +67,15 @@ export function FormEditSong({
     data,
     setOpen,
 }: {
-    data: any;
+    data: Song;
     setOpen: React.Dispatch<React.SetStateAction<any>>;
 }) {
-    console.log(data);
-    const { toast } = useToast();
+    const [updateSong, updateSongResult] = useUpdateSongMutation()
+
     const [preview, setPreview] = useState({
         image: "",
     });
     const [audio, setAudio] = useState("");
-
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -83,9 +83,10 @@ export function FormEditSong({
             thumbnail: data.thumbnail,
             path: data.path,
             // lyrics: data.lyrics,
-            duration: String(data.duration),
-            artistId: data.artists_id,
-            // releaseDate: data.releaseDate as Date,
+            duration: data.duration,
+            artist_id: data.artist_id,
+            category_id: data.category_id,
+            release_date: new Date(data.release_date),
         },
     });
 
@@ -116,30 +117,27 @@ export function FormEditSong({
     };
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        const formatReleaseDate = setReleaseDate(values.releaseDate);
-        values.releaseDate = formatReleaseDate as any;
+        console.log(values);
+        const formatReleaseDate = setReleaseDate(values.release_date);
+        values.release_date = formatReleaseDate as any;
 
         values.thumbnail = preview.image ? preview.image : data.thumbnail;
         values.path = audio ? audio : data.path;
-        const songId = data.id;
-        console.log(values);
-        // const res = await handleUpdateSong(songId, values);
-        // if (res) {
-        //     setOpen(false);
-        //     toast({
-        //         title: "Update a new song",
-        //         description: res.message,
-        //     });
-        // } else {
-        //     toast({
-        //         variant: "destructive",
-        //         title: "Create a new song",
-        //         description: "Error, Try again later!",
-        //     });
-        // }
+        updateSong({
+            id: data.id,
+            body: values
+        })
     }
+
+    useEffect(() => {
+        if (updateSongResult.data) {
+            setOpen(false);
+            toast({
+                title: "Cập nhật bài hát",
+                description: "Cập nhật thành công",
+            });
+        }
+    }, [updateSongResult])
 
     return (
         <Form {...form}>
@@ -195,7 +193,7 @@ export function FormEditSong({
                                             onChange={handleAudioFile}
                                             type="file"
                                             placeholder="path"
-                                            // {...field}
+                                        // {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -226,6 +224,8 @@ export function FormEditSong({
                                         <Input
                                             placeholder="Duration"
                                             {...field}
+                                            type="number"
+                                            onChange={e => form.setValue("duration", parseInt(e.target.value))}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -234,10 +234,10 @@ export function FormEditSong({
                         />
                         <FormField
                             control={form.control}
-                            name="releaseDate"
+                            name="release_date"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Release Date</FormLabel>
+                                    <FormLabel>Release Date </FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -246,7 +246,7 @@ export function FormEditSong({
                                                     className={cn(
                                                         "w-[240px] pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground"
+                                                        "text-muted-foreground"
                                                     )}
                                                 >
                                                     {field.value ? (
@@ -267,12 +267,14 @@ export function FormEditSong({
                                         >
                                             <Calendar
                                                 mode="single"
-                                                selected={field.value}
-                                                onSelect={field.onChange}
+                                                selected={new Date(field.value)}
+                                                onSelect={value => {
+                                                    value && form.setValue("release_date", value)
+                                                }}
                                                 disabled={(date) =>
                                                     date > new Date() ||
                                                     date <
-                                                        new Date("1900-01-01")
+                                                    new Date("1900-01-01")
                                                 }
                                                 initialFocus
                                             />
@@ -285,31 +287,28 @@ export function FormEditSong({
 
                         <FormField
                             control={form.control}
-                            name="artistId"
+                            name="artist_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
                                     <FormLabel>Artist</FormLabel>
                                     <FormControl>
                                         <ComboboxArtist
                                             valueArtistId={
-                                                data.artists_id
+                                                data.artist_id
                                             }
                                             valueArt={(value) =>
-                                                form.setValue("artistId", value)
+                                                form.setValue("artist_id", value)
                                             }
                                             {...field}
                                         />
                                     </FormControl>
-                                    {/* <FormDescription>
-                                        This is your public display Lyrics.
-                                    </FormDescription> */}
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
-                            name="categoryId"
+                            name="category_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
                                     <FormLabel>Category</FormLabel>
@@ -317,11 +316,11 @@ export function FormEditSong({
                                         <ComboboxCategory
                                             categoryId={data.category_id || 0}
                                             valueArt={(value) =>
-                                                form.setValue("categoryId", value)
+                                                form.setValue("category_id", value)
                                             }
                                         />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage title="Nghệ sĩ không được bỏ trống"/>
                                 </FormItem>
                             )}
                         />

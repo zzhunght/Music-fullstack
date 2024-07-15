@@ -89,22 +89,37 @@ export const updateSongById = async (
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './base';
-import { Song } from "@/store/song";
+import { CreateSong, Song, UpdateSong } from "@/interface/song";
 
 const songApi = createApi({
     reducerPath: 'songApi',
     baseQuery: axiosBaseQuery(),
-
+    tagTypes: ['song'],
     endpoints: (builder) => ({
         getSong: builder.query<Song[], void>({
             query: () => ({ url: '/song/all', method: 'get' }),
+            providesTags: ['song'],
         }),
-
+        createSong: builder.mutation<Song[], CreateSong>({
+            query: (body) => ({ url: '/song/', method: 'post', data: body }),
+            invalidatesTags: ['song'],
+        }),
+        updateSong: builder.mutation<Song[], UpdateSong>({
+            query: body => ({ url: '/song/' + body.id, data: body.body, method: 'put' }),
+            invalidatesTags: ['song'],
+        }),
+        deleteSong: builder.mutation<Song[], number>({
+            query: id => ({ url: '/song/' + id, method: 'put' }),
+            invalidatesTags: ['song'],
+        })
     }),
 });
 
 export const {
-    useGetSongQuery
+    useGetSongQuery,
+    useUpdateSongMutation,
+    useCreateSongMutation,
+    useDeleteSongMutation
 } = songApi
 
 export default songApi

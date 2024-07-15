@@ -17,14 +17,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { RootState } from "@/store/store";
-import { useAppSelector } from "@/store/hook";
+import { useGetArtistQuery } from "@/api/artistApi";
 
-type Artist = {
-    id: number;
-    name: string;
-    avatar_url: string;
-};
 
 export function ComboboxArtist({
     valueArtistId,
@@ -36,19 +30,8 @@ export function ComboboxArtist({
     // console.log(valueArtistId);
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState<number>(valueArtistId);
-    // const [artists, setArtists] = React.useState<Artist[]>([]);
-    const artists = useAppSelector((state: RootState) => state.artist.aritits);
 
-    // console.log("value", artists);
-
-    // React.useEffect(() => {
-    //     (async function () {
-    //         const res = await getAllArtist();
-    //         console.log(res.data);
-    //         setArtists(res.data);
-    //     })();
-    // }, []);
-
+    const {data: artists} = useGetArtistQuery()
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>

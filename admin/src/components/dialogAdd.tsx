@@ -10,10 +10,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { FormSong } from "./formSong";
-import { useDialog } from "@/hooks/useDialog";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { FormSong } from "./form/formSong";
 
 export function DialogAdd() {
     // const { isOpen, onOpen, onClose } = useDialog();

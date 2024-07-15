@@ -1,3 +1,4 @@
+import { Song } from "@/interface/song";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type Artist = {
@@ -6,17 +7,7 @@ type Artist = {
     avatar_url: string;
 };
 
-export type Song = {
-    id: number;
-    name: string;
-    thumbnail: string;
-    path: string;
-    artists: Artist[];
-    category_id: number;
-    // lyrics: string;
-    duration: number;
-    releaseDate: string;
-};
+
 
 interface InitialState {
     songs: Song[];

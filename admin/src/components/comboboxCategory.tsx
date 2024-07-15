@@ -17,14 +17,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { RootState } from "@/store/store";
-import { useAppSelector } from "@/store/hook";
+import { useGetCategoriesQuery } from "@/api/categoriesApi";
 
-type Artist = {
-    id: number;
-    name: string;
-    avatar_url: string;
-};
+
 
 export function ComboboxCategory({
     categoryId,
@@ -35,7 +30,7 @@ export function ComboboxCategory({
 }) {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState<number>(categoryId);
-    const categories = useAppSelector((state: RootState) => state.categories.categories);
+    const {data: categories} = useGetCategoriesQuery()
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
