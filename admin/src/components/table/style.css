@@ -1,0 +1,10 @@
+.trash {
+    opacity: 0;
+    transition: opacity 0.3s;
+    cursor: pointer;
+    fill: #d93838
+}
+
+.row:hover .trash {
+    opacity: 1;
+}

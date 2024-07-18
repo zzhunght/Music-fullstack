@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { z } from "zod";
@@ -15,9 +15,9 @@ import {
     FormMessage,
 } from "./ui/form";
 import { Button } from "./ui/button";
-import useAuth from "@/hooks/useAuth";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useLoginMutation } from "@/api/authApi";
 
 const formSchema = z.object({
     email: z.string().min(3, {
@@ -39,27 +39,35 @@ export default function FormLogin() {
 
     const { toast } = useToast();
     const router = useRouter();
-    const { handleLogin } = useAuth();
+    const [login, result] = useLoginMutation()
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        const res = await handleLogin(values);
-        console.log(res);
-        if (res?.message === "Login successful") {
-            console.log("check");
-            toast({
-                title: "Login",
-                description: res.message,
-            });
-            router.push("/");
-        } else {
-            toast({
-                title: "Login",
-                description: "Login Fail",
-            });
-        }
+        login({
+            email: values.email,
+            password: values.password,
+        })
+        // if (res?.message === "Login successful") {
+        //     console.log("check");
+        //     toast({
+        //         title: "Login",
+        //         description: res.message,
+        //     });
+        //     router.push("/");
+        // } else {
+        //     toast({
+        //         title: "Login",
+        //         description: "Login Fail",
+        //     });
+        // }
     }
 
+    useEffect(()=>{
+        if(result.data){
+            console.log("result login ", result.data)
+            router.push("/");
+        }
+    },[result])
     return (
         <Form {...form}>
             <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>

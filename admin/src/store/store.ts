@@ -5,13 +5,14 @@ import ArtistSlice from "./artist/index";
 import SongSlice from "./song/index";
 import AlbumSlice from "./album/index";
 import AuthSlice from "./auth/index";
-// import
 
 
 import CategoriesSlice from "./categories/index";
 import songApi from "@/api/songApi";
 import categoriesAPI from "@/api/categoriesApi";
 import artistAPI from "@/api/artistApi";
+import playlistApi from "@/api/playlistApi";
+import userApi from "@/api/authApi";
 
 export const makeStore = () => {
     return configureStore({
@@ -25,12 +26,16 @@ export const makeStore = () => {
             [songApi.reducerPath]: songApi.reducer,
             [categoriesAPI.reducerPath]: categoriesAPI.reducer,
             [artistAPI.reducerPath]: artistAPI.reducer,
+            [playlistApi.reducerPath]: playlistApi.reducer,
+            [userApi.reducerPath]: userApi.reducer,
         },
         middleware: (getDefaultMiddleware) => {
             return getDefaultMiddleware().concat(
                 songApi.middleware, 
                 categoriesAPI.middleware,
                 artistAPI.middleware,
+                playlistApi.middleware,
+                userApi.middleware
             );
         }
     }

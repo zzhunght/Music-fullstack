@@ -39,12 +39,12 @@ export function ComboboxCategory({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="justify-between"
                 >
                     {value
                         ? categories?.find((category) => category.id === Number(value))
                               ?.name
-                        : "Select category..."}
+                        : "Chọn danh mục..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>

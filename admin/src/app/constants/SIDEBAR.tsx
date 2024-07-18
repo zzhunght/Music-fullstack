@@ -38,6 +38,10 @@ export const SIDEBAR_ITEMS: SidebarGroup[] = [
                         title: "Albums",
                         path: "/albums",
                     },
+                    {
+                        title: "Playlists",
+                        path: "/playlist",
+                    },
                 ],
             },
             // {

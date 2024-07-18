@@ -2,17 +2,13 @@
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { useDialog } from "@/hooks/useDialog";
 import { X } from "lucide-react";
-import { FormAddAlbum } from "./formAddAlbum";
+import { FormAddAlbum } from "../formAddAlbum";
 import { useState } from "react";
 
 export function DialogAddAlbum() {

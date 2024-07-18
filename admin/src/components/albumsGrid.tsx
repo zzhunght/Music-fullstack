@@ -1,6 +1,6 @@
 "use client";
 import { AlbumsItem } from "./albumsItem";
-import { DialogAddAlbum } from "./dialogAddAlbum";
+import { DialogAddAlbum } from "./dialog/dialogAddAlbum";
 
 import { Loader } from "./loader";
 import { RootState } from "@/store/store";
