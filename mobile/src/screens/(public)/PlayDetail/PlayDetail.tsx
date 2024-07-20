@@ -7,7 +7,7 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider'
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useDispatch, useSelector } from 'react-redux'
 import TrackPlayer, { RepeatMode, useProgress } from 'react-native-track-player';
 import { RootState } from '../../../store/store';
@@ -30,7 +30,7 @@ export default function PlayDetail({ onClose }: Props) {
 
     const isPlaying = useSelector((state: RootState) => state.songSlice.isPlay)
     const isShuffe = useSelector((state: RootState) => state.songSlice.isShuffe)
-    const isRepeat= useSelector((state: RootState) => state.songSlice.isRepeat)
+    const isRepeat = useSelector((state: RootState) => state.songSlice.isRepeat)
 
     const progress = useProgress()
     const song = useSelector((state: RootState) => state.songSlice.selectedSong)
@@ -45,25 +45,25 @@ export default function PlayDetail({ onClose }: Props) {
             bottomSheetRef?.current?.close()
         }
     }
-    const handleSheetPlaylistChanges = useCallback((index: number) => {
+    const handleSheetPlaylistChanges = (index: number) => {
         if (index == 0) {
             bottomSheetPlaylistRef?.current?.close()
         }
-    }, [])
+    }
 
     const handleShuffe = () => {
-        if(!isShuffe){
+        if (!isShuffe) {
             dispatch(setIsShuffe(true));
-        }else{
+        } else {
             dispatch(setIsShuffe(false));
         }
     }
 
     const handleRepeat = () => {
-        if(!isRepeat){
+        if (!isRepeat) {
             TrackPlayer.setRepeatMode(RepeatMode.Track);
             dispatch(setIsRepeat(true));
-        }else{
+        } else {
             TrackPlayer.setRepeatMode(RepeatMode.Off);
             dispatch(setIsRepeat(false));
         }
@@ -123,7 +123,7 @@ export default function PlayDetail({ onClose }: Props) {
                             //     { translateX: 40 }
                             // ]
                         }}
-                        onValueChange={async(value) => {
+                        onValueChange={async (value) => {
                             await TrackPlayer.seekTo(value);
                         }}
                         minimumValue={0}
@@ -146,10 +146,10 @@ export default function PlayDetail({ onClose }: Props) {
                     </TextCustom>
                 </View>
                 <View style={styles.control}>
-                        <TouchableOpacity onPress={()=>handleShuffe()}>
+                    <TouchableOpacity onPress={() => handleShuffe()}>
                         {/* <Entypo name="shuffle" size={28} color={theme.icon} /> */}
-                        <SimpleLineIcons name="shuffle" size={26} color={isShuffe? theme.iconActive : theme.icon} />
-                        </TouchableOpacity>
+                        <SimpleLineIcons name="shuffle" size={26} color={isShuffe ? theme.iconActive : theme.icon} />
+                    </TouchableOpacity>
                     <TouchableOpacity>
                         <FontAwesome6 name="backward-step" size={30} color={theme.icon} />
                     </TouchableOpacity>
@@ -180,9 +180,9 @@ export default function PlayDetail({ onClose }: Props) {
                         <FontAwesome6 name="forward-step" size={30} color={theme.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={()=>handleRepeat()}
+                        onPress={() => handleRepeat()}
                     >
-                        <SimpleLineIcons name="loop" size={26} color={isRepeat? theme.iconActive : theme.icon}  />
+                        <SimpleLineIcons name="loop" size={26} color={isRepeat ? theme.iconActive : theme.icon} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.control}>
@@ -218,6 +218,7 @@ export default function PlayDetail({ onClose }: Props) {
                     <Comment />
                 </BottomSheetScrollView >
             </BottomSheet>
+
             <BottomSheet
                 ref={bottomSheetPlaylistRef}
                 onChange={handleSheetPlaylistChanges}
@@ -236,8 +237,8 @@ export default function PlayDetail({ onClose }: Props) {
             >
                 <BottomSheetScrollView
                     style={{ flex: 1, backgroundColor: theme.background }}
-                    stickyHeaderIndices={[1]}
-                    stickyHeaderHiddenOnScroll={true}
+                // stickyHeaderIndices={[1]}
+                // stickyHeaderHiddenOnScroll={true}
                 >
                     <Queue />
                 </BottomSheetScrollView >

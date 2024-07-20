@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "84802493180",
+    "project_id": "music-142a0",
+    "storage_bucket": "music-142a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84802493180:android:b134d3df2838c951dc5579",
+        "android_client_info": {
+          "package_name": "com.meomusic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84802493180-ojchl0qjpbk7l6mf73vtclq3bo5dasrk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDQ_bWyq-RVJS-E4FlOwnP2fd3_7FqV3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84802493180-ojchl0qjpbk7l6mf73vtclq3bo5dasrk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:84802493180:android:aa9ee019a7340e2fdc5579",
+        "android_client_info": {
+          "package_name": "com.torrydo.music"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "84802493180-ojchl0qjpbk7l6mf73vtclq3bo5dasrk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDQ_bWyq-RVJS-E4FlOwnP2fd3_7FqV3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "84802493180-ojchl0qjpbk7l6mf73vtclq3bo5dasrk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

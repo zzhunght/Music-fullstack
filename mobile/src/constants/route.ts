@@ -9,6 +9,7 @@ export const STACK_ROUTE = {
     Search: 'Search',
     Library: 'Library',
     SearchDetail: 'SearchDetail',
+    CategoryDetail: 'CategoryDetail',
     Login: 'Login',
     Register: 'Register',
     OTP: 'OTP',

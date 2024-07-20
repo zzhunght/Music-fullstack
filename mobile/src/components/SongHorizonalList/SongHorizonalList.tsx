@@ -13,11 +13,12 @@ import FastImage from 'react-native-fast-image';
 import { durationToTime } from '../../utils';
 import { SongBottomSheetContext } from '../../context/SongBottomSheet';
 import { TextCustom } from '../Text/TextCustome';
+import usePlay from '../../hooks/usePlay';
 // TrackPlayer.registerPlaybackService(() => PlaybackService);
 export default function SongHorizonalList() {
     const dispatch = useDispatch()
     const {handleOpenSheet} = useContext(SongBottomSheetContext)
-
+    const {play} = usePlay()
     const { data } = useGetNewSongQuery()
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -29,31 +30,12 @@ export default function SongHorizonalList() {
         }
         return groups;
     };
-    const play = async (song: Song) => {
-        dispatch(resetPlayedTrack())
-        await TrackPlayer.reset()
-        await TrackPlayer.add({
-            id: song.id,
-            url: song.path,
-            title: song.name,
-            artist: song.artist_name,
-            artwork: song.thumbnail
-        })
-        await TrackPlayer.play()
-        dispatch(selectSong(song))
-        const queue = [song]
-        data?.forEach(async(item) => {
-            if (item.id !== song.id) {
-                queue.push(item)
-            }
-        })
-        dispatch(newQueue(queue))
-    }
+
     
 
     const handleSelectSong = (song: Song) => {
         dispatch(selectSong(song))
-        play(song)
+        play(song,data)
 
     }
 

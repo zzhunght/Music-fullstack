@@ -11,6 +11,9 @@ const playListApi = createApi({
         getNewPlaylist: builder.query<Playlist[], void>({
             query: () => ({ url: '/playlist/new', method: 'get' }),
         }),
+        getPlaylistByCategory: builder.query<Playlist[], number>({
+            query: (category_id) => ({ url: '/playlist/category/' + category_id, method: 'get' }),
+        }),
         getUserPlaylist: builder.query<UserPlaylist[], void>({
             query: () => ({ url: '/playlist/user', method: 'get' }),
             providesTags: ['UserPlaylist'],
@@ -43,6 +46,7 @@ const playListApi = createApi({
 });
 
 export const {
+    useGetPlaylistByCategoryQuery,
     useGetNewPlaylistQuery,
     useGetPlaylistSongsQuery,
     useGetPlaylistQuery,

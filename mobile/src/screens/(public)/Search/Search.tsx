@@ -3,14 +3,17 @@ import React from 'react'
 import Container from '../../../components/Container'
 import { useThemeColor } from '../../../hooks/useThemeColor'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { FAKE_DATA_CATEGORY } from '../../../constants'
 import FastImage from 'react-native-fast-image'
 import { createStyles } from './styles'
 import { STACK_ROUTE } from '../../../constants/route'
 import { TextCustom } from '../../../components/Text/TextCustome'
+import { useGetCategoriesQuery } from '../../../api/categories'
+import { useDispatch } from 'react-redux'
+import { selectCategory } from '../../../store/category/category.reducer'
 
 const Search = ({navigation}: any) => {
-
+    const dispatch = useDispatch()
+    const {data: categories} = useGetCategoriesQuery()
     const theme = useThemeColor()
     const styles = createStyles(theme)
     return (
@@ -34,8 +37,13 @@ const Search = ({navigation}: any) => {
                 </View>
                 <TextCustom style={styles.title}>Danh mục cho bạn</TextCustom>
                 <View style={styles.categories}>
-                    {FAKE_DATA_CATEGORY.map((data) => (
-                        <TouchableOpacity key={data.id}>
+                    {categories?.map((data) => (
+                        <TouchableOpacity key={data.id} 
+                            onPress={()=> {
+                                dispatch(selectCategory(data))
+                                navigation.navigate(STACK_ROUTE.CategoryDetail)
+                            }}
+                        >
                             <View style={[styles.categoryBox, {
                                 backgroundColor: data.color
                             }]}>

@@ -17,6 +17,7 @@ import OTP from '../screens/(public)/OTP/OTP';
 import Player from '../components/Player/Player';
 import FavoriteSongs from '../screens/(public)/Favorite/Favorite';
 import FollowingArtist from '../screens/(public)/FollowingArtist/FavoriteArtist';
+import CategoryDetail from '../screens/(public)/CategoryDetail/CategoryDetail';
 
 const RootStack = createStackNavigator();
 function RootNavigation() {
@@ -64,6 +65,10 @@ function RootNavigation() {
                 <RootStack.Screen
                     name={STACK_ROUTE.Library}
                     component={Library}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.CategoryDetail}
+                    component={CategoryDetail}
                 />
                 <RootStack.Screen
                     name={STACK_ROUTE.SearchDetail}

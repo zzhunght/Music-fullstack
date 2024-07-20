@@ -1,4 +1,4 @@
-package com.awesomeproject
+package com.meomusic
 import expo.modules.ReactActivityDelegateWrapper
 
 import com.facebook.react.ReactActivity
