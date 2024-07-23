@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { ThemeColors } from "../../../constants/Colors";
 
-
+const height = Dimensions.get('screen').height
 export const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
         wrap: {
@@ -9,18 +9,16 @@ export const createStyles = (theme: ThemeColors) => {
             backgroundColor: theme.background,
         },
         userWr: {
-            flexDirection: 'row',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: 10,
-            paddingTop: '10%',
-            paddingHorizontal: 15,
-            paddingBottom: '5%'
+            justifyContent: 'center',
+            height: height * 0.4
         },
 
         user: {
-            width: 80,
-            height: 80,
-            borderRadius: 50,
+            width: 100,
+            height: 100,
+            borderRadius: 60,
             backgroundColor: theme.sheetBgColor,
             alignItems: 'center',
             justifyContent: 'center',
@@ -30,7 +28,15 @@ export const createStyles = (theme: ThemeColors) => {
             paddingHorizontal: 15,
             paddingVertical: 8,
             borderRadius: 15,
-            marginLeft: 'auto'
+            marginTop:10
+        },
+        editBtn: {
+            backgroundColor: theme.light,
+            borderRadius: 15,
+            paddingHorizontal: 15,
+            paddingVertical: 6,
+            justifyContent: 'center',
+            alignItems: 'center',
         },
         favorite: {
             marginHorizontal: 15,
@@ -51,15 +57,20 @@ export const createStyles = (theme: ThemeColors) => {
             gap: 15,
         },
         row: {
-            flexDirection:'row',
-            justifyContent:'space-between',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
         },
         playlistItem: {
-            flexDirection:'row',
-            alignItems:'center',
+            flexDirection: 'row',
+            alignItems: 'center',
             gap: 10
         },
         textTitle: {
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: theme.text
+        },
+        logoutTitle: {
             fontSize: 16,
             fontWeight: 'bold',
             color: theme.text
@@ -71,6 +82,11 @@ export const createStyles = (theme: ThemeColors) => {
         playlistName2: {
             fontSize: 12,
             color: theme.text_gray
-        }
+        },
+        followSection: {
+            flexDirection: 'row',
+            gap: 20
+        },
+        followCount: { color: theme.text, fontSize: 13 , fontWeight: 'bold'}
     })
 }

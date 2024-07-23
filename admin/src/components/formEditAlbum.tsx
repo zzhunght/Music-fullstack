@@ -32,7 +32,6 @@ import { ChangeEvent, useState } from "react";
 import { useToast } from "./ui/use-toast";
 import { updateAlbumById } from "@/api/albumApi";
 import { UpdateAlbum } from "@/store/album";
-import useAlbum from "@/hooks/useAlbum";
 dayjs.extend(utc);
 
 const formSchema = z.object({
@@ -61,7 +60,6 @@ export function FormEditAlbum({
     setOpen: React.Dispatch<React.SetStateAction<any>>;
 }) {
     console.log(data);
-    const { handleUpdateAlbum } = useAlbum();
     const { toast } = useToast();
     const [preview, setPreview] = useState({
         image: "",
@@ -103,20 +101,20 @@ export function FormEditAlbum({
         values.releaseDate = formatReleaseDate as any;
         values.thumbnail = preview.image ? preview.image : data.thumbnail;
         console.log(values);
-        const res = await handleUpdateAlbum(data.id, values);
-        if (res) {
-            setOpen(false);
-            toast({
-                title: "Create a new song",
-                description: res.message,
-            });
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Create a new song",
-                description: "Error, Try again later!",
-            });
-        }
+        // const res = await handleUpdateAlbum(data.id, values);
+        // if (res) {
+        //     setOpen(false);
+        //     toast({
+        //         title: "Create a new song",
+        //         description: res.message,
+        //     });
+        // } else {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Create a new song",
+        //         description: "Error, Try again later!",
+        //     });
+        // }
     }
 
     return (

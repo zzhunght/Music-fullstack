@@ -17,6 +17,16 @@ export interface CreatePlaylist {
     category_id: number | null
     description: string
 }
+export interface UpdatePlaylist {
+    id: number
+    body: {
+        name: string
+        thumbnail: string
+        artist_id: number | null
+        category_id: number | null
+        description: string
+    }
+}
 
 export interface AddSongToPlaylist {
     song_id: number;

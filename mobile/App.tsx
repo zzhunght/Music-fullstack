@@ -1,7 +1,7 @@
 import RootNavigation from "./src/navigation/RootNavigation";
 import { Provider } from 'react-redux'
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { store } from "./src/store/store";
+import { persistor, store } from "./src/store/store";
 import Player from "./src/components/Player/Player";
 import { setCustomText } from 'react-native-global-props';
 import SongBottomSheetContextProvider from "./src/context/SongBottomSheet";
@@ -11,6 +11,8 @@ import Toast from "react-native-toast-message";
 import { useEffect } from "react";
 import { requestNotifications } from "react-native-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useNotification from "./src/hooks/useNotification";
+import { PersistGate } from "redux-persist/integration/react";
 
 // Cấu hình font mặc định
 const customTextProps = {
@@ -22,6 +24,7 @@ const customTextProps = {
 setCustomText(customTextProps);
 
 export default function App() {
+  useNotification()
   useEffect(() => {
     requestNotifications(['alert', 'sound', 'provisional', 'badge']).then(({ status, settings }) => {
       if (status === 'granted') {
@@ -34,6 +37,7 @@ export default function App() {
   }, [])
   return (
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AddSongPlaylistSheetContextProvider>
           <SongBottomSheetContextProvider>
@@ -44,6 +48,7 @@ export default function App() {
         </AddSongPlaylistSheetContextProvider>
         <Toast />
       </GestureHandlerRootView>
+      </PersistGate>
     </Provider>
   );
 }

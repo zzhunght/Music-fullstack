@@ -58,7 +58,10 @@ export const songSlice = createSlice({
             }
         },
         addToQueue: (state,action: PayloadAction<Song>)=>{
-            state.queue.push(action.payload)
+            const exist = state.queue.find(song => song.id === action.payload.id)
+            if(!exist){
+                state.queue.push(action.payload)
+            }
         }
 
     },
@@ -75,7 +78,7 @@ export const {
     addToQueue, 
     queueTrackChange,
     setIsRepeat,
-    setIsShuffe 
+    setIsShuffe
 } = songSlice.actions
 
 export default songSlice.reducer

@@ -38,14 +38,11 @@ import { useGetSongQuery } from "@/api/songApi";
 import { Song } from "@/interface/song";
 
 export const columns: ColumnDef<Song>[] = [
-    {
-        accessorKey: "id",
-        header: "Id",
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-    },
+    // {
+    //     accessorKey: "id",
+    //     header: "Id",
+    // },
+    
     {
         accessorKey: "thumbnail",
         header: "Thumbnail",
@@ -55,10 +52,14 @@ export const columns: ColumnDef<Song>[] = [
                 <img
                     alt="thumbnail"
                     src={song.thumbnail}
-                    className="w-20 h-20 object-cover min-h-fit p-0"
+                    className="w-20 h-20 object-cover min-h-fit p-0 rounded-lg"
                 />
             );
         },
+    },
+    {
+        accessorKey: "name",
+        header: "Tên",
     },
     {
         accessorKey: "artists",
@@ -70,8 +71,7 @@ export const columns: ColumnDef<Song>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Artist Name
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                    Nghệ sĩ
                 </Button>
             );
         },
@@ -85,11 +85,18 @@ export const columns: ColumnDef<Song>[] = [
     },
     {
         accessorKey: "duration",
-        header: () => <div className="">Duration</div>,
+        header: () => <div className="">Thời lượng</div>,
     },
     {
-        accessorKey: "releaseDate",
-        header: () => <div className="">Release Date</div>,
+        accessorKey: "release_date",
+        header: () => <div className="">Ngày ra mắt</div>,
+        cell: ({ row }) => {
+            return (
+                <>
+                    {row.original.release_date ? new Date(row.original.release_date).toLocaleDateString(): ''}
+                </>
+            );
+        },
     },
     {
         id: "actions",

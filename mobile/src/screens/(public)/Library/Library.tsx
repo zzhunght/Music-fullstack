@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { ArtistFollow, Heart } from '../../../assets/svg'
 import { createStyles } from './styles'
 import FastImage from 'react-native-fast-image'
-import { DEFAULT_SONG_BANNER } from '../../../constants'
+import { DEFAULT_AVATAR, DEFAULT_SONG_BANNER } from '../../../constants'
 import { CreatePlaylistSheetContext } from '../../../context/CreatePlaylistSheet'
 import { ROUTE_NAME, STACK_ROUTE } from '../../../constants/route'
 import { useGetUserInfoQuery } from '../../../api/user'
@@ -31,19 +31,46 @@ const Library = ({ navigation }: any) => {
                     colors={['#246742', theme.background]}
                     start={{ x: 1, y: 0 }}
                     end={{ x: 1, y: 1 }}
-                    locations={[0, 1]}
+                // locations={[0, 1]}
                 >
                     <View style={styles.user}>
-                        <Ioicons name='person' color={theme.text_gray} size={36} />
+                        {/* <Ioicons name='person' color={theme.text_gray} size={36} /> */}
+                        <FastImage
+                            style={{ width: 100, height: 100, borderRadius: 50 }}
+                            source={DEFAULT_AVATAR}
+                            resizeMode={FastImage.resizeMode.cover}
+                        />
                     </View>
                     {user ? (
-                        <View >
-                            <TextCustom style={{ color: theme.text, fontSize: 18 }}>
+                        <View style={{alignItems: 'center'}}>
+                            <TextCustom style={{ color: theme.text, fontSize: 18, fontWeight: 'bold' }}>
                                 {user.name}
                             </TextCustom>
-                            <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
-                                {user.email}
-                            </TextCustom>
+                            <View style={styles.followSection}>
+                                <View style={{alignItems:'center'}}>
+                                    <TextCustom style={styles.followCount}>
+                                        {following?.length}
+                                    </TextCustom>
+                                    <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
+                                        Following
+                                    </TextCustom>
+                                </View>
+                                <View style={{alignItems:'center'}}>
+                                    <TextCustom style={styles.followCount}>
+                                        0
+                                    </TextCustom>
+                                    <TextCustom style={{ color: theme.text_gray, fontSize: 13 }}>
+                                        Followers
+                                    </TextCustom>
+                                </View>
+                            </View>
+                            <TouchableOpacity style={[styles.editBtn, {marginTop: 10}]}
+                                onPress={()=>{
+                                    navigation.navigate(STACK_ROUTE.Profile)
+                                }}
+                            >
+                                <TextCustom style={{ color: theme.dark, fontWeight: '500' }}>Thông tin cá nhân</TextCustom>
+                            </TouchableOpacity>
                         </View>
                     ) : (
                         <>
@@ -96,7 +123,8 @@ const Library = ({ navigation }: any) => {
                     {playlist?.map(i => (
                         <TouchableOpacity style={styles.playlistItem} key={i.id}
                             onPress={() => navigation.navigate(STACK_ROUTE.PlayDetail, {
-                                playlistId: i.id
+                                playlistId: i.id,
+                                swipe: true
                             })}
                         >
                             <FastImage

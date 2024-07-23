@@ -6,13 +6,10 @@ function PlaylistItem({ playlist }: { playlist: Playlist }) {
     return (
         <div className='cursor-pointer '>
             <div className='overflow-hidden'>
-                <Image
+                <img
                     src={playlist.thumbnail}
-                    width={250}
-                    height={250}
                     alt='playlist'
-                    unoptimized
-                    className='hover:scale-110 ease-linear duration-200'
+                    className='hover:scale-110 ease-linear duration-200 rounded-lg object-cover w-[250px] h-[250px]'
                 />
             </div>
             <p>{playlist.name}</p>

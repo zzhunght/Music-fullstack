@@ -57,7 +57,9 @@ const Login = ({ navigation }: any) => {
                         secureTextEntry
                     />
                 </View>
-                <TouchableOpacity style={{ marginTop: -10 }}>
+                <TouchableOpacity style={{ marginTop: -10 }}
+                    onPress={() => navigation.navigate(STACK_ROUTE.ForgetPassword)}
+                >
                     <TextCustom style={styles.forgetPassword}>Quên mật khẩu ?</TextCustom>
                 </TouchableOpacity>
 

@@ -41,6 +41,7 @@ export interface ArtistSong {
 export interface Album {
     id: number
     artist_id: number
+    artist_name: string
     name: string
     thumbnail: string
     release_date: string

@@ -1,6 +1,4 @@
 "use client";
-
-import { deleteSongById } from "@/api/songApi";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,27 +12,35 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "./ui/use-toast";
+import { useDeleteSongMutation } from "@/api/songApi";
+import { useEffect } from "react";
 
 export function AlertDialogSubmit({ idSongDel }: { idSongDel: number }) {
+    const [deleteSong, result] = useDeleteSongMutation()
     const { toast } = useToast();
 
     const handleSubmit = async () => {
         console.log(idSongDel);
-        // const res = await handleDeleteSong(Number(idSongDel));
-        // console.log(res);
-        // if (res) {
-        //     toast({
-        //         title: "Delete song",
-        //         description: res.message,
-        //     });
-        // } else {
-        //     toast({
-        //         variant: "destructive",
-        //         title: "Delete song",
-        //         description: "Error, Try again!",
-        //     });
-        // }
+        deleteSong(idSongDel);
     };
+
+    useEffect(()=>{
+        if(result.data){
+        
+            toast({
+                title: 'Thành công',
+                description: 'Xóa bài hát thành công',
+            })
+        }
+
+        if(result.error){
+            toast({
+                title: 'Thất bại',
+                description: 'Xóa bài hát thất bại',
+            })
+        }
+    
+    },[])
 
     return (
         <AlertDialog>

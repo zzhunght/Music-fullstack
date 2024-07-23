@@ -6,7 +6,7 @@ import { CreatePlaylist, Playlist, Song, UserPlaylist} from '../interface';
 const playListApi = createApi({
     reducerPath: 'playlistApi',
     baseQuery: axiosBaseQuery(),
-    tagTypes: ['UserPlaylist'],
+    tagTypes: ['UserPlaylist', 'playlist-song'],
     endpoints: (builder) => ({
         getNewPlaylist: builder.query<Playlist[], void>({
             query: () => ({ url: '/playlist/new', method: 'get' }),
@@ -20,6 +20,7 @@ const playListApi = createApi({
         }), 
         getPlaylistSongs: builder.query<Song[], number>({
             query: (playlist_id) => ({ url: '/playlist/songs/' + playlist_id, method: 'get' }),
+            providesTags: ['playlist-song']
         }),
         createPlaylist: builder.mutation<CreatePlaylistResponse, CreatePlaylist>({
             query: (body) => ({ url: '/playlist/user', method: 'post', data: body }),
@@ -33,7 +34,8 @@ const playListApi = createApi({
                 url: '/playlist/add-song',
                 method: 'POST',
                 data: body
-            })
+            }),
+            invalidatesTags: ['playlist-song']
         }),
         removeSongToPlaylist: builder.mutation<boolean, RemoveSongToPlaylist>({
             query: (body) => ({
@@ -41,7 +43,10 @@ const playListApi = createApi({
                 method: 'POST',
                 data: body
             })
-        })
+        }),
+        searchPlaylist: builder.query<Playlist[], string>({
+            query: (search) => ({ url: '/playlist/search?search' + search, method: 'get' }),
+        }),
     }),
 });
 
@@ -53,7 +58,8 @@ export const {
     useGetUserPlaylistQuery,
     useAddSongToPlaylistMutation,
     useRemoveSongToPlaylistMutation,
-    useCreatePlaylistMutation
+    useCreatePlaylistMutation,
+    useSearchPlaylistQuery
 } = playListApi
 
 export default playListApi

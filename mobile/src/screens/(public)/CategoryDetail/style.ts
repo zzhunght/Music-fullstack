@@ -10,9 +10,10 @@ export const createStyles = (theme : ThemeColors) => {
             flex: 1,
         },
         head: {
-            height: height * 0.12,
+            height: height * 0.15,
             justifyContent: 'flex-end',
-            padding: 15
+            padding: 15,
+            paddingBottom: 35
         },
         header: {
             position: 'absolute',

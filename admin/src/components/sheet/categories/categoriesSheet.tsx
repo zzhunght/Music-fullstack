@@ -21,7 +21,6 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
 } from "@/components/ui/alert-dialog";
-import useCategories from "@/hooks/useCategories";
 import { Category, UpdateCategoryParams } from "@/interface/categories";
 import { useDeleteCategoryMutation, useUpdateCategoryMutation } from "@/api/categoriesApi";
 import { FiPlus } from "react-icons/fi";
@@ -35,7 +34,6 @@ export default function CategorySheet({
     category: Category;
     create?: boolean;
 }) {
-    const { handleDeleteCategories } = useCategories();
     const [open, setOpen] = useState(false);
     const [update, result] = useUpdateCategoryMutation()
     const [deleteCategory, resultDelete] = useDeleteCategoryMutation()

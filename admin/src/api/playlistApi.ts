@@ -1,16 +1,23 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './base';
-import { AddSongToPlaylist, CreatePlaylist, Playlist, RemoveSongFromPlaylist } from '@/interface/playlist';
+import { AddSongToPlaylist, CreatePlaylist, Playlist, RemoveSongFromPlaylist, UpdatePlaylist } from '@/interface/playlist';
 import { Song } from '@/interface/song';
 
 const playlistApi = createApi({
     reducerPath: 'playlistApi',
     baseQuery: axiosBaseQuery(),
-    tagTypes: ['playlist', 'playlist-song-not', 'playlist-detail'],
+    tagTypes: ['playlist', 'playlist-song-not', 'playlist-detail', 'playlist-id'],
     endpoints: (builder) => ({
         getPlaylist: builder.query<Playlist[], void>({
             query: () => ({ url: '/playlist/', method: 'get' }),
             providesTags: ['playlist'],
+        }),
+        searchPlaylist: builder.query<Playlist[], string>({
+            query: (search) => ({ url: '/playlist/search?search' + search, method: 'get' }),
+        }),
+        getPlaylistById: builder.query<Playlist, number>({
+            query: (id) => ({ url: '/playlist/' + id, method: 'get'}),
+            providesTags: ['playlist-id'],
         }),
         getPlaylistDetail: builder.query<Song[], number>({
             query: (id) => ({ url: '/playlist/songs/' + id, method: 'get' }),
@@ -23,6 +30,10 @@ const playlistApi = createApi({
         createPlaylist: builder.mutation<Playlist, CreatePlaylist>({
             query: (body) => ({ url: '/playlist/', method: 'post', data: body }),
             invalidatesTags: ['playlist'],
+        }),
+        updatePlaylist: builder.mutation<Playlist, UpdatePlaylist>({
+            query: (body) => ({ url: '/playlist/' + body.id, method: 'put', data: body.body }),
+            invalidatesTags: ['playlist-id'],
         }),
         addSongToPlaylist: builder.mutation<Playlist, AddSongToPlaylist>({
             query: (body) => ({ url: '/playlist/add-song', method: 'post', data: body }),
@@ -41,7 +52,10 @@ export const {
     useGetPlaylistDetailQuery,
     useGetSongNotInplaylistQuery,
     useAddSongToPlaylistMutation,
-    useRemoveSongFromPlaylistMutation
+    useRemoveSongFromPlaylistMutation,
+    useUpdatePlaylistMutation,
+    useGetPlaylistByIdQuery,
+    useSearchPlaylistQuery
 } = playlistApi
 
 export default playlistApi

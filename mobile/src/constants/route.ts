@@ -15,6 +15,9 @@ export const STACK_ROUTE = {
     OTP: 'OTP',
     Favorite: 'Favorite',
     FollowingArtist: 'FollowingArtist',
+    Profile: 'Profile',
+    ChangePassword: 'ChangePassword',
+    ForgetPassword: 'ForgetPassword',
 }
 
 export const ROUTE_NAME = {

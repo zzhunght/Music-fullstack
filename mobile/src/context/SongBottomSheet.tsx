@@ -42,7 +42,7 @@ function SongBottomSheetContextProvider({ children }: { children: ReactNode }) {
             <BottomSheet
                 ref={songBottomSheetRef}
                 onChange={handleSheetChanges}
-                snapPoints={[1, 350]}
+                snapPoints={[1, 400]}
                 index={-1}
                 backgroundStyle={{
                     backgroundColor: theme.sheetBgColor

@@ -22,14 +22,7 @@ export const createStyles = (theme: ThemeColors) => {
         label: {
             color: theme.text,
             fontSize: 13,
-        },
-        success: {
-            alignItems: 'center',
-        },
-        successText: {
-            fontSize: 15,
-            textAlign: 'center',
-            color: theme.success
+
         },
         inputGroup: {
             gap: 10,
@@ -49,6 +42,7 @@ export const createStyles = (theme: ThemeColors) => {
             backgroundColor: theme.light,
             marginTop: 20
         },
+        
         forgetPassword: {
             color: theme.text_gray,
             fontSize: 13,

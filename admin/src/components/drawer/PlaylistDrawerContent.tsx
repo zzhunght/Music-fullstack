@@ -1,11 +1,13 @@
-import { useAddSongToPlaylistMutation, useGetPlaylistDetailQuery, useGetSongNotInplaylistQuery, useRemoveSongFromPlaylistMutation } from '@/api/playlistApi'
+import { useAddSongToPlaylistMutation, useGetPlaylistByIdQuery, useGetPlaylistDetailQuery, useGetSongNotInplaylistQuery, useRemoveSongFromPlaylistMutation } from '@/api/playlistApi'
 import { Playlist } from '@/interface/playlist'
 import React, { useEffect } from 'react'
 import { SongTable } from '../table/SongTable'
 import SongItem from '../song/SongItem'
 import { useToast } from '../ui/use-toast'
+import { DialogEditPlaylist } from '../dialog/DialogEditPlaylist'
 
 function PlaylistDrawerContent({ playlist }: { playlist: Playlist }) {
+    const { data: item} = useGetPlaylistByIdQuery(playlist.id)
     const { data: song } = useGetPlaylistDetailQuery(playlist.id)
     const { data: songNotIn } = useGetSongNotInplaylistQuery(playlist.id)
     const [add, result] = useAddSongToPlaylistMutation()
@@ -57,34 +59,36 @@ function PlaylistDrawerContent({ playlist }: { playlist: Playlist }) {
         <div className="w-full max-w-sm">
             <div className="h-[95vh] overflow-y-auto w-[100vw]">
                 <div className='px-[50px]'>
-                    <div className='h-[30vh] p-[20px] flex items-end gap-5 mt-10'>
-                        <div className='w-[250px] h-[250px] shadow-custom
+                    <DialogEditPlaylist playlist={item || playlist}>
+                        <div className='h-[30vh] p-[20px] flex items-end gap-5 mt-10  cursor-pointer'>
+                            <div className='w-[250px] h-[250px] shadow-custom
                                     rounded-md flex justify-center items-center'
-                        >
-                            {playlist.thumbnail ? (
-                                <img
-                                    src={playlist.thumbnail} alt=""
-                                    className='w-full'
-                                />
-                            ) : (
-                                <img
-                                    src="https://static-00.iconduck.com/assets.00/music-notes-icon-2048x2046-o5kli2nk.png" alt=""
-                                    width={100}
+                            >
+                                {playlist.thumbnail ? (
+                                    <img
+                                        src={playlist.thumbnail} alt=""
+                                        className='w-full rounded-lg object-cover h-full'
+                                    />
+                                ) : (
+                                    <img
+                                        src="https://static-00.iconduck.com/assets.00/music-notes-icon-2048x2046-o5kli2nk.png" alt=""
+                                        width={100}
 
-                                />
-                            )}
+                                    />
+                                )}
 
+                            </div>
+                            <div className=''>
+                                <p className='text-base font-bold'>Playlist</p>
+                                <h1 className='text-[72px] font-bold m-0'>{playlist.name}</h1>
+                                <p className='text-base font-bold'>{song?.length} bài hát</p>
+                            </div>
                         </div>
-                        <div className=''>
-                            <p className='text-base font-bold'>Playlist</p>
-                            <h1 className='text-[72px] font-bold m-0'>{playlist.name}</h1>
-                            <p className='text-base font-bold'>{song?.length} bài hát</p>
-                        </div>
-                    </div>
+                    </DialogEditPlaylist>
 
                     <div className='p-[20px]'>
                         <div className='py-10 me-10'>
-                            <SongTable data={song} onRemove={handleRemoveSong}/>
+                            <SongTable data={song} onRemove={handleRemoveSong} />
                         </div>
                         <div>
                             <h1 className='text-3xl font-bold mb-5'>Recommended</h1>

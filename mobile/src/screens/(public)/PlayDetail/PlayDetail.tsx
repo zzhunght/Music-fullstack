@@ -40,16 +40,17 @@ export default function PlayDetail({ onClose }: Props) {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const bottomSheetPlaylistRef = useRef<BottomSheet>(null);
 
-    const handleSheetChanges = (index: number) => {
+    const handleSheetChanges =  useCallback((index: number) => {
         if (index == 0) {
             bottomSheetRef?.current?.close()
         }
-    }
-    const handleSheetPlaylistChanges = (index: number) => {
+    },[])
+    const handleSheetPlaylistChanges = useCallback((index: number) => {
+        console.log("index changed", index)
         if (index == 0) {
             bottomSheetPlaylistRef?.current?.close()
         }
-    }
+    },[])
 
     const handleShuffe = () => {
         if (!isShuffe) {

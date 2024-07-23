@@ -21,6 +21,8 @@ export interface ThemeColors {
   light: string;
   dark: string;
   error: string;
+  text_disabled: string;
+  success: string;
 }
 
 // Định nghĩa interface cho đối tượng chứa cả hai theme (light và dark)
@@ -30,6 +32,7 @@ export interface ColorsInterface {
 }
 export const Colors: ColorsInterface = {
   light: {
+    success: '#2abf7c',
     light: '#fff',
     error: '#f23d4c',
     dark: '#000',
@@ -45,8 +48,11 @@ export const Colors: ColorsInterface = {
     iconActive: '#1DB954',
     // sheetBgColor: '#2c2e2c',
     sheetBgColor: 'rgba(15, 15, 15, 1)',
+    text_disabled:'#7a7979'
   },
   dark: {
+    success: '#2abf7c',
+    text_disabled:'#7a7979',
     light: '#fff',
     error: '#f23d4c',
     dark: '#000',

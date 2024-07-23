@@ -46,6 +46,7 @@ const Player = () => {
     const currentTrack = useSelector((state: RootState) => state.songSlice.selectedSong)
     const queue = useSelector((state: RootState) => state.songSlice.queue)
     const handleEvent = async (event: any) => {
+        console.log("Event :>>>>>>>>>>>>>> ", event)
         if (event.type === Event.PlaybackState) {
             if (event.state == 'playing') {
                 dispatch(setIsPlay(true))
@@ -109,6 +110,30 @@ const Player = () => {
                 console.log("error", error)
             })
     }
+    const handlePlayPause = () => {
+        {
+            if (isPlaying) {
+                console.log("pause :>>>>>>>")
+                TrackPlayer.pause();
+            } else {
+                console.log("resume play")
+                TrackPlayer.getActiveTrack().then(async (track) => {
+                    if (track) {
+                        TrackPlayer.play();
+                    } else if (song) {
+                        await TrackPlayer.load({
+                            id: song.id,
+                            url: song.path,
+                            title: song.name,
+                            artist: song.artist_name,
+                            artwork: song.thumbnail
+                        })
+                        await TrackPlayer.play()
+                    }
+                })
+            }
+        }
+    }
 
     useTrackPlayerEvents(events, (event) => {
         handleEvent(event)
@@ -159,13 +184,7 @@ const Player = () => {
                                     </View>
                                     <View>
                                         <TouchableOpacity
-                                            onPress={() => {
-                                                if (isPlaying) {
-                                                    TrackPlayer.pause();
-                                                } else {
-                                                    TrackPlayer.play();
-                                                }
-                                            }}
+                                            onPress={() => handlePlayPause()}
                                         >
                                             {isPlaying ? <Entypo name="controller-paus" size={24} color="white" style={{ marginRight: 10 }} /> :
                                                 <Entypo name="controller-play" size={28} color="white" style={{ marginRight: 10 }} />
@@ -194,7 +213,7 @@ const Player = () => {
                         </LinearGradient>
                         {/* </ImageBackground> */}
                         {/* </View> */}
-                        <Modal visible={openDetail} animationType='slide'>
+                        <Modal visible={openDetail} >
                             <PlayDetail onClose={() => setOpenDetail(false)} />
                         </Modal>
                     </>

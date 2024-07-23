@@ -29,7 +29,7 @@ function CategoryDetail({ navigation }: any) {
         return {
             opacity: interpolate(
                 scrollOffset.value,
-                [50, 150],
+                [50, 100],
                 [0, 1],
                 'clamp'
             )
@@ -39,7 +39,7 @@ function CategoryDetail({ navigation }: any) {
         return {
             opacity: interpolate(
                 scrollOffset.value,
-                [130, 170],
+                [40, 100],
                 [0, 1],
                 'clamp'
             ),
@@ -47,7 +47,7 @@ function CategoryDetail({ navigation }: any) {
                 {
                     translateY: interpolate(
                         scrollOffset.value,
-                        [130, 170],
+                        [40, 100],
                         [20, 0],
                         'clamp'
                     )
@@ -92,7 +92,7 @@ function CategoryDetail({ navigation }: any) {
                     </TextCustom>
                 </LinearGradient>
                 {playlist && <PlaylistHorizontal data={playlist} title='Playlist ' />}
-                {songs && (
+                {songs && songs?.length > 0 && (
                     <View style={{padding: 15}}>
                         <SongVerticalList songs={songs}/>
                     </View>

@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { ThemeColors } from "../../constants/Colors";
 
-
+const width = Dimensions.get('screen').width
 const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
         wrap: {
@@ -46,6 +46,22 @@ const createStyles = (theme: ThemeColors) => {
             borderColor: theme.light,
             alignItems: 'center',
             justifyContent: 'center',
+        },
+        playlistItem: {
+            // width:'50%',
+            borderRadius: 10,
+            overflow: 'hidden',
+        },
+        playlistImage: {
+            width: (width - 45) / 2,
+            height: (width - 45) / 2,
+            borderRadius: 10,
+            resizeMode:'cover',
+            marginRight:15
+        },
+        playlistName: {
+            width: '90%',
+            color: theme.text
         }
     })
 }

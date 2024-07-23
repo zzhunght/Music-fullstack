@@ -1,14 +1,12 @@
-import { View, Text, ScrollView, StyleSheet, ImageBackground, Dimensions, FlatList, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useThemeColor } from '../../../hooks/useThemeColor';
-import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
-import { useGetPlaylistQuery, useGetPlaylistSongsQuery } from '../../../api/playlist';
+import { useGetPlaylistQuery, useGetPlaylistSongsQuery, useRemoveSongToPlaylistMutation } from '../../../api/playlist';
 import SongItem from '../../../components/Song/SongItem';
 import { Song } from '../../../interface';
 import { getColors } from 'react-native-image-colors';
-import { AndroidImageColors, ImageColorsResult } from 'react-native-image-colors/build/types';
+import { ImageColorsResult } from 'react-native-image-colors/build/types';
 import { DEFAULT_SONG_BANNER } from '../../../constants';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useScrollViewOffset } from 'react-native-reanimated';
 
@@ -16,43 +14,30 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 import { createStyles } from './style';
-import { useDispatch } from 'react-redux';
-import { newQueue, resetPlayedTrack, selectSong } from '../../../store/song/song.reducer';
-import TrackPlayer from 'react-native-track-player';
+
 import { TextCustom } from '../../../components/Text/TextCustome';
+import { Swipeable } from 'react-native-gesture-handler';
+import usePlay from '../../../hooks/usePlay';
+
+interface RouteParams {
+    playlistId: number;
+    swipe?: boolean;
+}
 const PlaylistDetail = ({ route }: any) => {
     const navigation: any = useNavigation()
-    const { playlistId } = route.params
-    const { data } = useGetPlaylistSongsQuery(playlistId)
+    const { playlistId, swipe }: RouteParams = route.params
+    const { data, refetch } = useGetPlaylistSongsQuery(playlistId)
     const { data: playlist } = useGetPlaylistQuery(playlistId)
-    const dispatch = useDispatch()
 
     const scrollRef = useAnimatedRef<Animated.ScrollView>()
     const scrollOffset = useScrollViewOffset(scrollRef)
     const [color, setColors] = useState<ImageColorsResult>()
     const theme = useThemeColor()
     const styles = createStyles(theme)
-    const play = async (song: Song) => {
-        dispatch(resetPlayedTrack())
-        await TrackPlayer.reset()
-        await TrackPlayer.add({
-            id: song.id,
-            url: song.path,
-            title: song.name,
-            artist: song.artist_name,
-            artwork: song.thumbnail
-        })
-        await TrackPlayer.play()
-        dispatch(selectSong(song))
-        const queue = [song]
-        data?.forEach(async(item) => {
-            if (item.id !== song.id) {
-                queue.push(item)
-            }
-        })
-        dispatch(newQueue(queue))
-    }
+    const { play } = usePlay()
 
+
+    const [remove, result] = useRemoveSongToPlaylistMutation()
 
     const handleGetColor = () => {
         if (playlist) {
@@ -63,6 +48,19 @@ const PlaylistDetail = ({ route }: any) => {
             })
         }
     }
+
+    const handleRemoveSong = (song: Song) => {
+        console.log("handleRemoveSong ", song.id)
+        remove({
+            playlist_id: playlistId,
+            song_id: song.id
+        })
+    }
+    const handleplay = (song: Song) => {
+        play(song, data)
+    }
+
+
     const headerAnimatedStyle = useAnimatedStyle(() => {
         return {
             opacity: interpolate(
@@ -93,9 +91,19 @@ const PlaylistDetail = ({ route }: any) => {
             ]
         }
     })
+
+
+    // useEffect(() => {
+    //     handleGetColor()
+    // }, [playlist])
+
     useEffect(() => {
-        handleGetColor()
-    }, [playlist])
+        if (result.data) {
+            refetch()
+        }
+    }, [result])
+
+    
     return (
         <View style={styles.wrap}>
             <Animated.View style={[styles.head, {
@@ -117,16 +125,6 @@ const PlaylistDetail = ({ route }: any) => {
                 scrollEventThrottle={16}
             >
                 <View style={styles.banner}>
-                    {/* <LinearGradient
-                    colors={color?.platform == 'android' ?
-                        [color.dominant, color.dominant, theme.background] :
-                        [theme.background, theme.background, 'transparent']
-                    }
-                    style={styles.banner}
-                    end={{ x: 1, y: 1, }}
-                    start={{ x: 1, y: 0 }}
-                    locations={[0.4, 0.8, 1]}
-                > */}
                     <View style={{ alignItems: 'center' }}>
                         <FastImage
                             style={styles.img_banner}
@@ -139,7 +137,7 @@ const PlaylistDetail = ({ route }: any) => {
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent:'space-between',
+                        justifyContent: 'space-between',
                         gap: 10,
                         marginTop: 10,
                         paddingHorizontal: 15
@@ -154,25 +152,63 @@ const PlaylistDetail = ({ route }: any) => {
                     </View>
                     <TextCustom style={styles.text}>{data?.length || 0} bài hát</TextCustom>
 
-                    {/* </LinearGradient> */}
                 </View>
 
                 <View style={styles.songs}>
                     <View style={{ gap: 10 }}>
                         {data?.map(song => (
                             <TouchableOpacity
-                                onPress={() => play(song)}
+                                onPress={() => handleplay(song)}
                                 key={song.id.toString()}
                             >
-                                <SongItem song={song} />
+                                {swipe ? (
+                                    <Swipeable
+                                        renderRightActions={
+                                            (progress, dragX) => renderRightActions(
+                                                progress,
+                                                dragX,
+                                                () => handleRemoveSong(song)
+                                            )
+                                        }
+                                    >
+                                        <SongItem song={song} />
+                                    </Swipeable>
+                                ) : (
+                                    <SongItem song={song} />
+                                )}
                             </TouchableOpacity>
                         ))}
                     </View>
                 </View>
-
             </Animated.ScrollView>
         </View>
     )
 }
+const renderRightActions = (progress: any, dragX: any, onPress: () => void) => {
+    const trans = progress.interpolate({
+        inputRange: [0, 1],
+        outputRange: [120, 0],
+    });
+    return (
+        <TouchableOpacity style={{
+            backgroundColor: 'red',
+            justifyContent: 'center',
+            width: 60,
+            alignItems: 'center',
+            borderRadius: 6
+        }}
+            onPress={onPress}
+        >
+            <Animated.View
+                // onPress={() => { }}
 
+                style={[, {
+                    // transform: [{translateX: trans}]
+                }]}
+            >
+                <Ionicons name="trash" size={24} color="#fff" />
+            </Animated.View>
+        </TouchableOpacity>
+    );
+};
 export default PlaylistDetail

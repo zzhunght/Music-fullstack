@@ -13,29 +13,26 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "./ui/use-toast";
-import { deleteAlbumById } from "@/api/albumApi";
-import useAlbum from "@/hooks/useAlbum";
 
 export function AlertDialogDeleteAlbum({ idSongDel }: { idSongDel: number }) {
     const { toast } = useToast();
-    const { handleDeleteAlbum } = useAlbum();
 
     const handleSubmit = async () => {
         console.log(idSongDel);
-        const res = await handleDeleteAlbum(Number(idSongDel));
-        console.log(res);
-        if (res) {
-            toast({
-                title: "Delete album",
-                description: res.message,
-            });
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Delete song",
-                description: "Error, Try again!",
-            });
-        }
+        // const res = await handleDeleteAlbum(Number(idSongDel));
+        // console.log(res);
+        // if (res) {
+        //     toast({
+        //         title: "Delete album",
+        //         description: res.message,
+        //     });
+        // } else {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Delete song",
+        //         description: "Error, Try again!",
+        //     });
+        // }
     };
 
     return (

@@ -18,9 +18,14 @@ import Player from '../components/Player/Player';
 import FavoriteSongs from '../screens/(public)/Favorite/Favorite';
 import FollowingArtist from '../screens/(public)/FollowingArtist/FavoriteArtist';
 import CategoryDetail from '../screens/(public)/CategoryDetail/CategoryDetail';
+import { useGetUserInfoQuery } from '../api/user';
+import Profile from '../screens/(auth)/Profile/Profile';
+import ChangePassword from '../screens/(auth)/ChangePassword/ChangePassword';
+import ForgetPassword from '../screens/(public)/Auth/ForgetPassword';
 
 const RootStack = createStackNavigator();
 function RootNavigation() {
+    const { data: user } = useGetUserInfoQuery()
     useTrackPlayer()
     return (
         <NavigationContainer independent={true}
@@ -33,6 +38,10 @@ function RootNavigation() {
                 <RootStack.Screen
                     name={STACK_ROUTE.Login}
                     component={Login}
+                />
+                <RootStack.Screen
+                    name={STACK_ROUTE.ForgetPassword}
+                    component={ForgetPassword}
                 />
                 <RootStack.Screen
                     name={STACK_ROUTE.Favorite}
@@ -78,6 +87,19 @@ function RootNavigation() {
                     name={STACK_ROUTE.FollowingArtist}
                     component={FollowingArtist}
                 />
+
+                {user && (
+                    <>
+                        <RootStack.Screen
+                            name={STACK_ROUTE.Profile}
+                            component={Profile}
+                        />
+                        <RootStack.Screen
+                            name={STACK_ROUTE.ChangePassword}
+                            component={ChangePassword}
+                        />
+                    </>
+                )}
             </RootStack.Navigator>
             <Player />
             <BottomTabs />

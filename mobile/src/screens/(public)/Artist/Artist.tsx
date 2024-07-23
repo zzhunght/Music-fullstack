@@ -8,7 +8,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import { createStyles } from './style'
 import { useThemeColor } from '../../../hooks/useThemeColor'
 import { DEFAULT_SONG_BANNER, FAKE_DATA } from '../../../constants'
-import Playlist from '../../../components/Playlist/Playlist'
 import SongItem from '../../../components/Song/SongItem'
 import { useGetSongByArtistQuery } from '../../../api/song';
 import { Song } from '../../../interface';
@@ -18,7 +17,6 @@ import { useDispatch } from 'react-redux';
 import { TextCustom } from '../../../components/Text/TextCustome';
 import { useCheckFollowArtistQuery, useFollowArtistMutation, useUnFollowArtistMutation } from '../../../api/artist';
 import LoadingIcon from '../../../components/LoadingIcon/LoadingIcon';
-const IMG = 'https://5sfashion.vn/storage/upload/images/ckeditor/4KG2VgKFDJWqdtg4UMRqk5CnkJVoCpe5QMd20Pf7.jpg'
 const HEADER_FADE_START = 150
 const HEADER_FADE_END = 280
 const IMG_HEIGHT = 300

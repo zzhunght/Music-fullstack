@@ -7,6 +7,8 @@ import { Album } from '../../interface'
 import { useNavigation } from '@react-navigation/native'
 import { STACK_ROUTE } from '../../constants/route'
 import { TextCustom } from '../Text/TextCustome'
+import { useDispatch } from 'react-redux'
+import { selectAlbum } from '../../store/album/album.reducer'
 
 interface Props {
     style?: StyleProp<ViewStyle>
@@ -20,6 +22,7 @@ const AlbumList = ({
     title,
     style
 }: Props) => {
+    const dispatch = useDispatch()
     const navigation: any = useNavigation()
     const theme = useThemeColor()
     const styles = createStyles(theme)
@@ -33,6 +36,7 @@ const AlbumList = ({
                 renderItem={({ item }) => (
                     <TouchableOpacity style={{ gap: 4 }}
                         onPress={()=>{
+                            dispatch(selectAlbum(item))
                             navigation.navigate(STACK_ROUTE.Album, {
                                 albumId: item.id
                             })

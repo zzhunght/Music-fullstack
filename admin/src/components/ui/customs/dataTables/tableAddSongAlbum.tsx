@@ -40,7 +40,6 @@ import logo from "../../../../app/assets/logo.png";
 import { DialogAdd } from "@/components/dialogAdd";
 import { AlertDialogSubmit } from "@/components/alertDialog";
 import { SheetEdit } from "@/components/sheetEdit";
-import { getAllSong } from "@/api/songApi";
 import { addSongByAlbumId, getSongNotinByAlbumId } from "@/api/albumApi";
 import { useToast } from "../../use-toast";
 import { AlertDeleteSongAlbum } from "@/components/alertDeleteSongAlbum";

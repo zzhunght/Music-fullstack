@@ -85,11 +85,11 @@ const config = {
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
             boxShadow:{
-                'custom': 'rgba(0, 0, 0, 0.35) 0px 5px 15px;'
+                'custom': 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
             },
-            backgroundImage: {
-                'custom-gradient': 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 100%)',
-            }
+            // backgroundImage: {
+            //     'custom-gradient': 'linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.5) 100%)',
+            // }
         },
     },
     plugins: [require("tailwindcss-animate")],

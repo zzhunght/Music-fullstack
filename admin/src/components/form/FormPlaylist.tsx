@@ -23,7 +23,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { ComboboxCategory } from "../comboboxCategory";
 import { uploadImage } from "@/utils/upload";
 import { BUCKET_PATH } from "@/app/constants/firebase";
-import { useCreatePlaylistMutation } from "@/api/playlistApi";
+import { useCreatePlaylistMutation, useUpdatePlaylistMutation } from "@/api/playlistApi";
+import { Playlist } from "@/interface/playlist";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -41,15 +42,20 @@ const formSchema = z.object({
 
 export function FormPlaylist({
     setOpen,
+    data,
+    update
 }: {
-    setOpen: React.Dispatch<React.SetStateAction<any>>;
+    setOpen: React.Dispatch<React.SetStateAction<any>>
+    data?: Playlist,
+    update?: boolean
 }) {
     const [preview, setPreview] = useState({
         image: "",
     });
     const { toast } = useToast();
     const [file, setFile] = useState<File | null>(null)
-    const [createPlaylist, result]= useCreatePlaylistMutation()
+    const [createPlaylist, result] = useCreatePlaylistMutation()
+    const [updatePlaylist, updateresult] = useUpdatePlaylistMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -71,6 +77,7 @@ export function FormPlaylist({
 
 
 
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             console.log("values ", values)
@@ -87,7 +94,14 @@ export function FormPlaylist({
                     payload.thumbnail = url;
                 }
             }
-            createPlaylist(payload)
+            if (update && data) {
+                updatePlaylist({
+                    id: data.id,
+                    body: payload
+                })
+            } else {
+                createPlaylist(payload)
+            }
         } catch (error: any) {
             toast({
                 title: "Thất bại",
@@ -97,8 +111,8 @@ export function FormPlaylist({
 
     }
 
-    useEffect(()=> {
-        if(result.data){
+    useEffect(() => {
+        if (result.data) {
             setOpen(false)
             toast({
                 title: "Thành công",
@@ -106,6 +120,27 @@ export function FormPlaylist({
             })
         }
     }, [result])
+
+    useEffect(() => {
+        if (updateresult.data) {
+            setOpen(false)
+            toast({
+                title: "Thành công",
+                description: "Cập nhật playlist thành công",
+            })
+        }
+    }, [updateresult])
+
+    useEffect(() => {
+        if (data && update) {
+            form.setValue("name", data.name)
+            form.setValue("thumbnail", data.thumbnail)
+            form.setValue("description", data.description)
+            form.setValue("artist_id", data.artist_id)
+            form.setValue("category_id", data.category_id)
+            setPreview({ image: data.thumbnail })
+        }
+    }, [data, update])
 
     return (
         <Form {...form}>
@@ -126,10 +161,10 @@ export function FormPlaylist({
                                             {preview.image ? (
                                                 <div className="w-full h-full border-dashed 
                                                 border-gray-400 border-2 rounded-xl flex
-                                                 flex-col items-center justify-center space-y-2 max-h-[400px]"
+                                                 flex-col items-center justify-center space-y-2 max-h-[400px] overflow-hidden"
                                                 >
                                                     <img
-                                                        className="h-[95%]"
+                                                        className="w-full h-full object-cover"
                                                         src={preview.image}
                                                         alt="image"
                                                     />

@@ -1,5 +1,4 @@
-import { startLoading, stopLoading } from "@/store/global";
-import { store } from "@/store/store";
+// import { startLoading, stopLoading } from "@/store/global";
 import axios from "axios";
 
 const request = axios.create({
@@ -12,12 +11,12 @@ request.interceptors.request.use(function (config) {
         config.headers.Authorization = userLocalstorage ? `Bearer ${userLocalstorage}` : "";
     }
 
-    store.dispatch(startLoading());
+    // store.dispatch(startLoading());
     return config;
 });
 
 request.interceptors.response.use(function (response) {
-    store.dispatch(stopLoading());
+    // store.dispatch(stopLoading());
     return response;
 });
 

@@ -26,7 +26,6 @@ import { uploadImage } from "@/utils/uploadImageCloudinary";
 import { ChangeEvent, useEffect, useState } from "react";
 import { ComboboxArtist } from "./comboboxArtist";
 import { useToast } from "@/components/ui/use-toast";
-import useAlbum from "@/hooks/useAlbum";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -52,7 +51,6 @@ export function FormAddAlbum({
         image: "",
     });
     const { toast } = useToast();
-    const { handleCreateAlbum } = useAlbum();
     // ...
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
@@ -95,21 +93,21 @@ export function FormAddAlbum({
         // console.log(formatReleaseDate as Date);
         values.releaseDate = formatReleaseDate as any;
         console.log(values);
-        const res = await handleCreateAlbum(values);
-        console.log(res);
-        if (res) {
-            setOpen(false);
-            toast({
-                title: "Create a new album",
-                description: res.message,
-            });
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Create a new album",
-                description: "Error, Try again later!",
-            });
-        }
+        // const res = await handleCreateAlbum(values);
+        // console.log(res);
+        // if (res) {
+        //     setOpen(false);
+        //     toast({
+        //         title: "Create a new album",
+        //         description: res.message,
+        //     });
+        // } else {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Create a new album",
+        //         description: "Error, Try again later!",
+        //     });
+        // }
     }
 
     return (

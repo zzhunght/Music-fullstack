@@ -6,7 +6,7 @@ export const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
         wrap: {
             backgroundColor: theme.background,
-            flex:1,
+            flex: 1,
             padding: 30
         },
         head: {
@@ -30,10 +30,10 @@ export const createStyles = (theme: ThemeColors) => {
             fontWeight: "bold",
             marginBottom: 5,
         },
-        progress :{
+        progress: {
             marginTop: 20,
             marginBottom: 5,
-            transform: [{scale: 0.5}, {translateX: - (width - 40)}],
+            transform: [{ scale: 0.5 }, { translateX: - (width - 40) }],
             width: (width - 46) * 2
         },
         subTitle: {
@@ -56,11 +56,20 @@ export const createStyles = (theme: ThemeColors) => {
             height: (width - 60) * 1.0,
             borderRadius: 10
         },
-        control :{
+        control: {
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent:'space-between',
+            justifyContent: 'space-between',
             marginTop: 20
-        }
+        },
+        container: {
+            flex: 1,
+            padding: 24,
+            backgroundColor: 'grey',
+        },
+        contentContainer: {
+            flex: 1,
+            alignItems: 'center',
+        },
     })
 }

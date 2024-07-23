@@ -21,6 +21,10 @@ export interface ConfirmOTP {
 export interface SendOTP {
     email: string
 }
+export interface PasswordChangeParam {
+    old_password: string
+    password: string
+}
 
 export interface User {
     id: number
