@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -9,10 +8,10 @@ import {
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import { FormAddAlbum } from "../form/formAddAlbum";
-import { useState } from "react";
-import { FormPlaylist } from "../form/FormPlaylist";
+import { ReactNode, useState } from "react";
+import { Album } from "@/interface/album";
 
-export function DialogAddPlaylist() {
+export function DialogEditAlbum({children, album}: {children: ReactNode, album: Album}) {
     const [openDialog, setOpenDialog] = useState(false);
 
     return (
@@ -23,7 +22,7 @@ export function DialogAddPlaylist() {
             defaultOpen={openDialog}
         >
             <DialogTrigger asChild>
-                <Button variant="outline">Tạo playlist</Button>
+                {children}
             </DialogTrigger>
             <DialogContent
                 className="sm:min-w-[800px]"
@@ -40,7 +39,7 @@ export function DialogAddPlaylist() {
                     </div>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                    <FormPlaylist setOpen={setOpenDialog} />
+                    <FormAddAlbum setOpen={setOpenDialog} data={album} update={true}/>
                 </div>
             </DialogContent>
         </Dialog>

@@ -23,7 +23,7 @@ const formSchema = z.object({
     email: z.string().min(3, {
         message: "Please enter email.",
     }),
-    password: z.string().min(3, {
+    password: z.string().min(1, {
         message: "Please enter password",
     }),
 });

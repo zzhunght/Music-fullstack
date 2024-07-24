@@ -9,7 +9,7 @@ function SongItem({ song , onAdd}: { song: Song, onAdd: (song_id :number) => voi
          w-full h-[60px] py-[5px] items-center 
          flex-1 hover:bg-[#ebeae8] pe-10 ps-2 rounded-sm'>
             <div className='flex gap-[10px] '>
-                <img src={song.thumbnail} alt="song" className='h-[40px] w-[40px] rounded-sm' />
+                <img src={song.thumbnail} alt="song" className='h-[40px] w-[40px] rounded-sm object-cover' />
                 <div>
                     <p className='text-base font-semibold'>{song.name}</p>
                     <p className='text-sm'>{song.artist_name}</p>
@@ -17,10 +17,10 @@ function SongItem({ song , onAdd}: { song: Song, onAdd: (song_id :number) => voi
 
             </div>
             <p className='text-base font-semibold'>{song.name}</p>
-            <button className='border-[1px] border-solid px-2 rounded-full  py-1'
+            <button className='border-[2px] border-solid px-2 rounded-full  py-1 border-gray-500'
                 onClick={()=>onAdd(song.id)}
             >
-                <p>Thêm</p>
+                <p className='text-base font-bold'>Thêm</p>
             </button>
         </div>
     )

@@ -19,6 +19,8 @@ const config = {
         },
         extend: {
             colors: {
+                defaultBackgroundColor:"#000000",
+                defaultText: "#FFFFFF",
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
@@ -84,7 +86,7 @@ const config = {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
             },
-            boxShadow:{
+            boxShadow: {
                 'custom': 'rgba(0, 0, 0, 0.35) 0px 5px 15px'
             },
             // backgroundImage: {

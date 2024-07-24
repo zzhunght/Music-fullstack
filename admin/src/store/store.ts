@@ -13,6 +13,7 @@ import categoriesAPI from "@/api/categoriesApi";
 import artistAPI from "@/api/artistApi";
 import playlistApi from "@/api/playlistApi";
 import userApi from "@/api/authApi";
+import albumApi from "@/api/albumApi";
 
 export const makeStore = () => {
     return configureStore({
@@ -28,6 +29,7 @@ export const makeStore = () => {
             [artistAPI.reducerPath]: artistAPI.reducer,
             [playlistApi.reducerPath]: playlistApi.reducer,
             [userApi.reducerPath]: userApi.reducer,
+            [albumApi.reducerPath]: albumApi.reducer,
         },
         middleware: (getDefaultMiddleware) => {
             return getDefaultMiddleware().concat(
@@ -35,7 +37,8 @@ export const makeStore = () => {
                 categoriesAPI.middleware,
                 artistAPI.middleware,
                 playlistApi.middleware,
-                userApi.middleware
+                userApi.middleware,
+                albumApi.middleware
             );
         }
     }

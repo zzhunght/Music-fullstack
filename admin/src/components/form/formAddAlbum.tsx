@@ -15,17 +15,19 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "./ui/label";
+import { Label } from "../ui/label";
 import { CalendarIcon, Upload } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { Calendar } from "./ui/calendar";
-import { fileToBase64, setReleaseDate } from "@/utils/helpers";
-import { uploadImage } from "@/utils/uploadImageCloudinary";
+import { Calendar } from "../ui/calendar";
 import { ChangeEvent, useEffect, useState } from "react";
-import { ComboboxArtist } from "./comboboxArtist";
+import { ComboboxArtist } from "../comboboxArtist";
 import { useToast } from "@/components/ui/use-toast";
+import { Album } from "@/interface/album";
+import { BUCKET_PATH } from "@/app/constants/firebase";
+import { uploadImage } from "@/utils/upload";
+import { useCreateAlbumMutation, useUpdateAlbumMutation } from "@/api/albumApi";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -34,81 +36,108 @@ const formSchema = z.object({
     thumbnail: z.string().min(1, {
         message: "Please enter song thumbnail",
     }),
-    artistId: z.number().min(1, {
+    artist_id: z.number().min(1, {
         message: "Please enter song duration.",
     }),
-    releaseDate: z.date({
-        required_error: "A date of birth is required.",
+    release_date: z.date({
+        required_error: "Ngày ra mắt",
     }),
 });
 
 export function FormAddAlbum({
     setOpen,
+    data,
+    update
 }: {
+    data?: Album,
+    update?: boolean
     setOpen: React.Dispatch<React.SetStateAction<any>>;
 }) {
+    const [file, setFile] = useState<File | null>(null)
     const [preview, setPreview] = useState({
         image: "",
     });
     const { toast } = useToast();
-    // ...
-    // 1. Define your form.
+    const [createAlbum, createResult] = useCreateAlbumMutation()
+    const [updateAlbum, updateResult] = useUpdateAlbumMutation()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
             thumbnail: "",
-            artistId: 0,
-            releaseDate: new Date(),
+            artist_id: 0,
+            release_date: new Date(),
         },
     });
 
-    const handlePreview = async (file: any) => {
-        const toBase64 = await fileToBase64(file);
-        const formData = new FormData();
-        if (toBase64) formData.append("file", toBase64 as any);
-        formData.append(
-            "upload_preset",
-            process.env.presetCloudinary as string
-        );
-        const urlUpload = await uploadImage(formData);
-        setPreview({ image: urlUpload as any });
-    };
 
     const handleImageToBase64 = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        handlePreview(file);
+        const file = event.target.files && event.target.files[0];
+        setFile(file);
+        if (file) {
+            setPreview({ image: URL.createObjectURL(file) });
+            form.setValue("thumbnail", "file");
+        }
     };
 
-    useEffect(() => {
-        form.setValue("thumbnail", preview.image);
-    }, [preview.image]);
 
-    // 2. Define a submit handler.
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const today = new Date();
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        const formatReleaseDate = setReleaseDate(values.releaseDate);
-        // console.log(formatReleaseDate as Date);
-        values.releaseDate = formatReleaseDate as any;
-        console.log(values);
-        // const res = await handleCreateAlbum(values);
-        // console.log(res);
-        // if (res) {
-        //     setOpen(false);
-        //     toast({
-        //         title: "Create a new album",
-        //         description: res.message,
-        //     });
-        // } else {
-        //     toast({
-        //         variant: "destructive",
-        //         title: "Create a new album",
-        //         description: "Error, Try again later!",
-        //     });
-        // }
+        try {
+            console.log("values ", values)
+            const payload = { ...values }
+
+            payload.thumbnail = payload.thumbnail != 'file' ? payload.thumbnail : ""
+
+            if (file) {
+                const url = await uploadImage(file, BUCKET_PATH.album)
+                if (url) {
+                    payload.thumbnail = url;
+                }
+            }
+            if (update && data) {
+                updateAlbum({
+                    id: data.id,
+                    body: payload
+                })
+            } else {
+                createAlbum(payload)
+            }
+        } catch (error: any) {
+            toast({
+                title: "Thất bại",
+                description: error.message,
+            })
+        }
     }
+    useEffect(() => {
+        if (createResult.data) {
+            setOpen(false)
+            toast({
+                title: "Thành công",
+                description: "Tạo Album thành công",
+            })
+        }
+    }, [createResult])
+
+    useEffect(() => {
+        if (data && update) {
+            form.setValue("name", data.name)
+            form.setValue("thumbnail", data.thumbnail)
+            form.setValue("artist_id", data.artist_id)
+            form.setValue("release_date", new Date(data.release_date))
+            setPreview({ image: data.thumbnail })
+        }
+    }, [data, update])
+
+    useEffect(() => {
+        if (updateResult.data) {
+            setOpen(false)
+            toast({
+                title: "Thành công",
+                description: "Cập nhật playlist thành công",
+            })
+        }
+    }, [updateResult])
 
     return (
         <Form {...form}>
@@ -124,7 +153,6 @@ export function FormAddAlbum({
                                 name="thumbnail"
                                 render={({ field }) => (
                                     <FormItem className="h-[90%]">
-                                        {/* <FormLabel>Thumbnail</FormLabel> */}
                                         <Label htmlFor="thumbnail">
                                             {preview.image ? (
                                                 <div className="w-full h-full border-dashed border-gray-400 border-2 rounded-xl flex flex-col items-center justify-center space-y-2">
@@ -174,9 +202,6 @@ export function FormAddAlbum({
                                     <FormControl>
                                         <Input placeholder="Name" {...field} />
                                     </FormControl>
-                                    {/* <FormDescription>
-                                        This is your public display name.
-                                    </FormDescription> */}
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -184,7 +209,7 @@ export function FormAddAlbum({
 
                         <FormField
                             control={form.control}
-                            name="releaseDate"
+                            name="release_date"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
                                     <FormLabel>Date of birth</FormLabel>
@@ -196,7 +221,7 @@ export function FormAddAlbum({
                                                     className={cn(
                                                         "w-[240px] pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground"
+                                                        "text-muted-foreground"
                                                     )}
                                                 >
                                                     {field.value ? (
@@ -222,16 +247,13 @@ export function FormAddAlbum({
                                                 disabled={(date) =>
                                                     date > new Date() ||
                                                     date <
-                                                        new Date("1900-01-01")
+                                                    new Date("1900-01-01")
                                                 }
                                                 initialFocus
                                             />
                                         </PopoverContent>
                                     </Popover>
-                                    {/* <FormDescription>
-                                        Your date of birth is used to calculate
-                                        your age.
-                                    </FormDescription> */}
+                                  
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -239,17 +261,16 @@ export function FormAddAlbum({
 
                         <FormField
                             control={form.control}
-                            name="artistId"
+                            name="artist_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
                                     <FormLabel>Artist</FormLabel>
                                     <FormControl>
                                         <ComboboxArtist
-                                            valueArtistId={0}
+                                            valueArtistId={data?.artist_id || 0}
                                             valueArt={(value) =>
-                                                form.setValue("artistId", value)
+                                                form.setValue("artist_id", value)
                                             }
-                                            // {...field}
                                         />
                                     </FormControl>
                                     <FormMessage />

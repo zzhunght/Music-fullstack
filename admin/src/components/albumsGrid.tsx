@@ -1,21 +1,14 @@
 "use client";
-import { AlbumsItem } from "./albumsItem";
-import { DialogAddAlbum } from "./dialog/dialogAddAlbum";
+import { useGetAlbumQuery } from "@/api/albumApi";
+import { DialogAddAlbum } from "./dialog/DialogAddAlbum";
 
 import { Loader } from "./loader";
-import { RootState } from "@/store/store";
-import { useAppSelector } from "@/store/hook";
+import { AlbumsItem } from "./albumsItem";
 
-type Album = {
-    id: number;
-    artistId: number;
-    name: string;
-    thumbnail: string;
-    releaseDate: string;
-};
 
 const AlbumsGrid = () => {
-    const albums = useAppSelector((state: RootState) => state.album.albums);
+    // const albums = useAppSelector((state: RootState) => state.album.albums);
+    const {data} = useGetAlbumQuery()
     return (
         <div className="space-y-4">
             <div>
@@ -23,8 +16,8 @@ const AlbumsGrid = () => {
                 <Loader />
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                {albums.map((album, index) => (
-                    <AlbumsItem key={index} album={album} />
+                {data?.map((album) => (
+                    <AlbumsItem key={album.id} album={album} />
                 ))}
             </div>
         </div>

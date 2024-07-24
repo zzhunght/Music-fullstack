@@ -20,6 +20,7 @@ import Queue from '../../../components/Queue/Queue';
 import { durationToTime } from '../../../utils';
 import { setIsRepeat, setIsShuffe } from '../../../store/song/song.reducer';
 import { TextCustom } from '../../../components/Text/TextCustome';
+import usePlay from '../../../hooks/usePlay';
 
 interface Props {
     onClose: () => void;
@@ -39,6 +40,8 @@ export default function PlayDetail({ onClose }: Props) {
     const styles = createStyles(theme)
     const bottomSheetRef = useRef<BottomSheet>(null);
     const bottomSheetPlaylistRef = useRef<BottomSheet>(null);
+
+    const {next, prev} = usePlay()
 
     const handleSheetChanges =  useCallback((index: number) => {
         if (index == 0) {
@@ -118,11 +121,7 @@ export default function PlayDetail({ onClose }: Props) {
                             width: '100%',
                             position: 'absolute',
                             left: '-3%'
-                            // transform: [
-                            //     { scaleY: 2 },
-                            //     { scaleX: 2 },
-                            //     { translateX: 40 }
-                            // ]
+                            
                         }}
                         onValueChange={async (value) => {
                             await TrackPlayer.seekTo(value);
@@ -131,7 +130,6 @@ export default function PlayDetail({ onClose }: Props) {
                         maximumValue={progress.duration}
                         value={progress.position}
                         thumbTintColor="#FFFFFF"
-                        // thumbTintColor={songBg?.dominant ? songBg.dominant : theme.background}
                         minimumTrackTintColor="#FFFFFF"
                         maximumTrackTintColor="#525252"
                     />
@@ -151,7 +149,7 @@ export default function PlayDetail({ onClose }: Props) {
                         {/* <Entypo name="shuffle" size={28} color={theme.icon} /> */}
                         <SimpleLineIcons name="shuffle" size={26} color={isShuffe ? theme.iconActive : theme.icon} />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={prev}>
                         <FontAwesome6 name="backward-step" size={30} color={theme.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -177,7 +175,9 @@ export default function PlayDetail({ onClose }: Props) {
                         }
 
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={next}
+                    >
                         <FontAwesome6 name="forward-step" size={30} color={theme.icon} />
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -238,8 +238,6 @@ export default function PlayDetail({ onClose }: Props) {
             >
                 <BottomSheetScrollView
                     style={{ flex: 1, backgroundColor: theme.background }}
-                // stickyHeaderIndices={[1]}
-                // stickyHeaderHiddenOnScroll={true}
                 >
                     <Queue />
                 </BottomSheetScrollView >

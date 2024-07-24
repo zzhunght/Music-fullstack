@@ -40,7 +40,6 @@ import logo from "../../../../app/assets/logo.png";
 import { DialogAdd } from "@/components/dialogAdd";
 import { AlertDialogSubmit } from "@/components/alertDialog";
 import { SheetEdit } from "@/components/sheetEdit";
-import { addSongByAlbumId, getSongNotinByAlbumId } from "@/api/albumApi";
 import { useToast } from "../../use-toast";
 import { AlertDeleteSongAlbum } from "@/components/alertDeleteSongAlbum";
 
@@ -188,18 +187,18 @@ export function TableAddSongAlbum({
 
     React.useEffect(() => {
         (async function () {
-            const res = await getSongNotinByAlbumId(albumId);
-            const newSongs: Song[] = res.data.map((song: any) => ({
-                id: song.id,
-                name: song.name,
-                thumbnail: song.thumbnail,
-                path: song.path,
-                artists: song.artists,
-                duration: song.duration,
-                lyrics: song.lyrics,
-                releaseDate: song.release_date,
-            }));
-            setSongs(newSongs);
+            // const res = await getSongNotinByAlbumId(albumId);
+            // const newSongs: Song[] = res.data.map((song: any) => ({
+            //     id: song.id,
+            //     name: song.name,
+            //     thumbnail: song.thumbnail,
+            //     path: song.path,
+            //     artists: song.artists,
+            //     duration: song.duration,
+            //     lyrics: song.lyrics,
+            //     releaseDate: song.release_date,
+            // }));
+            // setSongs(newSongs);
         })();
     }, []);
 
@@ -231,21 +230,21 @@ export function TableAddSongAlbum({
     });
 
     const addSongAlbum = async () => {
-        const res = await addSongByAlbumId({ albumId, idSongs });
+        // const res = await addSongByAlbumId({ albumId, idSongs });
 
-        console.log(res);
-        if (res) {
-            toast({
-                title: "Add a new Song to album",
-                description: res.data.message,
-            });
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Create a new album",
-                description: "Error, Try again later!",
-            });
-        }
+        // console.log(res);
+        // if (res) {
+        //     toast({
+        //         title: "Add a new Song to album",
+        //         description: res.data.message,
+        //     });
+        // } else {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Create a new album",
+        //         description: "Error, Try again later!",
+        //     });
+        // }
     };
 
     return (

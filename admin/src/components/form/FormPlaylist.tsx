@@ -236,7 +236,7 @@ export function FormPlaylist({
                                     <FormControl>
                                         <ComboboxArtist
 
-                                            valueArtistId={0}
+                                            valueArtistId={data?.artist_id || 0}
                                             valueArt={(value) =>
                                                 form.setValue("artist_id", value)
                                             }
@@ -254,7 +254,7 @@ export function FormPlaylist({
                                     <FormLabel>Danh mục</FormLabel>
                                     <FormControl>
                                         <ComboboxCategory
-                                            categoryId={0}
+                                            categoryId={data?.category_id || 0}
                                             valueArt={(value) =>
                                                 form.setValue("category_id", value)
                                             }

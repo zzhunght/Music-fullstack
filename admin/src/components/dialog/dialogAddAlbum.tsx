@@ -8,7 +8,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
-import { FormAddAlbum } from "../formAddAlbum";
+import { FormAddAlbum } from "../form/formAddAlbum";
 import { useState } from "react";
 
 export function DialogAddAlbum() {
