@@ -4,6 +4,7 @@ import BottomSheet, { BottomSheetScrollView, BottomSheetView } from '@gorhom/bot
 import { Song } from '../interface';
 import { useThemeColor } from '../hooks/useThemeColor';
 import SongBottomSheetView from '../components/Sheet/SongBottomSheetView';
+import PlayDetail from '../screens/(public)/PlayDetail/PlayDetail';
 interface SongBottomSheetContextValue {
     handleOpenSheet: (song: Song) => void;
     handleCloseSheet: () => void;

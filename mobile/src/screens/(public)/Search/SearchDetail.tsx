@@ -46,7 +46,7 @@ const SearchDetail = ({ navigation }: any) => {
                 marginTop: 15
             }}>
                 <View style={styles.searchBoxInput}>
-                    <Ionicons name='search' size={18} color={theme.icon} />
+                    <Ionicons name='search' size={18} color={theme.text} />
                     <TextInput
                         value={inputText}
                         onChangeText={setInputText}

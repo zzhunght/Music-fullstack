@@ -1,17 +1,19 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { ThemeColors } from "../../constants/Colors";
+
+const width = Dimensions.get('screen').width
 
 export const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
         text: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 11,
         },
         title: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 13,
             fontWeight: '500',
-            maxWidth: '80%'
+            maxWidth: width * 0.6
         },
         wrap:{
             overflow: 'hidden',

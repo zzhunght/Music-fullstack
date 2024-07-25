@@ -29,17 +29,17 @@ const BottomTabs = () => {
     })
     const MENU = [
         {
-            component: <Entypo name="home" size={24} color={theme.icon} />,
+            component: <Entypo name="home" size={24} color={theme.text} />,
             path: STACK_ROUTE.Home,
             name: 'Home'
         },
         {
-            component: <Ionicons name="search-outline" size={24} color={theme.icon} />,
+            component: <Ionicons name="search-outline" size={24} color={theme.text} />,
             path: STACK_ROUTE.Search,
             name: 'Search'
         },
         {
-            component: <Ionicons name="library-outline" size={24} color={theme.icon} />,
+            component: <Ionicons name="library-outline" size={24} color={theme.text} />,
             path: STACK_ROUTE.Library,
             name: 'Thư viện'
         }

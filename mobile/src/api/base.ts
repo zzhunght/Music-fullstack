@@ -1,10 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createApi } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosError } from 'axios'
 import { STORAGE_KEY } from '../constants/asyncStorageKey'
-import { isErrorWithData } from '../utils'
 const BASE_URL = 'http://192.168.2.192:8080/api/v1'
 
 interface ErrorResponse {
@@ -42,6 +40,7 @@ async function handleTokenRefresh(): Promise<string> {
     return newAccessToken;
 }
 instance.interceptors.request.use(async function (config) {
+    console.log("URL : ", config.url)
     const access_token = await AsyncStorage.getItem(STORAGE_KEY.AccessToken)
     if (access_token) {
         config.headers['Authorization'] = `Bearer ${access_token}`
@@ -54,6 +53,7 @@ instance.interceptors.request.use(async function (config) {
 instance.interceptors.response.use(async function (response) {
     return response;
 }, async function (error) {
+
     const originalRequest = error.config;
 
     if (error.response.status === 401 && error.response.data.error === 'token has expired') {

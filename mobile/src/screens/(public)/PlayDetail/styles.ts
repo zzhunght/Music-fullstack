@@ -17,15 +17,15 @@ export const createStyles = (theme: ThemeColors) => {
             marginTop: Platform.OS == 'android' ? 10 : 0
         },
         text: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 13,
         },
         text_meidum: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 15,
         },
         title: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 22,
             fontWeight: "bold",
             marginBottom: 5,
@@ -37,7 +37,7 @@ export const createStyles = (theme: ThemeColors) => {
             width: (width - 46) * 2
         },
         subTitle: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 14,
             fontWeight: "bold",
         },
@@ -47,7 +47,7 @@ export const createStyles = (theme: ThemeColors) => {
             justifyContent: 'space-between'
         },
         time_label: {
-            color: theme.text,
+            color: theme.light,
             fontSize: 12,
             fontWeight: '500'
         },

@@ -13,6 +13,7 @@ import { requestNotifications } from "react-native-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useNotification from "./src/hooks/useNotification";
 import { PersistGate } from "redux-persist/integration/react";
+import PlayDetailSheetProvider from "./src/context/PlayDetailSheet";
 
 // Cấu hình font mặc định
 const customTextProps = {
@@ -38,16 +39,18 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <AddSongPlaylistSheetContextProvider>
-          <SongBottomSheetContextProvider>
-            <CreatePlaylistSheetContextProvider>
-              <RootNavigation />
-            </CreatePlaylistSheetContextProvider>
-          </SongBottomSheetContextProvider>
-        </AddSongPlaylistSheetContextProvider>
-        <Toast />
-      </GestureHandlerRootView>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <PlayDetailSheetProvider>
+            <AddSongPlaylistSheetContextProvider>
+              <SongBottomSheetContextProvider>
+                <CreatePlaylistSheetContextProvider>
+                  <RootNavigation />
+                </CreatePlaylistSheetContextProvider>
+              </SongBottomSheetContextProvider>
+            </AddSongPlaylistSheetContextProvider>
+          </PlayDetailSheetProvider>
+          <Toast />
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   );

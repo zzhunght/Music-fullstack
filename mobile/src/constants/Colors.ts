@@ -19,7 +19,9 @@ export interface ThemeColors {
   iconActive: string;
   sheetBgColor: string;
   light: string;
+  lightReverse: string;
   dark: string;
+  darkReverse: string;
   error: string;
   text_disabled: string;
   success: string;
@@ -34,33 +36,34 @@ export const Colors: ColorsInterface = {
   light: {
     success: '#2abf7c',
     light: '#fff',
+    lightReverse: '#000',
+    darkReverse: '#fff',
     error: '#f23d4c',
     dark: '#000',
-    text: '#11181C',
-    text_gray: '#bfbfbf',
+    text: '#07090a',
+    text_gray: '#4d4d4d',
     background: '#fff',
     tint: tintColorLight,
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
-    icon: 'black',
+    icon: 'white',
     controlBackground: '#fff',
     border: '#999797',
     iconActive: '#1DB954',
-    // sheetBgColor: '#2c2e2c',
-    sheetBgColor: 'rgba(15, 15, 15, 1)',
-    text_disabled:'#7a7979'
+    sheetBgColor: 'rgba(245, 245, 245, 1)',
+    text_disabled:'#6e6e6e'
   },
   dark: {
+    lightReverse: '#fff',
+    darkReverse: '#000',
     success: '#2abf7c',
     text_disabled:'#7a7979',
     light: '#fff',
     error: '#f23d4c',
     dark: '#000',
     sheetBgColor: 'rgba(15, 15, 15, 1)',
-    // sheetBgColor: '#2c2e2c',
     text: '#fff',
     text_gray: '#bfbfbf',
-    // background: '#17181a',
     background:'#080808',
     tint: tintColorDark,
     icon: '#fff',

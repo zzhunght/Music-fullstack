@@ -28,7 +28,7 @@ const Search = ({navigation}: any) => {
                         onPress={()=> navigation.navigate(STACK_ROUTE.SearchDetail)}
                     >
                         <View style={styles.searchBox}>
-                            <Ionicons name='search' size={24} color={theme.dark} />
+                            <Ionicons name='search' size={24} color={theme.text} />
                             <TextCustom style={styles.searchPlaceholder}>
                                 Bạn muốn nghe gì?
                             </TextCustom>

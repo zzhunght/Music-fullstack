@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, ImageBackground, Platform, Dimensions, ProgressBarAndroidBase } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { View, TouchableOpacity, Platform } from 'react-native'
+import React, { useCallback, useContext, useRef } from 'react'
 import { createStyles } from './styles'
 import Entypo from 'react-native-vector-icons/Entypo';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
@@ -7,12 +7,10 @@ import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Slider from '@react-native-community/slider'
-import BottomSheet, { BottomSheetScrollView, BottomSheetView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { useDispatch, useSelector } from 'react-redux'
 import TrackPlayer, { RepeatMode, useProgress } from 'react-native-track-player';
-import { RootState } from '../../../store/store';
 import { useThemeColor } from '../../../hooks/useThemeColor';
-import Container from '../../../components/Container';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import Comment from '../../../components/Comment/Comment';
@@ -21,18 +19,15 @@ import { durationToTime } from '../../../utils';
 import { setIsRepeat, setIsShuffe } from '../../../store/song/song.reducer';
 import { TextCustom } from '../../../components/Text/TextCustome';
 import usePlay from '../../../hooks/usePlay';
+import { PlayDetailSheetContext } from '../../../context/PlayDetailSheet';
+import { RootState } from '../../../store/store';
 
-interface Props {
-    onClose: () => void;
-}
-export default function PlayDetail({ onClose }: Props) {
 
+export default function PlayDetail() {
     const dispatch = useDispatch()
-
     const isPlaying = useSelector((state: RootState) => state.songSlice.isPlay)
     const isShuffe = useSelector((state: RootState) => state.songSlice.isShuffe)
     const isRepeat = useSelector((state: RootState) => state.songSlice.isRepeat)
-
     const progress = useProgress()
     const song = useSelector((state: RootState) => state.songSlice.selectedSong)
     const songBg = useSelector((state: RootState) => state.songSlice.songBackground)
@@ -40,6 +35,7 @@ export default function PlayDetail({ onClose }: Props) {
     const styles = createStyles(theme)
     const bottomSheetRef = useRef<BottomSheet>(null);
     const bottomSheetPlaylistRef = useRef<BottomSheet>(null);
+    const {handleCloseSheet} = useContext(PlayDetailSheetContext)
 
     const {next, prev} = usePlay()
 
@@ -73,7 +69,9 @@ export default function PlayDetail({ onClose }: Props) {
         }
     }
     return (
-        <Container>
+        <View style={{
+            flex:1,
+        }}>
 
             <LinearGradient
                 colors={
@@ -87,7 +85,7 @@ export default function PlayDetail({ onClose }: Props) {
             >
 
                 <View style={styles.head}>
-                    <TouchableOpacity onPress={onClose}>
+                    <TouchableOpacity onPress={()=>handleCloseSheet()}>
                         <Entypo name="chevron-thin-down" size={24} color={theme.icon} />
                     </TouchableOpacity>
                     <TextCustom style={styles.subTitle}>
@@ -154,7 +152,7 @@ export default function PlayDetail({ onClose }: Props) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={{
-                            backgroundColor: theme.controlBackground,
+                            backgroundColor: theme.light,
                             alignItems: 'center',
                             justifyContent: 'center',
                             width: 70,
@@ -170,8 +168,8 @@ export default function PlayDetail({ onClose }: Props) {
                         }}
                     >
                         {isPlaying ?
-                            <Entypo name="controller-paus" size={36} color={'black'} /> :
-                            <Entypo name="controller-play" size={36} color={'black'} style={{ left: 2 }} />
+                            <Entypo name="controller-paus" size={36} color={theme.dark} /> :
+                            <Entypo name="controller-play" size={36} color={theme.dark} style={{ left: 2 }} />
                         }
 
                     </TouchableOpacity>
@@ -242,6 +240,6 @@ export default function PlayDetail({ onClose }: Props) {
                     <Queue />
                 </BottomSheetScrollView >
             </BottomSheet>
-        </Container>
+        </View>
     )
 }

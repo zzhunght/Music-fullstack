@@ -9,7 +9,7 @@ export const createStyles = (theme : ThemeColors) => {
             paddingBottom: 115
         },
         searchBox: {
-            backgroundColor: theme.light,
+            backgroundColor: theme.sheetBgColor,
             borderRadius: 8,
             height: 45,
             flex: 1,
@@ -19,7 +19,7 @@ export const createStyles = (theme : ThemeColors) => {
             gap: 15
         },
         searchBoxInput: {
-            backgroundColor: 'rgba(28, 28, 28,1)',
+            backgroundColor: theme.sheetBgColor,
             borderRadius: 8,
             height: 40,
             flexDirection: 'row',
@@ -32,7 +32,7 @@ export const createStyles = (theme : ThemeColors) => {
         },
         searchPlaceholder: {
             fontSize: 13,
-            color: theme.dark,
+            color: theme.text,
         },
         title: {
             fontSize: 22,
