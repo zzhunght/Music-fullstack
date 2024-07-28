@@ -17,8 +17,9 @@ export const  createStyles = (theme: ThemeColors) => {
             paddingBottom: 10
         },
         img_banner: {
-            width: 220,
-            height: 200
+            width: 270,
+            height: 255,
+            borderRadius: 7
         },
         banner_overlay: {
             position: 'absolute',
@@ -58,6 +59,7 @@ export const  createStyles = (theme: ThemeColors) => {
         },
         songs: {
             paddingHorizontal: 15,
+            marginTop: 15,
         },
         head: {
             position: 'absolute',
@@ -91,7 +93,8 @@ export const  createStyles = (theme: ThemeColors) => {
         },
         text: {
             fontSize: 13,
-            color: theme.text_gray,
+            color: theme.text,
+            // color: theme.text_gray,
             marginLeft: 15
         }
     })

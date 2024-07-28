@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import logo from "../../app/assets/logo.webp";
+import logo from "../../app/assets/logo.jpg";
 import { SIDEBAR_ITEMS } from "../../app/constants/SIDEBAR";
 import classNames from "classnames";
 import { useSidebarToggle } from "@/hooks/useSidebarToggle";

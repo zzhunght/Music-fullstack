@@ -4,28 +4,45 @@ import { useThemeColor } from '../../../hooks/useThemeColor'
 import { createStyles } from './styles'
 import WithHeader from '../../../components/Header/Header'
 import FastImage from 'react-native-fast-image'
-import { DEFAULT_AVATAR } from '../../../constants'
+import { DEFAULT_AVATAR, GetDefaultAvatar } from '../../../constants'
 import { TextCustom } from '../../../components/Text/TextCustome'
 import { STACK_ROUTE } from '../../../constants/route'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { STORAGE_KEY } from '../../../constants/asyncStorageKey'
-import { useGetUserInfoQuery, useLogoutMutation } from '../../../api/user'
+import userApi, { useGetUserInfoQuery, useLogoutMutation } from '../../../api/user'
+import playListApi from '../../../api/playlist'
+import favoriteApi from '../../../api/favorite'
+import { useDispatch } from 'react-redux'
+import artistApi from '../../../api/artist'
 
 const Profile = ({ navigation }: any) => {
+    const dispatch = useDispatch()
     const { data: user } = useGetUserInfoQuery()
     const theme = useThemeColor()
     const styles = createStyles(theme)
     const [logout, result] = useLogoutMutation()
 
     const handleLogout = () => {
-        navigation.navigate(STACK_ROUTE.Home)
-        AsyncStorage.removeItem(STORAGE_KEY.AccessToken)
-        AsyncStorage.removeItem(STORAGE_KEY.RefreshToken)
-        AsyncStorage.removeItem(STORAGE_KEY.User)
+        console.log('Removing AccessToken...');
+        AsyncStorage.removeItem(STORAGE_KEY.AccessToken);
+        console.log('Removing RefreshToken...');
+        AsyncStorage.removeItem(STORAGE_KEY.RefreshToken);
+        console.log('Removing User...');
+        AsyncStorage.removeItem(STORAGE_KEY.User);
+        console.log("Logout successful clean up");
+        
+        dispatch(userApi.util.resetApiState());
+        dispatch(playListApi.util.resetApiState())
+        dispatch(favoriteApi.util.resetApiState())
+        dispatch(artistApi.util.resetApiState())
+
+        navigation.push(STACK_ROUTE.Home)
     }
 
     useEffect(() => {
-        if(result.data){
+        console.log("logout result: ", result);
+        console.log("data logout: ", result.data);
+        if (result.data) {
             handleLogout()
         }
     }, [result])
@@ -35,7 +52,7 @@ const Profile = ({ navigation }: any) => {
                 <View style={styles.avatar}>
                     <FastImage
                         style={{ width: 100, height: 100, borderRadius: 50 }}
-                        source={DEFAULT_AVATAR}
+                        source={GetDefaultAvatar(user?.id)}
                         resizeMode={FastImage.resizeMode.cover}
                     />
                 </View>
@@ -50,9 +67,9 @@ const Profile = ({ navigation }: any) => {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{marginTop: 15}}>
+                <View style={{ marginTop: 15 }}>
                     <TouchableOpacity style={styles.actionBtn}
-                        onPress={()=> {
+                        onPress={() => {
                             navigation.navigate(STACK_ROUTE.ChangePassword)
                         }}
                     >

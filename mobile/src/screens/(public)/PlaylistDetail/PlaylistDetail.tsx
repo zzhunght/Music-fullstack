@@ -1,4 +1,4 @@
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, ImageBackground } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useThemeColor } from '../../../hooks/useThemeColor';
 import FastImage from 'react-native-fast-image';
@@ -103,7 +103,7 @@ const PlaylistDetail = ({ route }: any) => {
         }
     }, [result])
 
-    
+
     return (
         <View style={styles.wrap}>
             <Animated.View style={[styles.head, {
@@ -124,13 +124,17 @@ const PlaylistDetail = ({ route }: any) => {
                 ref={scrollRef}
                 scrollEventThrottle={16}
             >
-                <View style={styles.banner}>
+                <ImageBackground style={styles.banner}
+                    source={{ uri: playlist?.thumbnail || DEFAULT_SONG_BANNER }}
+                    blurRadius={120}
+                >
                     <View style={{ alignItems: 'center' }}>
                         <FastImage
                             style={styles.img_banner}
                             source={{
                                 uri: playlist?.thumbnail || DEFAULT_SONG_BANNER
                             }}
+                            resizeMode='cover'
                         />
                     </View>
                     <TextCustom style={styles.playlist_name}>{playlist?.name}</TextCustom>
@@ -151,8 +155,7 @@ const PlaylistDetail = ({ route }: any) => {
                         </TouchableOpacity>
                     </View>
                     <TextCustom style={styles.text}>{data?.length || 0} bài hát</TextCustom>
-
-                </View>
+                </ImageBackground>
 
                 <View style={styles.songs}>
                     <View style={{ gap: 10 }}>

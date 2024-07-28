@@ -152,7 +152,7 @@ export default function CreateAritstSheet() {
                                 handleSubmit();
                             }}
                         >
-                            Save Change
+                            Create
                         </Button>
                     </SheetClose>
                 </SheetFooter>

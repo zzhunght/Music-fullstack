@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 import { createStyles } from './style'
 import { useThemeColor } from '../../../hooks/useThemeColor'
-import { DEFAULT_SONG_BANNER, FAKE_DATA } from '../../../constants'
+import { DEFAULT_SONG_BANNER} from '../../../constants'
 import SongItem from '../../../components/Song/SongItem'
 import { useGetSongByArtistQuery } from '../../../api/song';
 import { Song } from '../../../interface';
@@ -199,7 +199,6 @@ const Artist = ({ navigation, route }: any) => {
                                 ))}
                             </View>
                         </View>
-                        {/* <Playlist data={FAKE_DATA} title='Trending Playlists' /> */}
                         <View style={{ marginTop: 10, padding: 15 }}>
                             <TextCustom style={styles.text_light_meidum}>
                                 Thông tin

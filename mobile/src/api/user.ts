@@ -1,14 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './base';
 import { ConfirmOTP, LoginBody, LoginResponse, PasswordChangeParam, RegisterBody, SendOTP, User } from '../interface/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEY } from '../constants/asyncStorageKey';
-import playListApi from './playlist';
-import favoriteApi from './favorite';
-import artistApi from './artist';
 
 const userApi = createApi({
-    reducerPath: 'user',
+    reducerPath: 'userApi',
     baseQuery: axiosBaseQuery(),
     tagTypes: ['info'],
     endpoints: (builder) => ({
@@ -18,11 +15,13 @@ const userApi = createApi({
                 method: 'POST',
                 data: body
             }),
+            
             transformResponse: (response: LoginResponse) => {
                 AsyncStorage.setItem(STORAGE_KEY.AccessToken, response.access_token)
                 AsyncStorage.setItem(STORAGE_KEY.RefreshToken, response.refresh_token)
                 return response
             },
+            invalidatesTags: ['info'],
         }),
         signUp: builder.mutation<boolean, RegisterBody>({
             query: (body) => ({
@@ -71,19 +70,11 @@ const userApi = createApi({
                 url: '/user/logout',
                 method: 'POST',
             }),
-            invalidatesTags: ['info'],
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    await queryFulfilled;
-                    dispatch(userApi.util.resetApiState());
-                    dispatch(playListApi.util.resetApiState())
-                    dispatch(favoriteApi.util.resetApiState())
-                    dispatch(artistApi.util.resetApiState())
-                    console.log("Logout successful clean up");
-                } catch (error) {
-
-                }
-            }
+            transformResponse: (response: boolean) => {
+                console.log("response: ", response)
+                return response
+            },
+            invalidatesTags: ['info']
         })
     }),
 });

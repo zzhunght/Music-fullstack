@@ -14,7 +14,7 @@ export const createStyles = (theme: ThemeColors) => {
             gap:20,
         },
         text: {
-            color: theme.text,
+            color: theme.text_gray,
             fontSize: 15,
         },
         name: {
@@ -23,7 +23,7 @@ export const createStyles = (theme: ThemeColors) => {
             fontWeight:'600'
         },
         time: {
-            color: theme.text,
+            color: theme.text_gray,
             fontSize: 12,
         },
         comment: {

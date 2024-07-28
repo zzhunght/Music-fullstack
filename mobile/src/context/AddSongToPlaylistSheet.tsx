@@ -48,7 +48,7 @@ function AddSongPlaylistSheetContextProvider({ children }: { children: ReactNode
                 snapPoints={[1, '90%']}
                 index={-1}
                 backgroundStyle={{
-                    backgroundColor: theme.background
+                    backgroundColor: theme.sheetBgColor
                 }}
             >
                 <BottomSheetView

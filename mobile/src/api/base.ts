@@ -5,7 +5,7 @@ import type { AxiosRequestConfig, AxiosError } from 'axios'
 import { STORAGE_KEY } from '../constants/asyncStorageKey'
 const BASE_URL = 'http://192.168.2.192:8080/api/v1'
 
-interface ErrorResponse {
+export interface ErrorResponse {
     status?: number;
     data?: {
         error?: string;
@@ -34,7 +34,7 @@ async function handleTokenRefresh(): Promise<string> {
         refresh_token: refreshToken
     });
 
-    const newAccessToken = response.data.data;
+    const newAccessToken = response?.data?.data;
     await AsyncStorage.setItem(STORAGE_KEY.AccessToken, newAccessToken);
     console.log("Refresh token successfully  >>>>>>>>>>> retry request");
     return newAccessToken;
@@ -56,7 +56,7 @@ instance.interceptors.response.use(async function (response) {
 
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && error.response.data.error === 'token has expired') {
+    if (error?.response?.status === 401 && error?.response?.data?.error === 'token has expired') {
         if (!isRefreshing) {
             isRefreshing = true;
             try {
@@ -103,6 +103,7 @@ export const axiosBaseQuery = (): BaseQueryFn<
             status: err.response?.status,
             data: err.response?.data || err.message,
         }
+        console.log("error: ", err)
         return {
             error: error
         }

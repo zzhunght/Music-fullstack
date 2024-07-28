@@ -4,7 +4,7 @@ import { axiosBaseQuery } from './base';
 import { CreatePlaylist, Playlist, Song, UserPlaylist} from '../interface';
 
 const playListApi = createApi({
-    reducerPath: 'playlistApi',
+    reducerPath: 'playlistApi', 
     baseQuery: axiosBaseQuery(),
     tagTypes: ['UserPlaylist', 'playlist-song'],
     endpoints: (builder) => ({
@@ -45,7 +45,7 @@ const playListApi = createApi({
             })
         }),
         searchPlaylist: builder.query<Playlist[], string>({
-            query: (search) => ({ url: '/playlist/search?search' + search, method: 'get' }),
+            query: (search) => ({ url: '/playlist/search?search=' + search, method: 'get' }),
         }),
     }),
 });

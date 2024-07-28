@@ -36,7 +36,7 @@ const BottomTabs = () => {
         {
             component: <Ionicons name="search-outline" size={24} color={theme.text} />,
             path: STACK_ROUTE.Search,
-            name: 'Search'
+            name: 'Tìm kiếm'
         },
         {
             component: <Ionicons name="library-outline" size={24} color={theme.text} />,

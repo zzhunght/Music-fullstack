@@ -3,7 +3,7 @@ import { axiosBaseQuery } from './base';
 import { Artist} from '../interface';
 
 const artistApi = createApi({
-    reducerPath: 'artist',
+    reducerPath: 'artistApi',
     baseQuery: axiosBaseQuery(),
     endpoints: (builder) => ({
         getRecommentArtist: builder.query<Artist[], void>({

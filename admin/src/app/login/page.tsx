@@ -21,8 +21,8 @@ export default function Login() {
             <div className="fixed h-screen flex justify-center items-center ">
                 <Card className="w-[350px]">
                     <CardHeader>
-                        <CardTitle>Login dashboard</CardTitle>
-                        <CardDescription>Harmony</CardDescription>
+                        <CardTitle>Đăng nhập</CardTitle>
+                        <CardDescription>Meomusic dashboard</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <FormLogin />

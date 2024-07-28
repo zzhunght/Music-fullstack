@@ -7,9 +7,9 @@ import LinearGradient from 'react-native-linear-gradient'
 import { ArtistFollow, Heart } from '../../../assets/svg'
 import { createStyles } from './styles'
 import FastImage from 'react-native-fast-image'
-import { DEFAULT_AVATAR, DEFAULT_SONG_BANNER } from '../../../constants'
+import {  DEFAULT_SONG_BANNER, GetDefaultAvatar } from '../../../constants'
 import { CreatePlaylistSheetContext } from '../../../context/CreatePlaylistSheet'
-import { ROUTE_NAME, STACK_ROUTE } from '../../../constants/route'
+import { STACK_ROUTE } from '../../../constants/route'
 import { useGetUserInfoQuery } from '../../../api/user'
 import { useGetFavoriteSongsQuery } from '../../../api/favorite'
 import { useGetUserPlaylistQuery } from '../../../api/playlist'
@@ -23,7 +23,6 @@ const Library = ({ navigation }: any) => {
     const { data: following } = useGetFollowingArtistQuery()
     const theme = useThemeColor()
     const styles = createStyles(theme)
-
     return (
         <Container>
             <ScrollView style={styles.wrap}>
@@ -37,7 +36,7 @@ const Library = ({ navigation }: any) => {
                         {/* <Ioicons name='person' color={theme.text_gray} size={36} /> */}
                         <FastImage
                             style={{ width: 100, height: 100, borderRadius: 50 }}
-                            source={DEFAULT_AVATAR}
+                            source={GetDefaultAvatar(user?.id)}
                             resizeMode={FastImage.resizeMode.cover}
                         />
                     </View>

@@ -14,11 +14,13 @@ import searchReducer from './search/search.reducer';
 import categoriesApi from '../api/categories';
 import categoryReducer from './category/category.reducer';
 import albumReducer from './album/album.reducer';
+import commentApi from '../api/comment';
 
 // Cấu hình persist
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  whitelist: ['songSlice']
 };
 
 const rootReducer = combineReducers({
@@ -29,6 +31,7 @@ const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [favoriteApi.reducerPath]: favoriteApi.reducer,
   [categoriesApi.reducerPath]: categoriesApi.reducer,
+  [commentApi.reducerPath]: commentApi.reducer,
   songSlice: songReducer,
   categorySlice: categoryReducer,
   searchSlice: searchReducer,
@@ -45,13 +48,14 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(
-      songApi.middleware, 
+      songApi.middleware,
       artistApi.middleware,
       albumApi.middleware,
       playListApi.middleware,
       userApi.middleware,
       favoriteApi.middleware,
-      categoriesApi.middleware
+      categoriesApi.middleware,
+      commentApi.middleware
     ),
 });
 
@@ -60,3 +64,7 @@ export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 setupListeners(store.dispatch);
+
+export const purgePersistedState = async() => {
+  await persistor.purge();
+};

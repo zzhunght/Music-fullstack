@@ -35,21 +35,21 @@ export default function PlayDetail() {
     const styles = createStyles(theme)
     const bottomSheetRef = useRef<BottomSheet>(null);
     const bottomSheetPlaylistRef = useRef<BottomSheet>(null);
-    const {handleCloseSheet} = useContext(PlayDetailSheetContext)
+    const { handleCloseSheet } = useContext(PlayDetailSheetContext)
 
-    const {next, prev} = usePlay()
+    const { next, prev } = usePlay()
 
-    const handleSheetChanges =  useCallback((index: number) => {
+    const handleSheetChanges = useCallback((index: number) => {
         if (index == 0) {
             bottomSheetRef?.current?.close()
         }
-    },[])
+    }, [])
     const handleSheetPlaylistChanges = useCallback((index: number) => {
         console.log("index changed", index)
         if (index == 0) {
             bottomSheetPlaylistRef?.current?.close()
         }
-    },[])
+    }, [])
 
     const handleShuffe = () => {
         if (!isShuffe) {
@@ -70,7 +70,7 @@ export default function PlayDetail() {
     }
     return (
         <View style={{
-            flex:1,
+            flex: 1,
         }}>
 
             <LinearGradient
@@ -85,7 +85,7 @@ export default function PlayDetail() {
             >
 
                 <View style={styles.head}>
-                    <TouchableOpacity onPress={()=>handleCloseSheet()}>
+                    <TouchableOpacity onPress={() => handleCloseSheet()}>
                         <Entypo name="chevron-thin-down" size={24} color={theme.icon} />
                     </TouchableOpacity>
                     <TextCustom style={styles.subTitle}>
@@ -119,7 +119,7 @@ export default function PlayDetail() {
                             width: '100%',
                             position: 'absolute',
                             left: '-3%'
-                            
+
                         }}
                         onValueChange={async (value) => {
                             await TrackPlayer.seekTo(value);
@@ -194,29 +194,29 @@ export default function PlayDetail() {
 
                 </View>
             </LinearGradient>
-            <BottomSheet
-                ref={bottomSheetRef}
-                onChange={handleSheetChanges}
-                snapPoints={[1, '95%']}
-                backgroundStyle={{ backgroundColor: theme.background }}
-                handleComponent={() => (
-                    <View style={{ alignItems: 'center', height: 40, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
-                        <TouchableOpacity onPress={() => bottomSheetRef.current?.close()}>
-                            <Entypo name="chevron-thin-down" size={20} color={theme.icon} />
-                        </TouchableOpacity>
-                        <TextCustom style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Bình luận</TextCustom>
-                        <TextCustom></TextCustom>
-                    </View>
-                )}
-            >
-                <BottomSheetScrollView
-                    style={{ flex: 1, backgroundColor: theme.background }}
-                    stickyHeaderIndices={[1]}
-                    stickyHeaderHiddenOnScroll={true}
+            {song && (
+                <BottomSheet
+                    ref={bottomSheetRef}
+                    onChange={handleSheetChanges}
+                    snapPoints={[1, '95%']}
+                    backgroundStyle={{ backgroundColor: theme.background }}
+                    handleComponent={() => (
+                        <View style={{ alignItems: 'center', height: 40, justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 20 }}>
+                            <TouchableOpacity onPress={() => bottomSheetRef.current?.close()}>
+                                <Entypo name="chevron-thin-down" size={20} color={theme.icon} />
+                            </TouchableOpacity>
+                            <TextCustom style={[{ fontWeight: 'bold', color: theme.text, fontSize: 17 }]}>Bình luận</TextCustom>
+                            <TextCustom></TextCustom>
+                        </View>
+                    )}
                 >
-                    <Comment />
-                </BottomSheetScrollView >
-            </BottomSheet>
+                    <BottomSheetScrollView
+                        style={{ flex: 1, backgroundColor: theme.background }}
+                    >
+                        <Comment song={song} />
+                    </BottomSheetScrollView >
+                </BottomSheet>
+            )}
 
             <BottomSheet
                 ref={bottomSheetPlaylistRef}

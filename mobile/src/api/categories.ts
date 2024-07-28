@@ -5,7 +5,7 @@ import { Category } from '../interface/categories';
 import { Song } from '../interface';
 
 const categoriesApi = createApi({
-    reducerPath: 'categoriesApi',
+    reducerPath: 'categoriesApi', 
     baseQuery: axiosBaseQuery(),
     tagTypes: ['categoryAPI'],
     endpoints: (builder) => ({

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { FlatList, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { createStyles } from './style'
 import { useThemeColor } from '../../../hooks/useThemeColor'
 import Container from '../../../components/Container'
@@ -7,7 +7,6 @@ import { STACK_ROUTE } from '../../../constants/route'
 import FastImage from 'react-native-fast-image'
 import SongHorizonalList from '../../../components/SongHorizonalList/SongHorizonalList'
 import Playlist from '../../../components/Playlist/Playlist'
-import { FAKE_DATA } from '../../../constants'
 import { useGetRecommentArtistQuery } from '../../../api/artist'
 import { useGetNewAlbumQuery } from '../../../api/album'
 import AlbumList from '../../../components/Playlist/Album'
@@ -18,16 +17,25 @@ import { TextCustom } from '../../../components/Text/TextCustome'
 
 function Home({ navigation }: any) {
     const theme = useThemeColor()
-    const { data: artist } = useGetRecommentArtistQuery()
-    const { data: album } = useGetNewAlbumQuery()
-    const { data: playlist } = useGetNewPlaylistQuery()
+    const [refreshing, setRefreshing] = React.useState(false);
+    const { data: artist, refetch: refetchArtist } = useGetRecommentArtistQuery()
+    const { data: album, refetch: refectchAlbum } = useGetNewAlbumQuery()
+    const { data: playlist, refetch: refetchPlaylist } = useGetNewPlaylistQuery()
     const styles = createStyles(theme)
+    const onRefresh = ()=>{
+        console.log("rf")
+        refetchArtist()
+        refectchAlbum()
+        refetchPlaylist()
+        setRefreshing(false)
+    }
     return (
         <Container>
             <ScrollView contentContainerStyle={{ 
                 gap: 20,
                 paddingBottom: 100
             }} showsVerticalScrollIndicator={false}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
                 <View >
                     <TextCustom style={styles.title}>Trending Artist</TextCustom>
@@ -62,9 +70,6 @@ function Home({ navigation }: any) {
                     }
                         <PlaylistHorizontal data={playlist} title='Playlist mới' />
 
-                    {/* {['a', 'b', 'c', 'd', 'e', 'f'].map(i => (
-                        <Playlist data={FAKE_DATA} title='Trending Playlists' key={i} />
-                    ))} */}
                 </View>
             </ScrollView>
         </Container>
