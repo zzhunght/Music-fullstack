@@ -14,6 +14,7 @@ const useNotification = () => {
     }, []);
 
     useEffect(()=>{
+        console.log("before subscribe to remote message")
         messaging().subscribeToTopic("public").then(()=>{
             console.log("Subscribed to topic Public successfully")
         }).catch((error) => {
