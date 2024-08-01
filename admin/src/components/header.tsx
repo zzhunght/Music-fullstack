@@ -1,6 +1,5 @@
 import { useSidebarToggle } from "@/hooks/useSidebarToggle";
 import classNames from "classnames";
-import { Dispatch, SetStateAction } from "react";
 import { BsList } from "react-icons/bs";
 import { UserNav } from "./userNav";
 
@@ -8,7 +7,7 @@ const Header = () => {
     //styles
     const { toggleCollapse, invokeToggleCollapse } = useSidebarToggle();
     const headerStyle = classNames(
-        "fixed bg-white w-full px-4 z-0 shadow-sm shadow-slate-500/40  z-[47]",
+        "fixed bg-white w-full px-4 z-0 z-[47]  rounded-lg",
         {
             ["sm:pl-[21rem]"]: !toggleCollapse,
             ["sm:pl-[5.6rem]"]: toggleCollapse,

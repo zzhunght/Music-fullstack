@@ -24,6 +24,8 @@ import { Artist } from "@/interface/artist";
 import { uploadImage } from "@/utils/upload";
 import { BUCKET_PATH } from "@/app/constants/firebase";
 import { useDeleteArtistMutation, useUpdateArtistMutation } from "@/api/artistApi";
+import useUpload from "@/hooks/useUpload";
+import Loading from "@/components/loading";
 export default function AritstSheet({
     artist,
 }: {
@@ -33,7 +35,7 @@ export default function AritstSheet({
     const [updateArtist, updateResult] = useUpdateArtistMutation()
     const [deleteArtist, deleteResult] = useDeleteArtistMutation()
     const [open, setOpen] = useState(false);
-
+    const {loading,uploadFile} = useUpload()
     const [error, setError] = useState("");
     const [form, setForm] = useState(artist);
     const [image, setImage] = useState<File | null>(null);
@@ -51,7 +53,7 @@ export default function AritstSheet({
                 ...form,
             };
             if (image) {
-                const url = await uploadImage(image, BUCKET_PATH.artist)
+                const url = await uploadFile(image, BUCKET_PATH.artist)
                 if (url) {
                     payload.avatar_url = url;
                 }
@@ -96,7 +98,7 @@ export default function AritstSheet({
                         className="w-[175px] h-[200px] object-cover rounded"
                     />
                     <p className="mt-[5px] ">{artist.name}</p>
-                    <p className="text-[#666]">Artist</p>
+                    <p className="text-[#666]">Nghệ sĩ</p>
                 </div>
                 {/* </motion.div> */}
             </SheetTrigger>
@@ -106,7 +108,7 @@ export default function AritstSheet({
             >
                 <div className="my-[10px]">
                     <Label htmlFor="image" className="text-right">
-                        Avatar
+                        Ảnh đại diện
                     </Label>
                     <Input
                         type="file"
@@ -135,7 +137,7 @@ export default function AritstSheet({
                         />
                     </Label>
                     <Label htmlFor="name" className="text-right">
-                        Name
+                        Tên
                     </Label>
                     <Input
                         id="name"
@@ -160,35 +162,34 @@ export default function AritstSheet({
                                 handleSubmit();
                             }}
                         >
-                            Save Change
+                            {loading ? <Loading /> :'Lưu' }
                         </Button>
                     </SheetClose>
                     <SheetClose asChild>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive">Delete</Button>
+                                <Button variant="destructive">Xoá</Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>
-                                        Are you absolutely sure?
+                                        Bạn đã chắc chắn chưa
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        This action cannot be undone. This will
-                                        permanently delete artist from our
-                                        servers.
+                                        Hành dộng này không thể quay lại.
+                                        Bạn sẽ bị mất dữ liệu 
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>
-                                        Cancel
+                                        Huỷ
                                     </AlertDialogCancel>
                                     <AlertDialogAction
                                         onClick={() => {
                                             handleDelete();
                                         }}
                                     >
-                                        Continue
+                                        Tiếp tục
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>

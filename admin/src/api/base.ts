@@ -6,6 +6,33 @@ const BASE_URL = 'http://192.168.2.192:8080/api/v1'
 
 
 const instance = axios.create()
+let isRefreshing = false;
+let refreshSubscribers: (() => void)[] = [];
+
+const onRefreshed = () => {
+    refreshSubscribers.map(callback => callback());
+}
+
+const addRefreshSubscriber = (callback: () => void) => {
+    console.log("add subscriber")
+    refreshSubscribers.push(callback);
+}
+
+// Function to handle token refresh
+async function handleTokenRefresh(): Promise<string> {
+    console.log("Token expired >>>>>>>>>>>>> handle refresh token")
+    const refreshToken = localStorage.getItem(STORAGE_KEY.RefreshToken);
+    if (!refreshToken) throw new Error('No refresh token available');
+
+    const response = await instance.post<{ data: string }>(`${BASE_URL}/user/refresh-token`, {
+        refresh_token: refreshToken
+    });
+
+    const newAccessToken = response?.data?.data;
+    localStorage.setItem(STORAGE_KEY.AccessToken, newAccessToken);
+    console.log("Refresh token successfully  >>>>>>>>>>> retry request");
+    return newAccessToken;
+}
 
 instance.interceptors.request.use(async function (config) {
     const access_token = localStorage.getItem(STORAGE_KEY.AccessToken)
@@ -16,10 +43,31 @@ instance.interceptors.request.use(async function (config) {
 }, function (error) {
     return Promise.reject(error);
 });
-axios.interceptors.response.use(function (response) {
-
+instance.interceptors.response.use(async function (response) {
     return response;
-}, function (error) {
+}, async function (error) {
+
+    const originalRequest = error.config;
+
+    if (error?.response?.status === 401 && error?.response?.data?.error === 'token has expired') {
+        if (!isRefreshing) {
+            isRefreshing = true;
+            try {
+                await handleTokenRefresh();
+                isRefreshing = false;
+                onRefreshed();
+                refreshSubscribers = [];
+            } catch (refreshError) {
+                isRefreshing = false;
+                localStorage.removeItem(STORAGE_KEY.AccessToken);
+                localStorage.removeItem(STORAGE_KEY.RefreshToken);
+                return Promise.reject(refreshError);
+            }
+        }
+
+        return Promise.resolve(addRefreshSubscriber(() => instance(originalRequest)))
+    }
+
     return Promise.reject(error);
 });
 export const axiosBaseQuery = (): BaseQueryFn<

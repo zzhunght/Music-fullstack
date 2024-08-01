@@ -34,9 +34,9 @@ export default function CreateCategorySheet() {
     const validateForm = () => {
         setError(prevError => {
             return {
-                name: form.name ? "" : "Name cannot be empty",
-                thumbnail: image ? "" : "Image cannot be empty",
-                color: form.color ? "" : "Color cannot be empty",
+                name: form.name ? "" : "Tên không thể bỏ trống",
+                thumbnail: image ? "" : "Ảnh không được để trống",
+                color: form.color ? "" : "Màu nền không được để trống",
             }
         });
         return Object.values(error).every(fieldError => fieldError === "");
@@ -89,7 +89,7 @@ export default function CreateCategorySheet() {
     return (
         <Sheet open={open}>
             <SheetTrigger asChild onClick={() => setOpen(true)}>
-                <Button variant="outline">Create New Category</Button>
+                <Button variant="outline">Tạo danh mục mới</Button>
             </SheetTrigger>
             <SheetContent
                 onCloseClick={() => setOpen(false)}
@@ -97,7 +97,7 @@ export default function CreateCategorySheet() {
             >
                 <div className="my-[10px]">
                     <Label htmlFor="image" className="text-right">
-                        Thumbnail
+                        Ảnh nền
                     </Label>
                     <Input
                         type="file"
@@ -141,7 +141,7 @@ export default function CreateCategorySheet() {
                         </>
                     )}
                     <Label htmlFor="name" className="text-right">
-                        Name
+                        Tên danh mục
                     </Label>
                     <Input
                         id="name"
@@ -178,7 +178,7 @@ export default function CreateCategorySheet() {
                                 handleSubmit();
                             }}
                         >
-                            Save Change
+                            Lưu
                         </Button>
                     </SheetClose>
                 </SheetFooter>

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,18 +13,18 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from "./ui/form";
-import { Button } from "./ui/button";
+} from "../ui/form";
+import { Button } from "../ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/api/authApi";
 
 const formSchema = z.object({
     email: z.string().min(3, {
-        message: "Please enter email.",
+        message: "Email không được để trống.",
     }),
     password: z.string().min(1, {
-        message: "Please enter password",
+        message: "Mật khẩu phải > 1 kí tự",
     }),
 });
 
@@ -77,7 +77,7 @@ export default function FormLogin() {
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>email</FormLabel>
+                                <FormLabel>Email</FormLabel>
                                 <FormControl>
                                     <Input placeholder="email" {...field} />
                                 </FormControl>
@@ -94,7 +94,7 @@ export default function FormLogin() {
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel>Mật khẩu</FormLabel>
                                 <FormControl>
                                     <Input
                                         type="password"
@@ -111,7 +111,7 @@ export default function FormLogin() {
                     />
                 </div>
                 <div className="flex justify-end">
-                    <Button type="submit">Login</Button>
+                    <Button type="submit">Đăng nhập</Button>
                 </div>
             </form>
         </Form>

@@ -22,7 +22,7 @@ export function DialogAddAlbum() {
             defaultOpen={openDialog}
         >
             <DialogTrigger asChild>
-                <Button variant="outline">Add album</Button>
+                <Button variant="outline">Tạo album mới</Button>
             </DialogTrigger>
             <DialogContent
                 className="sm:min-w-[800px]"
@@ -30,7 +30,7 @@ export function DialogAddAlbum() {
             >
                 <DialogHeader>
                     <div className="flex justify-between">
-                        <DialogTitle>Add</DialogTitle>
+                        <DialogTitle>Tạo mới </DialogTitle>
                         <DialogTitle
                             onClick={() => setOpenDialog(false)}
                             className="cursor-pointer"

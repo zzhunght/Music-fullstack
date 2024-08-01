@@ -27,6 +27,8 @@ import { FiPlus } from "react-icons/fi";
 import { SketchPicker } from "react-color";
 import { uploadImage } from "@/utils/upload";
 import { BUCKET_PATH } from "@/app/constants/firebase";
+import useUpload from "@/hooks/useUpload";
+import Loading from "@/components/loading";
 export default function CategorySheet({
     category,
     create,
@@ -37,7 +39,7 @@ export default function CategorySheet({
     const [open, setOpen] = useState(false);
     const [update, result] = useUpdateCategoryMutation()
     const [deleteCategory, resultDelete] = useDeleteCategoryMutation()
-
+    const {loading,uploadFile} = useUpload()
     const [error, setError] = useState("");
     const [form, setForm] = useState(category);
     const [image, setImage] = useState<File | null>(null);
@@ -61,7 +63,7 @@ export default function CategorySheet({
                     color: form.color
                 }
                 if (image) {
-                    const url = await uploadImage(image, BUCKET_PATH.category)
+                    const url = await uploadFile(image, BUCKET_PATH.category)
                     payload.thumbnail = url ?? payload.thumbnail
                 }
                 update(payload)
@@ -123,7 +125,7 @@ export default function CategorySheet({
             >
                 <div className="my-[10px]">
                     <Label htmlFor="image" className="text-right">
-                        Thumbnail
+                        Ảnh nền
                     </Label>
                     <Input
                         type="file"
@@ -162,7 +164,7 @@ export default function CategorySheet({
                         </>
                     )}
                     <Label htmlFor="name" className="text-right">
-                        Name
+                        Tên danh mục
                     </Label>
                     <Input
                         id="name"
@@ -194,35 +196,34 @@ export default function CategorySheet({
                                 handleSubmit();
                             }}
                         >
-                            Save Change
+                            {loading ? <Loading /> :'Lưu' }
                         </Button>
                     </SheetClose>
                     <SheetClose asChild>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
-                                <Button variant="destructive">Delete</Button>
+                                <Button variant="destructive">Xoá</Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
-                                <AlertDialogHeader>
+                            <AlertDialogHeader>
                                     <AlertDialogTitle>
-                                        Are you absolutely sure?
+                                        Bạn đã chắc chắn chưa
                                     </AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        This action cannot be undone. This will
-                                        permanently delete artist from our
-                                        servers.
+                                        Hành dộng này không thể quay lại.
+                                        Bạn sẽ bị mất dữ liệu 
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>
-                                        Cancel
+                                        Huỷ
                                     </AlertDialogCancel>
                                     <AlertDialogAction
                                         onClick={() => {
                                             handleDelete();
                                         }}
                                     >
-                                        Continue
+                                        Tiếp tục
                                     </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>

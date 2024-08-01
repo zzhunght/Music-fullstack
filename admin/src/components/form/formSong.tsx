@@ -165,7 +165,7 @@ export function FormSong({
                                         <Label htmlFor="thumbnail">
                                             {preview.image ? (
                                                 <div className="
-                                                w-full h-full border-dashed 
+                                                w-full h-full max-h-[200px] border-dashed 
                                                 border-gray-400 border-2 rounded-xl 
                                                 flex flex-col items-center 
                                                 justify-center space-y-2 overflow-hidden
@@ -234,7 +234,7 @@ export function FormSong({
                                                             />
                                                         </div>
 
-                                                        <span>Audio file</span>
+                                                        <span>File nhạc</span>
                                                         <span className="text-xs text-gray-400">
                                                             MP3, or WOFF2 (Max
                                                             5MB)
@@ -266,7 +266,7 @@ export function FormSong({
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    <FormLabel>Tên bài hát</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Name" {...field} />
                                     </FormControl>
@@ -283,7 +283,7 @@ export function FormSong({
                             name="duration"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Duration </FormLabel>
+                                    <FormLabel>Thời lượng</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Duration"
@@ -302,7 +302,7 @@ export function FormSong({
                             name="release_date"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Release Date</FormLabel>
+                                    <FormLabel>Ngày phát hành</FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -357,7 +357,7 @@ export function FormSong({
                             name="artist_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Artist</FormLabel>
+                                    <FormLabel>Nghệ sĩ</FormLabel>
                                     <FormControl>
                                         <ComboboxArtist
                                             valueArtistId={0}
@@ -379,7 +379,7 @@ export function FormSong({
                             name="category_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Category</FormLabel>
+                                    <FormLabel>Danh mục</FormLabel>
                                     <FormControl>
                                         <ComboboxCategory
                                             categoryId={0}
@@ -395,7 +395,7 @@ export function FormSong({
                     </div>
                 </div>
                 <Button type="submit" className="ml-auto">
-                    Submit
+                    Lưu
                 </Button>
             </form>
         </Form>

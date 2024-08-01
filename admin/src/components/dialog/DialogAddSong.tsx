@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
 import { useState } from "react";
-import { FormSong } from "./form/formSong";
+import { FormSong } from "../form/FormSong";
 
 export function DialogAdd() {
     // const { isOpen, onOpen, onClose } = useDialog();
@@ -21,12 +21,12 @@ export function DialogAdd() {
     return (
         <Dialog onOpenChange={setOpen} open={open}>
             <DialogTrigger asChild>
-                <Button variant="outline">Add Song</Button>
+                <Button variant="outline">Thêm bài hát</Button>
             </DialogTrigger>
             <DialogContent className="sm:min-w-[800px]">
                 <DialogHeader>
                     <div className="flex justify-between">
-                        <DialogTitle>Add Song</DialogTitle>
+                        <DialogTitle>Thêm bài hát</DialogTitle>
                         <DialogTitle
                             onClick={() => setOpen(false)}
                             className="cursor-pointer"

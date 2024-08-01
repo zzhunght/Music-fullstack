@@ -17,6 +17,11 @@ export interface CreatePlaylist {
     category_id: number | null
     description: string
 }
+
+export interface GetSongNotInPlaylistParams {
+    id: number
+    search: string
+}
 export interface UpdatePlaylist {
     id: number
     body: {

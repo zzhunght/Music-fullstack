@@ -46,31 +46,27 @@ export function AlertDialogSubmit({ idSongDel }: { idSongDel: number }) {
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button variant="destructive" className="w-full">
-                    Delete song
+                    Xoá bài hát
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
-                        Are you sure you want to delete this song?
+                        Bạn có chắc là muốn xoá dữ liệu này không?
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently
-                        delete your account and remove your data from our
-                        servers.
+                        Hành động này không thể quay lại.
+                        Một khi đã xoá data ở trên server sẽ bị mất!
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>Huỷ</AlertDialogCancel>
                     <AlertDialogAction onClick={handleSubmit}>
-                        Continue
+                        Tiếp tục
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
     );
-}
-function handleDeleteSong(arg0: number) {
-    throw new Error("Function not implemented.");
 }
 

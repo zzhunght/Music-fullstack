@@ -34,32 +34,35 @@ import { ComboboxCategory } from "../comboboxCategory";
 import { useUpdateSongMutation } from "@/api/songApi";
 import { toast } from "../ui/use-toast";
 import { Song } from "@/interface/song";
+import useUpload from "@/hooks/useUpload";
+import { BUCKET_PATH } from "@/app/constants/firebase";
+import Loading from "../loading";
 dayjs.extend(utc);
 
 const formSchema = z.object({
     name: z.string().min(0, {
-        message: "Please enter song name.",
+        message: "Vui lòng nhập tên bài hát.",
     }),
     thumbnail: z.string().min(0, {
-        message: "Please enter song thumbnail",
+        message: "Vui lòng nhập hình thu nhỏ của bài hát.",
     }),
     path: z.string().min(0, {
-        message: "Please enter song thumbnail",
+        message: "Vui lòng nhập đường dẫn của bài hát.",
     }),
     // lyrics: z.string().min(0, {
-    //     message: "Please enter song lyric.",
+    //     message: "Vui lòng nhập lời bài hát.",
     // }),
     duration: z.number().min(1, {
-        message: "Please enter song duration.",
+        message: "Vui lòng nhập thời lượng của bài hát.",
     }),
     artist_id: z.number().min(0, {
-        message: "Please enter song duration.",
+        message: "Vui lòng nhập ID của nghệ sĩ.",
     }),
     release_date: z.date({
-        required_error: "A date of release is required.",
+        required_error: "Vui lòng nhập ngày phát hành.",
     }),
     category_id: z.number().min(1, {
-        message: "Please select category.",
+        message: "Vui lòng chọn danh mục.",
     }),
 });
 
@@ -75,6 +78,9 @@ export function FormEditSong({
     const [preview, setPreview] = useState({
         image: "",
     });
+    const { loading, uploadFile } = useUpload()
+    const [image, setImage] = useState<File | null>(null)
+
     const [audio, setAudio] = useState("");
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -90,21 +96,15 @@ export function FormEditSong({
         },
     });
 
-    const handlePreview = async (file: any) => {
-        const toBase64 = await fileToBase64(file);
-        const formData = new FormData();
-        if (toBase64) formData.append("file", toBase64 as any);
-        formData.append(
-            "upload_preset",
-            process.env.presetCloudinary as string
-        );
-        const urlUpload = await uploadImage(formData);
-        setPreview({ image: urlUpload as any });
-    };
-
     const handleImageToBase64 = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        handlePreview(file);
+        // handlePreview(file);
+        if (file) {
+            setPreview({ image: URL.createObjectURL(file) });
+            form.setValue("thumbnail", "file");
+            setImage(file)
+
+        }
     };
 
     const handleAudioFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -120,8 +120,14 @@ export function FormEditSong({
         console.log(values);
         const formatReleaseDate = setReleaseDate(values.release_date);
         values.release_date = formatReleaseDate as any;
+        values.thumbnail = data.thumbnail;
 
-        values.thumbnail = preview.image ? preview.image : data.thumbnail;
+        if (image) {
+            const url = await uploadFile(image, BUCKET_PATH.songs)
+            if (url) {
+                values.thumbnail = url;
+            }
+        }
         values.path = audio ? audio : data.path;
         updateSong({
             id: data.id,
@@ -187,13 +193,14 @@ export function FormEditSong({
                             name="path"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Path</FormLabel>
+                                    <FormLabel>File nhạc</FormLabel>
                                     <FormControl>
                                         <Input
                                             onChange={handleAudioFile}
                                             type="file"
                                             placeholder="path"
                                         // {...field}
+
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -205,7 +212,7 @@ export function FormEditSong({
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    <FormLabel>Tên</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Name" {...field} />
                                     </FormControl>
@@ -219,7 +226,7 @@ export function FormEditSong({
                             name="duration"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Duration</FormLabel>
+                                    <FormLabel>Thời lượng</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="Duration"
@@ -237,7 +244,7 @@ export function FormEditSong({
                             name="release_date"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Release Date </FormLabel>
+                                    <FormLabel>Ngày ra mắt</FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -290,7 +297,7 @@ export function FormEditSong({
                             name="artist_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Artist</FormLabel>
+                                    <FormLabel>Nghệ sĩ</FormLabel>
                                     <FormControl>
                                         <ComboboxArtist
                                             valueArtistId={
@@ -311,7 +318,7 @@ export function FormEditSong({
                             name="category_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Category</FormLabel>
+                                    <FormLabel>Danh mục</FormLabel>
                                     <FormControl>
                                         <ComboboxCategory
                                             categoryId={data.category_id || 0}
@@ -320,7 +327,7 @@ export function FormEditSong({
                                             }
                                         />
                                     </FormControl>
-                                    <FormMessage title="Nghệ sĩ không được bỏ trống"/>
+                                    <FormMessage title="Nghệ sĩ không được bỏ trống" />
                                 </FormItem>
                             )}
                         />
@@ -344,7 +351,7 @@ export function FormEditSong({
                     </div>
                 </div>
                 <Button type="submit" className="ml-auto mt-auto">
-                    Save changes
+                    {loading ? <Loading /> : 'Lưu thay đổi'}
                 </Button>
             </form>
         </Form>

@@ -19,6 +19,8 @@ const config = {
         },
         extend: {
             colors: {
+                light:'#e0dede',
+                gray:'#B3B3B3',
                 defaultBackgroundColor:"#000000",
                 defaultText: "#FFFFFF",
                 border: "hsl(var(--border))",

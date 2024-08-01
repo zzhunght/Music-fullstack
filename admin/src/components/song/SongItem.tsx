@@ -1,26 +1,27 @@
 import { useAddSongToPlaylistMutation } from '@/api/playlistApi'
 import { Song } from '@/interface/song'
+import { Plus } from 'lucide-react'
 import React, { useEffect } from 'react'
 
-function SongItem({ song , onAdd}: { song: Song, onAdd: (song_id :number) => void}) {
-   
+function SongItem({ song, onAdd }: { song: Song, onAdd: (song_id: number) => void }) {
+
     return (
         <div className='flex justify-between
-         w-full h-[60px] py-[5px] items-center 
-         flex-1 hover:bg-[#ebeae8] pe-10 ps-2 rounded-sm'>
+         w-full h-[80px] py-[5px] items-center 
+        hover:bg-muted/5 pr-20 rounded-lg pl-[20px]'>
             <div className='flex gap-[10px] '>
-                <img src={song.thumbnail} alt="song" className='h-[40px] w-[40px] rounded-sm object-cover' />
+                <img src={song.thumbnail} alt="song" className='h-[55px] w-[55px] rounded-sm object-cover' />
                 <div>
-                    <p className='text-base font-semibold'>{song.name}</p>
-                    <p className='text-sm'>{song.artist_name}</p>
+                    <p className='text-base text-light'>{song.name}</p>
+                    <p className='text-sm text-light'>{song.artist_name}</p>
                 </div>
 
             </div>
-            <p className='text-base font-semibold'>{song.name}</p>
-            <button className='border-[2px] border-solid px-2 rounded-full  py-1 border-gray-500'
-                onClick={()=>onAdd(song.id)}
+            <p className='text-base text-light'>{song.name}</p>
+            <button className='border-[1px] border-solid rounded-full  py-1 border-gray-500 w-[32px] h-[32px] items-center justify-center flex'
+                onClick={() => onAdd(song.id)}
             >
-                <p className='text-base font-bold'>Thêm</p>
+                <Plus color='white' />
             </button>
         </div>
     )

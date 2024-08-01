@@ -6,9 +6,9 @@ const Artist = () => {
     return (
         <AnimatePresence>
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <div>
+                {/* <div>
                     <BreadCrumb path="artists" />
-                </div>
+                </div> */}
                 <TableArtists />
             </div>
         </AnimatePresence>

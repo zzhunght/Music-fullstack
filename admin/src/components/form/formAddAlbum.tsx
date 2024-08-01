@@ -31,13 +31,13 @@ import { useCreateAlbumMutation, useUpdateAlbumMutation } from "@/api/albumApi";
 
 const formSchema = z.object({
     name: z.string().min(1, {
-        message: "Please enter song name.",
+        message: "Vui lòng nhập tên.",
     }),
     thumbnail: z.string().min(1, {
-        message: "Please enter song thumbnail",
+        message: "Ảnh nền không dược bỏ trống",
     }),
     artist_id: z.number().min(1, {
-        message: "Please enter song duration.",
+        message: "Nghệ sĩ không được bỏ trống",
     }),
     release_date: z.date({
         required_error: "Ngày ra mắt",
@@ -198,7 +198,7 @@ export function FormAddAlbum({
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    <FormLabel>Tên</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Name" {...field} />
                                     </FormControl>
@@ -212,7 +212,7 @@ export function FormAddAlbum({
                             name="release_date"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Date of birth</FormLabel>
+                                    <FormLabel>Ngày ra mắt</FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -264,7 +264,7 @@ export function FormAddAlbum({
                             name="artist_id"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Artist</FormLabel>
+                                    <FormLabel>Nghệ sĩ</FormLabel>
                                     <FormControl>
                                         <ComboboxArtist
                                             valueArtistId={data?.artist_id || 0}

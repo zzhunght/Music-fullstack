@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -25,6 +24,8 @@ import { uploadImage } from "@/utils/upload";
 import { BUCKET_PATH } from "@/app/constants/firebase";
 import { useCreatePlaylistMutation, useUpdatePlaylistMutation } from "@/api/playlistApi";
 import { Playlist } from "@/interface/playlist";
+import Loading from "../loading";
+import useUpload from "@/hooks/useUpload";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -53,6 +54,7 @@ export function FormPlaylist({
         image: "",
     });
     const { toast } = useToast();
+    const {loading, uploadFile} = useUpload()
     const [file, setFile] = useState<File | null>(null)
     const [createPlaylist, result] = useCreatePlaylistMutation()
     const [updatePlaylist, updateresult] = useUpdatePlaylistMutation()
@@ -75,9 +77,6 @@ export function FormPlaylist({
         }
     };
 
-
-
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             console.log("values ", values)
@@ -89,7 +88,7 @@ export function FormPlaylist({
             payload.thumbnail = payload.thumbnail != 'file' ? payload.thumbnail : ""
 
             if (file) {
-                const url = await uploadImage(file, BUCKET_PATH.artist)
+                const url = await uploadFile(file, BUCKET_PATH.artist)
                 if (url) {
                     payload.thumbnail = url;
                 }
@@ -177,7 +176,7 @@ export function FormPlaylist({
                                                         />
                                                     </div>
 
-                                                    <span>Thumbnail</span>
+                                                    <span>Ảnh nền</span>
                                                     <span className="text-xs text-gray-400">
                                                         JPG, PNG (Max 5MB)
                                                     </span>
@@ -190,7 +189,7 @@ export function FormPlaylist({
                                                 // {...field}
                                                 onChange={handleImageToBase64}
                                                 type="file"
-                                                accept="image/png, image/gif, image/jpeg"
+                                                accept="image/png, image/gif, image/jpeg, image/webp"
                                                 className="hidden"
                                             />
                                         </FormControl>
@@ -267,7 +266,7 @@ export function FormPlaylist({
                     </div>
                 </div>
                 <Button type="submit" className="ml-auto">
-                    Submit
+                    {loading? <Loading /> : 'Lưu'}
                 </Button>
             </form>
         </Form>

@@ -31,11 +31,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { DialogAdd } from "@/components/dialogAdd";
+import { DialogAdd } from "@/components/dialog/DialogAddSong";
 import { AlertDialogSubmit } from "@/components/alertDialog";
-import { SheetEdit } from "@/components/sheetEdit";
+import { SheetEdit } from "@/components/sheet/sheetEdit";
 import { useGetSongQuery } from "@/api/songApi";
 import { Song } from "@/interface/song";
+import { convertMinutesToHours } from "@/utils";
 
 export const columns: ColumnDef<Song>[] = [
     // {
@@ -86,6 +87,13 @@ export const columns: ColumnDef<Song>[] = [
     {
         accessorKey: "duration",
         header: () => <div className="">Thời lượng</div>,
+        cell: ({ row }) => {
+            return (
+                <>
+                    {convertMinutesToHours(row?.original.duration)}
+                </>
+            );
+        },
     },
     {
         accessorKey: "release_date",
@@ -107,7 +115,6 @@ export const columns: ColumnDef<Song>[] = [
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -165,7 +172,7 @@ export function TableSongs() {
             </div>
             <div className="flex items-center justify-between py-4 ">
                 <Input
-                    placeholder="Filter name..."
+                    placeholder="Nhập tên bài hát..."
                     value={
                         (table.getColumn("name")?.getFilterValue() as string) ??
                         ""
@@ -178,7 +185,7 @@ export function TableSongs() {
                     className="max-w-sm"
                 />
 
-                <DropdownMenu>
+                {/* <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
                             Columns <ChevronDown className="ml-2 h-4 w-4" />
@@ -203,7 +210,7 @@ export function TableSongs() {
                                 );
                             })}
                     </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
             </div>
             <div className="rounded-md border">
                 <Table>
@@ -270,7 +277,7 @@ export function TableSongs() {
                         onClick={() => table.previousPage()}
                         disabled={!table.getCanPreviousPage()}
                     >
-                        Previous
+                        Quay lại
                     </Button>
                     <Button
                         variant="outline"
@@ -278,7 +285,7 @@ export function TableSongs() {
                         onClick={() => table.nextPage()}
                         disabled={!table.getCanNextPage()}
                     >
-                        Next
+                        Kế Tiếp
                     </Button>
                 </div>
             </div>

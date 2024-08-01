@@ -14,10 +14,10 @@ export const SIDEBAR_ITEMS: SidebarGroup[] = [
         ],
     },
     {
-        title: "Mangement",
+        title: "Quản lí",
         menuList: [
             {
-                title: "Song & Related",
+                title: "Bài hát ",
                 path: "/songs",
                 icon: <GanttChart strokeWidth={1.5} />,
                 subMenu: true,
@@ -27,11 +27,11 @@ export const SIDEBAR_ITEMS: SidebarGroup[] = [
                         path: "/songs",
                     },
                     {
-                        title: "Artists",
+                        title: "Nghệ sĩ",
                         path: "/artists",
                     },
                     {
-                        title: "Categories",
+                        title: "Danh mục",
                         path: "/categories",
                     },
                     {
@@ -50,15 +50,5 @@ export const SIDEBAR_ITEMS: SidebarGroup[] = [
             //     icon: <Users strokeWidth={1.5} />,
             // },
         ],
-    },
-    {
-        title: "Settings",
-        menuList: [
-            {
-                title: "Settings",
-                path: "/settings",
-                icon: <Settings strokeWidth={1.5} />,
-            },
-        ],
-    },
+    }
 ];

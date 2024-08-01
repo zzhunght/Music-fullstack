@@ -69,7 +69,7 @@ export default function CreateAritstSheet() {
     return (
         <Sheet open={open}>
             <SheetTrigger asChild onClick={() => setOpen(true)}>
-                <Button variant="outline">Create New Artist</Button>
+                <Button variant="outline">Tạo mới nghệ sĩ</Button>
             </SheetTrigger>
             <SheetContent
                 onCloseClick={() => setOpen(false)}
@@ -77,7 +77,7 @@ export default function CreateAritstSheet() {
             >
                 <div className="my-[10px]">
                     <Label htmlFor="image" className="text-right">
-                        Avatar
+                        Ảnh đại diện
                     </Label>
                     <Input
                         type="file"
@@ -122,7 +122,7 @@ export default function CreateAritstSheet() {
                     )}
 
                     <Label htmlFor="name" className="text-right">
-                        Name
+                        Tên
                     </Label>
                     <Input
                         id="name"
@@ -152,7 +152,7 @@ export default function CreateAritstSheet() {
                                 handleSubmit();
                             }}
                         >
-                            Create
+                            tạo
                         </Button>
                     </SheetClose>
                 </SheetFooter>

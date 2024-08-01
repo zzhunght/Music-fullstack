@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './base';
-import { AddSongToPlaylist, CreatePlaylist, Playlist, RemoveSongFromPlaylist, UpdatePlaylist } from '@/interface/playlist';
+import { AddSongToPlaylist, CreatePlaylist, GetSongNotInPlaylistParams, Playlist, RemoveSongFromPlaylist, UpdatePlaylist } from '@/interface/playlist';
 import { Song } from '@/interface/song';
 
 const playlistApi = createApi({
@@ -23,8 +23,8 @@ const playlistApi = createApi({
             query: (id) => ({ url: '/playlist/songs/' + id, method: 'get' }),
             providesTags: ['playlist-detail'],
         }),
-        getSongNotInplaylist: builder.query<Song[], number>({
-            query: (id) => ({ url: '/playlist/song-not-in/' + id, method: 'get' }),
+        getSongNotInplaylist: builder.query<Song[], GetSongNotInPlaylistParams>({
+            query: (param) => ({ url: '/playlist/song-not-in/' + param.id + '?search='+ param.search , method: 'get' }),
             providesTags: ['playlist-song-not'],
         }),
         createPlaylist: builder.mutation<Playlist, CreatePlaylist>({
@@ -33,7 +33,7 @@ const playlistApi = createApi({
         }),
         updatePlaylist: builder.mutation<Playlist, UpdatePlaylist>({
             query: (body) => ({ url: '/playlist/' + body.id, method: 'put', data: body.body }),
-            invalidatesTags: ['playlist-id'],
+            invalidatesTags: ['playlist-id','playlist'],
         }),
         addSongToPlaylist: builder.mutation<Playlist, AddSongToPlaylist>({
             query: (body) => ({ url: '/playlist/add-song', method: 'post', data: body }),
@@ -43,8 +43,13 @@ const playlistApi = createApi({
             query: (body) => ({ url: '/playlist/remove-song', method: 'post', data: body }),
             invalidatesTags: ['playlist-song-not', 'playlist-detail']
         }),
+        deletePlaylist: builder.mutation<boolean, number>({
+            query: (id) => ({ url: '/playlist/admin-delete/' + id, method: 'delete'}),
+            invalidatesTags: ['playlist']
+        }),
     }),
 });
+
 
 export const {
     useGetPlaylistQuery,
@@ -55,7 +60,8 @@ export const {
     useRemoveSongFromPlaylistMutation,
     useUpdatePlaylistMutation,
     useGetPlaylistByIdQuery,
-    useSearchPlaylistQuery
+    useSearchPlaylistQuery,
+    useDeletePlaylistMutation
 } = playlistApi
 
 export default playlistApi

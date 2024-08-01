@@ -22,7 +22,9 @@ export const getPaletteByIMG = (img) => {
 }
 
 export const getLinearColor = (colors) => {
-    colors.push([255, 255, 255])
+    colors.push([18,18,18])
+    // colors.push([255, 255, 255])
+    
     const colorStops = colors.map((color, index) => {
         const percentage = (index / (colors.length - 1)) * 100;
         return `rgba(${color}) ${percentage}%`;

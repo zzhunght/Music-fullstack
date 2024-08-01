@@ -1,15 +1,12 @@
-import FormLogin from "@/components/formLogin";
-import { Button } from "@/components/ui/button";
+import FormLogin from "@/components/form/FormLogin";
 import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import imgLogin from "../assets/login_image.jpg";
 
 export default function Login() {
     return (

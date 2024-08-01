@@ -50,7 +50,7 @@ export function ComboboxCategory({
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
                 <Command>
-                    <CommandInput placeholder="Search artist..." />
+                    <CommandInput placeholder="Chọn danh mục" />
                     <CommandEmpty>No framework found.</CommandEmpty>
                     <CommandGroup className="max-h-[300px] overflow-y-auto">
                         {categories?.map((category) => {

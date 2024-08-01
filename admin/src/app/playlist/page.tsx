@@ -8,9 +8,9 @@ function Playlist() {
   return (
     <AnimatePresence>
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <div>
+        {/* <div>
           <BreadCrumb path="playlist" />
-        </div>
+        </div> */}
         <TablePlaylist />
       </div>
     </AnimatePresence>

@@ -50,7 +50,7 @@ export function ComboboxArtist({
             </PopoverTrigger>
             <PopoverContent className="w-full p-0">
                 <Command>
-                    <CommandInput placeholder="Search artist..." />
+                    <CommandInput placeholder="Chọn nghệ sĩ..." />
                     <CommandEmpty>No framework found.</CommandEmpty>
                     <CommandGroup className="max-h-[300px] overflow-y-auto">
                         {artists?.map((artist) => {

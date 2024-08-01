@@ -1,5 +1,4 @@
 import { Playlist } from '@/interface/playlist'
-import Image from 'next/image'
 import React from 'react'
 
 function PlaylistItem({ playlist }: { playlist: Playlist }) {

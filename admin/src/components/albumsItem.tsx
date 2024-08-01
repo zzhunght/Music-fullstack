@@ -9,12 +9,15 @@ import { Album } from "@/interface/album";
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetTrigger } from "./ui/sheet";
 import { getLinearColor, getPalette } from "@/utils/extractColor";
 import { SongTable } from "./table/SongTable";
-import { useAddSongToAlbumMutation, useGetAlbumSongQuery, useGetSongNotInpAlbumQuery, useRemoveSongFromAlbumMutation } from "@/api/albumApi";
+import { useAddSongToAlbumMutation, useDeleteAlbumMutation, useGetAlbumSongQuery, useGetSongNotInpAlbumQuery, useRemoveSongFromAlbumMutation } from "@/api/albumApi";
 import SongItem from "./song/SongItem";
 import { DialogEditAlbum } from "./dialog/DialogEditAlbum";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { BsThreeDots } from "react-icons/bs";
+import { TiDeleteOutline } from "react-icons/ti";
 
 export function AlbumsItem({ album }: { album: Album }) {
-
+    const [deleteAlbum, resultDelete] = useDeleteAlbumMutation()
     const [open, setOpen] = React.useState(false);
     const [dominantColor, setDominantColor] = React.useState<any>();
     const { data: songs } = useGetAlbumSongQuery(album.id, {
@@ -45,6 +48,12 @@ export function AlbumsItem({ album }: { album: Album }) {
     }, [album.thumbnail]);
 
 
+    React.useEffect(()=>{
+        if(resultDelete.data){
+            setOpen(false)
+        }
+    },[resultDelete])
+
 
     return (
         <Sheet open={open}>
@@ -68,7 +77,7 @@ export function AlbumsItem({ album }: { album: Album }) {
             <SheetContent
                 onCloseClick={() => setOpen(false)}
                 onOverlayClick={() => setOpen(false)}
-                className="sm:max-w-[80vw] max-w-[80vw] w-[80vw] overflow-x-auto"
+                className="sm:max-w-[80vw] max-w-[80vw] w-[80vw] overflow-x-hidden border-none"
                 style={dominantColor?.length > 0 ? {
                     // background:  `red`
                     background: getLinearColor(dominantColor.slice(1, 2))
@@ -86,16 +95,36 @@ export function AlbumsItem({ album }: { album: Album }) {
                                 />
                             </div>
                             <div className=''>
-                                <p className='text-base font-bold'>album</p>
-                                <h1 className='text-[72px] font-bold m-0'>{album.name}</h1>
+                                <p className='text-base font-bold text-light'>album</p>
+                                <h1 className='text-[72px] font-bold m-0 text-light'>{album.name}</h1>
                             </div>
                         </div>
                     </DialogEditAlbum>
+                    <div className='px-[20px] flex items-center'>
+                        {/* <button className='rounded-full bg-[#33d166] h-[56px] w-[56px] flex items-center justify-center  mr-5'>
+                            <FaPlay />
+                        </button> */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button>
+                                    <BsThreeDots className='text-light' fontSize={36} />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-[190px] p-1 ">
+                                <div className="w-full flex items-center cursor-pointer hover:bg-[#cccccc] h-[35px] rounded-sm p-1 gap-2"
+                                    onClick={()=>deleteAlbum(album.id)}
+                                >
+                                    <TiDeleteOutline fontSize={24}/>
+                                    <p>Xoá</p>
+                                </div>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
                     <div className='py-10 me-10'>
                         <SongTable data={songs} onRemove={handleRemoveSong} title="Bài hát trong album" />
                     </div>
                     <div>
-                        <h1 className='text-3xl font-bold mb-5'>Thêm </h1>
+                        <h1 className='text-3xl font-bold mb-5 text-light'>Thêm </h1>
 
                         <div className='w-full flex flex-col gap-2'>
                             {songNotIn?.map(i => (
