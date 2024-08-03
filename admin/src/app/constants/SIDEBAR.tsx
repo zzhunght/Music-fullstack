@@ -1,54 +1,46 @@
-import { SidebarGroup } from "@/types/types";
-import { BsHouseDoor } from "react-icons/bs";
-import { LayoutDashboard, GanttChart, Users, Settings } from "lucide-react";
+import { SidebarItem } from "@/types/types";
 
-export const SIDEBAR_ITEMS: SidebarGroup[] = [
+import { IoMusicalNotes, IoPersonSharp } from "react-icons/io5";
+import { BiCategoryAlt } from "react-icons/bi";
+import { RiAlbumFill } from "react-icons/ri";
+import { PiPlaylistFill } from "react-icons/pi";
+import { AiOutlineDashboard } from "react-icons/ai";
+export const SIDEBAR_ITEMS: SidebarItem[] = [
     {
         title: "Dashboard",
-        menuList: [
-            {
-                title: "Dashboard",
-                path: "/",
-                icon: <LayoutDashboard strokeWidth={1.5} />,
-            },
-        ],
+        path: "/",
+        icon: AiOutlineDashboard,
+
     },
     {
-        title: "Quản lí",
-        menuList: [
-            {
-                title: "Bài hát ",
-                path: "/songs",
-                icon: <GanttChart strokeWidth={1.5} />,
-                subMenu: true,
-                subMenuItem: [
-                    {
-                        title: "Songs",
-                        path: "/songs",
-                    },
-                    {
-                        title: "Nghệ sĩ",
-                        path: "/artists",
-                    },
-                    {
-                        title: "Danh mục",
-                        path: "/categories",
-                    },
-                    {
-                        title: "Albums",
-                        path: "/albums",
-                    },
-                    {
-                        title: "Playlists",
-                        path: "/playlist",
-                    },
-                ],
-            },
-            // {
-            //     title: "Accounts",
-            //     path: "/accounts",
-            //     icon: <Users strokeWidth={1.5} />,
-            // },
-        ],
-    }
+        title: "Bài hát",
+        path: "/songs",
+        icon: IoMusicalNotes
+    },
+    {
+        title: "Nghệ sĩ",
+        path: "/artists",
+        icon: IoPersonSharp
+    },
+    {
+        title: "Danh mục",
+        path: "/categories",
+        icon :BiCategoryAlt
+    },
+    {
+        title: "Albums",
+        path: "/albums",
+        icon: RiAlbumFill
+    },
+    {
+        title: "Playlists",
+        path: "/playlist",
+        icon: PiPlaylistFill
+    },
+    // {
+    //     title: "Accounts",
+    //     path: "/accounts",
+    //     icon: <Users strokeWidth={1.5} />,
+    // },
+
 ];

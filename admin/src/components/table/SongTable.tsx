@@ -34,7 +34,7 @@ export function SongTable({
             </TableHeader>
             <TableBody>
                 {data?.map((song, index) => (
-                    <TableRow key={song.id} className="row border-none">
+                    <TableRow key={song.id} className="row border-none hover:bg-muted/5">
                         <TableCell className="font-medium text-light">{index}</TableCell>
                         <TableCell>
                             <div className='flex gap-[10px] '>

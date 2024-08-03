@@ -5,14 +5,13 @@ import Sidebar from "./sidebar/sidebar";
 
 const MainLayout = ({ children }: any) => {
     return (
-        <>
-            <Loader />
+        <div className="bg-backgroud flex">
             <Sidebar />
-            <div className="flex flex-col h-full w-full">
+            <div className="flex flex-col h-full w-4/5">
                 <Header />
                 <PageWrapper>{children}</PageWrapper>
             </div>
-        </>
+        </div>
     );
 };
 

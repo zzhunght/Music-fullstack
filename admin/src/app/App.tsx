@@ -8,20 +8,10 @@ export default function App({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const router = useRouter();
     const pathName = usePathname();
-    let user : any
-    if (typeof window !== "undefined") {
-        user = JSON.parse(localStorage.getItem("user") as string);
-    }
-
-    useEffect(() => {
-        if (!user) router.replace("/login");
-    }, [user]);
-
     return (
         <div>
-            {pathName == "/login" || !user ? (
+            {pathName == "/login" ? (
                 <>
                     <Login />
                 </>

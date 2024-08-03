@@ -1,30 +1,28 @@
-import { useSidebarToggle } from "@/hooks/useSidebarToggle";
-import { SidebarGroup } from "@/types/types";
-import { SidebarMenuItem } from "./sidebarMenuItem";
-import classNames from "classnames";
+import {SidebarItem } from "@/types/types";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const SidebarMenuGroup = ({
-    menuGroup,
+    menuItem,
 }: {
-    menuGroup: SidebarGroup;
+    menuItem: SidebarItem;
 }) => {
-    const { toggleCollapse } = useSidebarToggle();
-
-    const menuGroupTitleStyle = classNames(
-        "py-4 tracking-[.1rem] font-medium uppercase text-sm",
-        {
-            "text-center": toggleCollapse,
+    const path = usePathname()
+    
+    const activeClass = () =>{
+        if (path === menuItem.path) {
+            return "text-white bg-[#5D5FEF] font-semibold";
         }
-    );
-
+        return "text-gray ";
+    }
     return (
-        <>
-            <h3 className={menuGroupTitleStyle}>
-                {!toggleCollapse ? menuGroup.title : "..."}
-            </h3>
-            {menuGroup.menuList.map((item, index) => (
-                <SidebarMenuItem key={index} item={item} />
-            ))}
-        </>
+        <Link className={`flex gap-2 items-center h-[60px] 
+            rounded-2xl px-[20px] 
+            cursor-pointer ${activeClass()}`}
+            href={menuItem.path}
+        >
+            <menuItem.icon size={24} />
+            <p>{menuItem.title}</p>
+        </Link>
     );
 };

@@ -1,7 +1,7 @@
 export type SidebarItem = {
     title: string;
     path: string;
-    icon?: JSX.Element;
+    icon: React.ElementType;
     subMenu?: boolean;
     subMenuItem?: SidebarItem[];
 };
