@@ -15,12 +15,13 @@ import categoriesApi from '../api/categories';
 import categoryReducer from './category/category.reducer';
 import albumReducer from './album/album.reducer';
 import commentApi from '../api/comment';
+import recentReducer from './recent/recent.reducer';
 
 // Cấu hình persist
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['songSlice']
+  whitelist: ['songSlice','recentSlice']
 };
 
 const rootReducer = combineReducers({
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   categorySlice: categoryReducer,
   searchSlice: searchReducer,
   albumSlice: albumReducer,
+  recentSlice: recentReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

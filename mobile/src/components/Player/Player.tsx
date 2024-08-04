@@ -13,6 +13,7 @@ import { loadSongBg } from '../../store/song/song.reducer';
 import { getColors } from 'react-native-image-colors';
 import { TextCustom } from '../Text/TextCustome';
 import { PlayDetailSheetContext } from '../../context/PlayDetailSheet';
+import useRecentPlay from '../../hooks/useRecentPlay';
 
 
  
@@ -24,7 +25,6 @@ const Player = () => {
     const theme = useThemeColor()
     const styles = createStyles(theme)
     const songBg = useSelector((state: RootState) => state.songSlice.songBackground)
-
     const {handleOpenSheet} = useContext(PlayDetailSheetContext)
     
     

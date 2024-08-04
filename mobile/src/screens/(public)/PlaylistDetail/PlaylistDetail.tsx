@@ -150,7 +150,14 @@ const PlaylistDetail = ({ route }: any) => {
                         <TouchableOpacity>
                             <Ionicons name="heart" size={28} color={theme.icon} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.playBtn}>
+                        <TouchableOpacity style={styles.playBtn}
+                        
+                            onPress={()=>{
+                                if(data && data.length >0){
+                                    handleplay(data[0])
+                                }
+                            }}
+                        >
                             <Entypo name="controller-play" size={36} color={'black'} style={{ left: 2 }} />
                         </TouchableOpacity>
                     </View>

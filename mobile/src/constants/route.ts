@@ -16,6 +16,7 @@ export const STACK_ROUTE = {
     Favorite: 'Favorite',
     FollowingArtist: 'FollowingArtist',
     Profile: 'Profile',
+    ChangeInfo: 'ChangeInfo',
     ChangePassword: 'ChangePassword',
     ForgetPassword: 'ForgetPassword',
 }

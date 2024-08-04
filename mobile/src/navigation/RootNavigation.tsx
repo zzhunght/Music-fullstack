@@ -22,6 +22,7 @@ import { useGetUserInfoQuery } from '../api/user';
 import Profile from '../screens/(auth)/Profile/Profile';
 import ChangePassword from '../screens/(auth)/ChangePassword/ChangePassword';
 import ForgetPassword from '../screens/(public)/Auth/ForgetPassword';
+import ChangeInfomation from '../screens/(auth)/ChangeInformation/ChangeInfomation';
 
 const RootStack = createStackNavigator();
 function RootNavigation() {
@@ -93,6 +94,10 @@ function RootNavigation() {
                         <RootStack.Screen
                             name={STACK_ROUTE.Profile}
                             component={Profile}
+                        />
+                        <RootStack.Screen
+                            name={STACK_ROUTE.ChangeInfo}
+                            component={ChangeInfomation}
                         />
                         <RootStack.Screen
                             name={STACK_ROUTE.ChangePassword}

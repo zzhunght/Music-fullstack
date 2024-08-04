@@ -3,7 +3,7 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosError } from 'axios'
 import { STORAGE_KEY } from '../constants/asyncStorageKey'
-const BASE_URL = 'http://192.168.2.192:8080/api/v1'
+const BASE_URL = 'http://192.168.2.192/api/v1'
 
 export interface ErrorResponse {
     status?: number;

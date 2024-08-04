@@ -5,8 +5,8 @@ const height = Dimensions.get('screen').height
 export const createStyles = (theme: ThemeColors) => {
     return StyleSheet.create({
         wrap: {
-            flex: 1,
             backgroundColor: theme.background,
+            paddingBottom: 110
         },
         userWr: {
             flexDirection: 'column',

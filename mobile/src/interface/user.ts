@@ -25,6 +25,9 @@ export interface PasswordChangeParam {
     old_password: string
     password: string
 }
+export interface NameChangeParam {
+    name: string
+}
 
 export interface User {
     id: number

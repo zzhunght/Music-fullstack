@@ -15,6 +15,7 @@ import { useGetFavoriteSongsQuery } from '../../../api/favorite'
 import { useGetUserPlaylistQuery } from '../../../api/playlist'
 import { TextCustom } from '../../../components/Text/TextCustome'
 import { useGetFollowingArtistQuery } from '../../../api/artist'
+import Recent from '../../../components/Recent/Recent'
 const Library = ({ navigation }: any) => {
     const { handleOpenSheet } = useContext(CreatePlaylistSheetContext)
     const { data: user } = useGetUserInfoQuery()
@@ -25,7 +26,7 @@ const Library = ({ navigation }: any) => {
     const styles = createStyles(theme)
     return (
         <Container>
-            <ScrollView style={styles.wrap}>
+            <ScrollView contentContainerStyle={styles.wrap}>
                 <LinearGradient style={styles.userWr}
                     colors={['#246742', theme.background]}
                     start={{ x: 1, y: 0 }}
@@ -144,6 +145,7 @@ const Library = ({ navigation }: any) => {
                         </TouchableOpacity>
                     ))}
                 </View>
+                <Recent />
             </ScrollView >
         </Container >
     )

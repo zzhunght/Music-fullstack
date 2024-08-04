@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useCallback, useRef } from 'react'
+import React, { createContext, ReactNode, useCallback, useEffect, useRef } from 'react'
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useThemeColor } from '../hooks/useThemeColor';
 import PlayDetail from '../screens/(public)/PlayDetail/PlayDetail';
@@ -8,12 +8,13 @@ import { addPlayedTrack, selectSong, setIsPlay } from '../store/song/song.reduce
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { Song } from '../interface';
+import useRecentPlay from '../hooks/useRecentPlay';
 
 const height = Dimensions.get('screen').height
 const events = [
     Event.PlaybackState,
     Event.PlaybackError,
-    Event.PlaybackQueueEnded
+    Event.PlaybackQueueEnded,
 ];
 interface PlayDetailSheetContextValue {
     handleOpenSheet: () => void;
@@ -29,11 +30,11 @@ export const PlayDetailSheetContext = createContext<PlayDetailSheetContextValue>
 const PlayDetailSheetProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
     const hasPlayed = useSelector((state: RootState) => state.songSlice.hasPlayed)
-    const isPlaying = useSelector((state: RootState) => state.songSlice.isPlay)
     const isShuffe = useSelector((state: RootState) => state.songSlice.isShuffe)
     const currentTrack = useSelector((state: RootState) => state.songSlice.selectedSong)
     const queue = useSelector((state: RootState) => state.songSlice.queue)
     const theme = useThemeColor()
+    const {initRecent} = useRecentPlay()
     const PlayDetailSheetRef = useRef<BottomSheet>(null);
     const handleSheetChanges = useCallback((index: number) => {
         console.log("index: ", index);
@@ -109,6 +110,10 @@ const PlayDetailSheetProvider = ({ children }: { children: ReactNode }) => {
     useTrackPlayerEvents(events, (event) => {
         handleEvent(event)
     });
+
+    useEffect(() => {
+        initRecent()
+    },[])
 
     return (
         <PlayDetailSheetContext.Provider value={value}>

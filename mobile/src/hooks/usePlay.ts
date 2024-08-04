@@ -3,6 +3,7 @@ import { newQueue, resetPlayedTrack, selectSong } from "../store/song/song.reduc
 import TrackPlayer, { AppKilledPlaybackBehavior } from "react-native-track-player"
 import { Song } from "../interface"
 import { RootState } from "../store/store"
+import useRecentPlay from "./useRecentPlay"
 
 interface usePlayHook {
     play: (song: Song, list?: Song[]) => void,
@@ -11,10 +12,12 @@ interface usePlayHook {
 }
 
 const usePlay = (): usePlayHook => {
+    const {addToRecentPlay} = useRecentPlay()
     const queue = useSelector((state: RootState) => state.songSlice.queue)
     const current = useSelector((state: RootState) => state.songSlice.selectedSong)
     const dispatch = useDispatch()
     const play = async (song: Song, list?: Song[]) => {
+        console.log("song : " ,song)
         dispatch(resetPlayedTrack())
         await TrackPlayer.reset()
         await TrackPlayer.add({
@@ -38,6 +41,7 @@ const usePlay = (): usePlayHook => {
                 appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback
             }
         });
+        addToRecentPlay(song)
     }
 
     const next = async () => {

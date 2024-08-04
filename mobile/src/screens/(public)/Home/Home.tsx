@@ -33,12 +33,12 @@ function Home({ navigation }: any) {
         <Container>
             <ScrollView contentContainerStyle={{ 
                 gap: 20,
-                paddingBottom: 100
+                paddingBottom: 120
             }} showsVerticalScrollIndicator={false}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
                 <View >
-                    <TextCustom style={styles.title}>Trending Artist</TextCustom>
+                    <TextCustom style={styles.title}>Nghệ sĩ có thể bạn sẽ thích</TextCustom>
                     <FlatList
                         data={artist}
                         horizontal={true}

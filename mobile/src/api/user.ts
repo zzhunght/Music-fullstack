@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { axiosBaseQuery } from './base';
-import { ConfirmOTP, LoginBody, LoginResponse, PasswordChangeParam, RegisterBody, SendOTP, User } from '../interface/user';
+import { ConfirmOTP, LoginBody, LoginResponse, NameChangeParam, PasswordChangeParam, RegisterBody, SendOTP, User } from '../interface/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEY } from '../constants/asyncStorageKey';
 
@@ -59,6 +59,14 @@ const userApi = createApi({
                 data: body
             })
         }),
+        changeName: builder.mutation<boolean, NameChangeParam>({
+            query: (body) => ({
+                url: '/user/update-name',
+                method: 'POST',
+                data: body
+            }),
+            invalidatesTags: ['info']
+        }),
         forgetPassword: builder.mutation<boolean, string>({
             query: (email) => ({
                 url: '/user/forget-password?email=' + email,
@@ -87,7 +95,8 @@ export const {
     useGetUserInfoQuery,
     useChangePasswordMutation,
     useForgetPasswordMutation,
-    useLogoutMutation
+    useLogoutMutation,
+    useChangeNameMutation
 } = userApi
 
 export default userApi

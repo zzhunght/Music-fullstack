@@ -30,7 +30,7 @@ const Profile = ({ navigation }: any) => {
         console.log('Removing User...');
         AsyncStorage.removeItem(STORAGE_KEY.User);
         console.log("Logout successful clean up");
-        
+
         dispatch(userApi.util.resetApiState());
         dispatch(playListApi.util.resetApiState())
         dispatch(favoriteApi.util.resetApiState())
@@ -57,7 +57,11 @@ const Profile = ({ navigation }: any) => {
                     />
                 </View>
                 <View style={styles.info}>
-                    <TouchableOpacity style={styles.infoRow}>
+                    <TouchableOpacity style={styles.infoRow}
+                        onPress={() => {
+                            navigation.navigate(STACK_ROUTE.ChangeInfo)
+                        }}
+                    >
                         <TextCustom style={styles.label}>Tên</TextCustom>
                         <TextCustom style={styles.infoValue}>{user?.name}</TextCustom>
                     </TouchableOpacity>
