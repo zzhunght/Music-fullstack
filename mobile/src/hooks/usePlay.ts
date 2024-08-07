@@ -4,6 +4,7 @@ import TrackPlayer, { AppKilledPlaybackBehavior } from "react-native-track-playe
 import { Song } from "../interface"
 import { RootState } from "../store/store"
 import useRecentPlay from "./useRecentPlay"
+import { useIncreaseViewCountMutation } from "../api/song"
 
 interface usePlayHook {
     play: (song: Song, list?: Song[]) => void,
@@ -13,6 +14,7 @@ interface usePlayHook {
 
 const usePlay = (): usePlayHook => {
     const {addToRecentPlay} = useRecentPlay()
+    const [increaseViewCount] = useIncreaseViewCountMutation()
     const queue = useSelector((state: RootState) => state.songSlice.queue)
     const current = useSelector((state: RootState) => state.songSlice.selectedSong)
     const dispatch = useDispatch()
@@ -42,6 +44,7 @@ const usePlay = (): usePlayHook => {
             }
         });
         addToRecentPlay(song)
+        increaseViewCount(song.id)
     }
 
     const next = async () => {

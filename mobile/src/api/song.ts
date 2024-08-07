@@ -15,13 +15,20 @@ const songApi = createApi({
         getSongByArtist: builder.query<ArtistSong, number>({
             query: (artist_id) => ({ url: '/artist/song/' + artist_id, method: 'get' }),
         }),
+        increaseViewCount: builder.mutation<boolean, number>({
+            query: (id) => ({
+                url: '/song/play/' + id,
+                method: 'post',
+            })
+        })
     }),
 });
 
 export const {
     useGetNewSongQuery,
     useGetSongByArtistQuery,
-    useSearchSongQuery
+    useSearchSongQuery,
+    useIncreaseViewCountMutation,
 } = songApi
 
 export default songApi

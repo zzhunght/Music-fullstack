@@ -1,3 +1,4 @@
+'use client'
 import {
     Card,
     CardContent,
@@ -7,8 +8,10 @@ import {
 import BreadCrumb from "@/components/breadCrumb";
 import { Activity, DiscAlbum, ListMusic, Users } from "lucide-react";
 import SongChart from "@/components/chart/SongViewChart";
+import { useGetStatisticQuery } from "@/api/statisticApi";
 
 export default function Home() {
+    const { data: stat } = useGetStatisticQuery()
     return (
         <>
             <div className="flex-1 space-y-4 p-8 pt-6">
@@ -24,8 +27,10 @@ export default function Home() {
                             <ListMusic strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">49</div>
-                            
+                            <div className="text-2xl font-bold">
+                                {stat?.total_songs}
+                            </div>
+
                         </CardContent>
                     </Card>
                     <Card>
@@ -36,8 +41,11 @@ export default function Home() {
                             <Users strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">30</div>
-                            
+                            <div className="text-2xl font-bold">
+                                {stat?.total_artists}
+
+                            </div>
+
                         </CardContent>
                     </Card>
                     <Card>
@@ -48,8 +56,27 @@ export default function Home() {
                             <DiscAlbum strokeWidth={1.5} />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">34</div>
-                            
+                            <div className="text-2xl font-bold">
+                                {stat?.total_albums}
+
+                            </div>
+
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Số lượng Playlist
+                            </CardTitle>
+                            <ListMusic  strokeWidth={1.5} />
+
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">
+                                {stat?.total_playlist}
+
+                            </div>
+
                         </CardContent>
                     </Card>
                     <Card>
@@ -61,13 +88,16 @@ export default function Home() {
 
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">73</div>
-                            
+                            <div className="text-2xl font-bold">
+                                {stat?.total_users}
+
+                            </div>
+
                         </CardContent>
                     </Card>
                 </div>
                 <div>
-                    <SongChart/>
+                    <SongChart />
                 </div>
             </div>
         </>
